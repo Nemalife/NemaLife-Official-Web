@@ -1,0 +1,2068 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NemaLife — Study design wizard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  /* NemaLife brand — nemalifeinc.com */
+  --hero-from:#2A1854; --hero-mid:#6B2482; --hero-to:#C4685A;
+  --teal:#23C2C2; --teal-d:#1A9E9E; --teal-ll:#E0F9F9;
+  --coral:#E87B6E;
+  --purple:#752B71; --purple-ll:#F5EAF4;
+  --section-bg:#ECEDF5;
+  --ink:#1A1A2E; --ink-2:#2D2D45; --ink-3:#4A4A6A; --ink-4:#7A7A9A; --ink-5:#AEAEC8;
+  --fog:#ECEDF5; --fog-2:#E0E1EC; --fog-3:#CACBD8;
+  --paper:#FFFFFF; --white:#FFFFFF;
+  --green:#1B4332; --green-m:#2D6A4F; --green-l:#52B788; --green-ll:#D8F3DC;
+  --lime:#8DC63F; --lime-d:#6FA32E; --lime-ll:#F0F9E0;
+  --amber:#92600A; --amber-l:#F59E0B; --amber-ll:#FFFBEB;
+  --red:#991B1B; --red-ll:#FEF2F2;
+  --border:rgba(26,26,46,0.1); --border-s:rgba(26,26,46,0.06);
+  --shadow-sm:0 1px 4px rgba(26,26,46,0.08),0 1px 2px rgba(26,26,46,0.04);
+  --shadow:0 4px 20px rgba(26,26,46,0.1),0 1px 4px rgba(26,26,46,0.06);
+  --r:8px; --r-lg:14px; --r-xl:20px;
+  --font-disp:'Graphik',-apple-system,'Helvetica Neue',Arial,sans-serif;
+  --font-body:'Graphik',-apple-system,'Helvetica Neue',Arial,sans-serif;
+  --font-mono:'DM Mono','Courier New',monospace;
+  --ease:cubic-bezier(0.22,1,0.36,1);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { font-size: 15px; }
+
+body {
+  font-family: var(--font-body);
+  background: var(--fog);
+  color: var(--ink);
+  min-height: 100vh;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── TOP NAV ── */
+.nav {
+  background: var(--white);
+  padding: 0 2rem;
+  height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+.nav-logo {
+  font-family: var(--font-disp);
+  font-size: 1.25rem;
+  color: var(--paper);
+  letter-spacing: -0.01em;
+}
+.nav-logo span { color: var(--teal); font-style: italic; }
+.nav-step-indicator {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.nav-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--ink-3);
+  transition: all 0.3s var(--ease);
+}
+.nav-dot.active { background: var(--teal); transform: scale(1.4); }
+.nav-dot.done { background: var(--green); }
+.nav-save {
+  font-size: 0.75rem;
+  color: var(--ink-5);
+  font-family: var(--font-mono);
+  letter-spacing: 0.02em;
+}
+
+/* ── LAYOUT ── */
+.shell {
+  display: grid;
+  grid-template-columns: 1fr 380px;
+  gap: 0;
+  min-height: calc(100vh - 52px);
+  max-width: 1320px;
+  margin: 0 auto;
+}
+
+/* ── LEFT: FORM PANEL ── */
+.form-panel {
+  padding: 2.5rem 3rem 4rem;
+  border-right: 1px solid var(--border);
+  background: var(--paper);
+}
+
+.step { display: none; animation: stepIn 0.35s var(--ease) both; }
+.step.active { display: block; }
+
+@keyframes stepIn {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.step-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.1em;
+  color: var(--teal);
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+}
+
+.step-title {
+  font-family: var(--font-disp);
+  font-size: 1.85rem;
+  line-height: 1.2;
+  color: var(--ink);
+  margin-bottom: 0.4rem;
+  letter-spacing: -0.02em;
+}
+
+.step-sub {
+  font-size: 0.875rem;
+  color: var(--ink-4);
+  margin-bottom: 2rem;
+  line-height: 1.6;
+}
+
+/* ── FORM ELEMENTS ── */
+.field { margin-bottom: 1.25rem; }
+.field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.25rem; }
+.field-row-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.75rem; margin-bottom: 1.25rem; }
+
+label {
+  display: block;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--ink-3);
+  margin-bottom: 0.35rem;
+  letter-spacing: 0.01em;
+}
+label .req { color: var(--teal); margin-left: 2px; }
+label .opt { font-weight: 400; color: var(--ink-5); margin-left: 4px; }
+
+input[type="text"],
+input[type="email"],
+input[type="url"],
+input[type="number"],
+select,
+textarea {
+  width: 100%;
+  padding: 0.65rem 0.85rem;
+  border: 1.5px solid var(--fog-3);
+  border-radius: var(--r);
+  font-family: var(--font-body);
+  font-size: 0.875rem;
+  color: var(--ink);
+  background: var(--white);
+  transition: border-color 0.2s, box-shadow 0.2s;
+  outline: none;
+  appearance: none;
+}
+input:focus, select:focus, textarea:focus {
+  border-color: var(--teal);
+  box-shadow: 0 0 0 3px rgba(35,194,194,0.12);
+}
+textarea { resize: vertical; min-height: 80px; line-height: 1.5; }
+select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%236b6e65' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 12px center; padding-right: 2.2rem; }
+
+/* Checkbox / radio pill groups */
+.pill-group { display: flex; flex-wrap: wrap; gap: 8px; }
+.pill-group.cols-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+
+.pill {
+  position: relative;
+  cursor: pointer;
+}
+.pill input { position: absolute; opacity: 0; width: 0; height: 0; }
+.pill-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0.5rem 0.9rem;
+  border: 1.5px solid var(--fog-3);
+  border-radius: 100px;
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: var(--ink-3);
+  background: var(--white);
+  transition: all 0.2s var(--ease);
+  user-select: none;
+  white-space: nowrap;
+}
+.pill input:checked + .pill-label {
+  border-color: var(--teal);
+  background: var(--green-ll);
+  color: var(--teal);
+}
+.pill-label:hover { border-color: var(--ink-4); }
+.pill input:checked + .pill-label:hover { border-color: var(--teal); }
+
+/* Domain cards — for health benefits */
+.domain-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+.domain-card {
+  position: relative;
+  cursor: pointer;
+}
+.domain-card input { position: absolute; opacity: 0; width: 0; height: 0; }
+.domain-inner {
+  border: 1.5px solid var(--fog-3);
+  border-radius: var(--r-lg);
+  padding: 1rem 0.9rem 0.85rem;
+  background: var(--white);
+  transition: all 0.2s var(--ease);
+  text-align: center;
+}
+.domain-card input:checked + .domain-inner {
+  border-color: var(--teal);
+  background: var(--green-ll);
+}
+.domain-inner:hover { border-color: var(--ink-4); transform: translateY(-1px); }
+.domain-card input:checked + .domain-inner:hover { border-color: var(--teal); }
+.domain-icon { font-size: 1.4rem; margin-bottom: 0.35rem; }
+.domain-name { font-size: 0.78rem; font-weight: 600; color: var(--ink-3); }
+.domain-card input:checked + .domain-inner .domain-name { color: var(--teal); }
+
+/* Dose counter */
+.dose-control {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  border: 1.5px solid var(--fog-3);
+  border-radius: var(--r);
+  overflow: hidden;
+  width: fit-content;
+  background: var(--white);
+}
+.dose-btn {
+  width: 36px; height: 36px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-size: 1.1rem;
+  color: var(--ink-3);
+  transition: background 0.15s;
+  display: flex; align-items: center; justify-content: center;
+}
+.dose-btn:hover { background: var(--fog); }
+.dose-val {
+  width: 48px;
+  height: 36px;
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-mono);
+  font-size: 1rem;
+  font-weight: 500;
+  border-left: 1px solid var(--fog-3);
+  border-right: 1px solid var(--fog-3);
+  color: var(--ink);
+}
+
+/* BioSeq toggle */
+.bioseq-toggle {
+  border: 1.5px solid var(--fog-3);
+  border-radius: var(--r-lg);
+  padding: 1rem 1.1rem;
+  background: var(--white);
+  cursor: pointer;
+  transition: all 0.2s;
+  position: relative;
+}
+.bioseq-toggle.on {
+  border-color: var(--teal);
+  background: var(--teal-ll);
+}
+.bioseq-header { display: flex; align-items: center; justify-content: space-between; }
+.bioseq-title { font-weight: 600; font-size: 0.875rem; color: var(--ink-2); }
+.bioseq-toggle.on .bioseq-title { color: var(--teal); }
+.bioseq-desc { font-size: 0.78rem; color: var(--ink-4); margin-top: 4px; line-height: 1.5; }
+.toggle-switch {
+  width: 38px; height: 22px;
+  border-radius: 11px;
+  background: var(--fog-3);
+  position: relative;
+  transition: background 0.2s;
+  flex-shrink: 0;
+}
+.toggle-switch::after {
+  content: '';
+  position: absolute;
+  width: 16px; height: 16px;
+  border-radius: 50%;
+  background: var(--white);
+  top: 3px; left: 3px;
+  transition: transform 0.2s var(--ease);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+}
+.bioseq-toggle.on .toggle-switch { background: var(--teal); }
+.bioseq-toggle.on .toggle-switch::after { transform: translateX(16px); }
+
+/* Progress bar */
+.progress-track {
+  height: 2px;
+  background: var(--fog-2);
+  border-radius: 1px;
+  margin-bottom: 2.5rem;
+  overflow: hidden;
+}
+.progress-fill {
+  height: 100%;
+  background: var(--green);
+  border-radius: 1px;
+  transition: width 0.5s var(--ease);
+}
+
+/* Substance sheet specific */
+.substance-section {
+  background: var(--section-bg);
+  border-radius: var(--r-lg);
+  padding: 1.25rem 1.25rem 1rem;
+  margin-bottom: 1.25rem;
+}
+.substance-section-title {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.1em;
+  color: var(--ink-4);
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+}
+.hazard-notice {
+  background: var(--amber-ll);
+  border: 1px solid var(--amber-l);
+  border-radius: var(--r);
+  padding: 0.65rem 0.85rem;
+  font-size: 0.78rem;
+  color: var(--amber);
+  margin-bottom: 1rem;
+  line-height: 1.5;
+}
+
+/* Form info note */
+.field-hint {
+  font-size: 0.75rem;
+  color: var(--ink-5);
+  margin-top: 0.3rem;
+  line-height: 1.4;
+}
+
+/* ── NAVIGATION BUTTONS ── */
+.form-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 2.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border-s);
+}
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0.7rem 1.5rem;
+  border-radius: var(--r);
+  font-family: var(--font-body);
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s var(--ease);
+  border: none;
+  text-decoration: none;
+}
+.btn-primary {
+  background: var(--ink);
+  color: var(--paper);
+}
+.btn-primary:hover { background: var(--ink-2); transform: translateY(-1px); box-shadow: var(--shadow-sm); }
+.btn-primary:active { transform: translateY(0); }
+.btn-ghost {
+  background: transparent;
+  color: var(--ink-4);
+  border: 1.5px solid var(--fog-3);
+  border-radius: 100px;
+}
+.btn-ghost:hover { border-color: var(--ink-4); color: var(--ink); }
+.btn-cta {
+  background: var(--green);
+  color: var(--white);
+  padding: 0.8rem 2rem;
+  font-size: 0.925rem;
+}
+.btn-cta:hover { background: var(--green); filter: brightness(1.08); transform: translateY(-1px); box-shadow: 0 4px 12px rgba(45,106,79,0.3); }
+.btn:disabled { opacity: 0.4; pointer-events: none; }
+
+.btn-arrow { font-size: 1rem; transition: transform 0.2s; }
+.btn-primary:hover .btn-arrow { transform: translateX(3px); }
+
+/* ── RIGHT: LIVE PREVIEW PANEL ── */
+.preview-panel {
+  background: var(--white);
+  padding: 2rem 1.75rem;
+  position: sticky;
+  top: 60px;
+  height: calc(100vh - 60px);
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.preview-header {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.12em;
+  color: var(--teal-d);
+  text-transform: uppercase;
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 500;
+}
+.preview-header::before {
+  content: '';
+  display: inline-block;
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--teal);
+  animation: pulse 2s ease-in-out infinite;
+}
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(0.8); }
+}
+
+/* Project ID */
+.project-id {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--teal-d);
+  letter-spacing: 0.06em;
+  margin-bottom: 1.25rem;
+  padding-bottom: 1.25rem;
+  border-bottom: 1px solid var(--border-s);
+}
+
+/* Customer info preview */
+.preview-customer {
+  margin-bottom: 1.25rem;
+  padding-bottom: 1.25rem;
+  border-bottom: 1px solid var(--border-s);
+}
+.preview-name {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 2px;
+  font-family: var(--font-disp);
+}
+.preview-company {
+  font-size: 0.8rem;
+  color: var(--ink-5);
+}
+
+/* Ingredient summary */
+.preview-ingredient {
+  margin-bottom: 1.25rem;
+  padding-bottom: 1.25rem;
+  border-bottom: 1px solid var(--border-s);
+}
+.preview-ingredient-name {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 2px;
+}
+.preview-ingredient-cat {
+  font-size: 0.75rem;
+  color: var(--ink-5);
+  font-family: var(--font-mono);
+}
+
+/* Health domains preview */
+.preview-domains { margin-bottom: 1.25rem; }
+.preview-section-label {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+  color: var(--teal-d);
+  text-transform: uppercase;
+  margin-bottom: 0.6rem;
+  font-weight: 500;
+}
+.domain-pills-preview { display: flex; flex-wrap: wrap; gap: 5px; }
+.domain-pill-prev {
+  padding: 3px 10px;
+  border-radius: 100px;
+  font-size: 0.72rem;
+  font-weight: 500;
+  background: rgba(35,194,194,0.15);
+  color: var(--teal);
+  border: 1px solid rgba(82,183,136,0.25);
+  transition: all 0.25s var(--ease);
+}
+.domain-pill-prev.inactive {
+  background: var(--fog-2);
+  color: var(--ink-5);
+  border-color: var(--border-s);
+}
+
+/* Study design preview */
+.assay-list { margin-bottom: 1.25rem; padding-bottom: 1.25rem; border-bottom: 1px solid var(--border-s); }
+.assay-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 6px 0;
+  font-size: 0.78rem;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+  transition: opacity 0.25s;
+}
+.assay-row:last-child { border-bottom: none; }
+.assay-row.inactive { opacity: 0.25; }
+.assay-code { font-family: var(--font-mono); color: var(--ink-5); font-size: 0.68rem; }
+.assay-name { color: var(--ink); }
+.assay-status { font-size: 0.68rem; padding: 1px 7px; border-radius: 3px; }
+.assay-status.included { background: rgba(35,194,194,0.2); color: var(--teal); }
+.assay-status.optional { background: rgba(26,107,122,0.25); color: var(--teal-l); }
+.assay-status.add { background: rgba(255,255,255,0.06); color: var(--ink-5); }
+
+/* Timeline & conditions */
+.preview-meta {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-bottom: 1.25rem;
+  padding-bottom: 1.25rem;
+  border-bottom: 1px solid var(--border-s);
+}
+.meta-item { background: rgba(255,255,255,0.04); border-radius: var(--r); padding: 10px 12px; }
+.meta-label { font-size: 0.65rem; color: var(--ink-5); font-family: var(--font-mono); letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 3px; }
+.meta-val { font-size: 1rem; font-weight: 600; color: var(--paper); font-family: var(--font-mono); }
+.meta-sub { font-size: 0.65rem; color: var(--ink-4); margin-top: 1px; }
+
+/* Pricing breakdown */
+.price-block { margin-top: auto; padding-top: 1.25rem; border-top: 1px solid rgba(255,255,255,0.06); }
+.price-line {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px 0;
+  font-size: 0.78rem;
+  color: var(--ink-4);
+}
+.price-line.active { color: var(--ink); }
+.price-line .price-amt { font-family: var(--font-mono); font-size: 0.8rem; }
+.price-line .price-amt.active { color: var(--ink); }
+.price-divider { border: none; border-top: 1px solid rgba(255,255,255,0.08); margin: 8px 0; }
+.price-total {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding-top: 8px;
+}
+.price-total-label { font-size: 0.8rem; color: var(--ink-3); font-weight: 600; }
+.price-total-val {
+  font-family: var(--font-mono);
+  font-size: 1.6rem;
+  font-weight: 500;
+  color: var(--ink);
+  transition: all 0.3s var(--ease);
+}
+.price-note { font-size: 0.7rem; color: var(--ink-5); margin-top: 6px; text-align: right; }
+.price-payment { margin-top: 10px; padding: 8px 12px; background: rgba(35,194,194,0.12); border-radius: var(--r); font-size: 0.72rem; color: var(--teal); line-height: 1.5; }
+
+/* ── STEP 5: SUMMARY ── */
+.summary-block {
+  background: var(--fog);
+  border-radius: var(--r-lg);
+  overflow: hidden;
+  margin-bottom: 1rem;
+}
+.summary-block-header {
+  padding: 0.85rem 1.1rem;
+  background: var(--teal-d);
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--paper);
+  font-family: var(--font-mono);
+  letter-spacing: 0.04em;
+}
+.summary-block-body { padding: 0.5rem 0; }
+.summary-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.5rem 1.1rem;
+  font-size: 0.82rem;
+  border-bottom: 1px solid var(--border-s);
+  gap: 1rem;
+}
+.summary-row:last-child { border-bottom: none; }
+.summary-row-l { color: var(--ink-4); flex-shrink: 0; }
+.summary-row-r { font-weight: 500; text-align: right; word-break: break-word; }
+
+.sow-preview {
+  background: var(--white);
+  border: 1.5px solid var(--border);
+  border-radius: var(--r-lg);
+  padding: 1.5rem;
+  margin-bottom: 1.25rem;
+  position: relative;
+}
+.sow-watermark {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%,-50%) rotate(-15deg);
+  font-family: var(--font-mono);
+  font-size: 2.5rem;
+  font-weight: 500;
+  color: rgba(14,15,13,0.04);
+  letter-spacing: 0.2em;
+  pointer-events: none;
+  white-space: nowrap;
+}
+.sow-logo { font-family: var(--font-disp); font-size: 1.1rem; color: var(--teal-d); margin-bottom: 1rem; font-weight: 800; text-transform: uppercase; letter-spacing: .05em; }
+.sow-title { font-size: 0.78rem; font-weight: 600; color: var(--ink-3); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 1rem; }
+.sow-line { display: flex; justify-content: space-between; padding: 5px 0; font-size: 0.8rem; border-bottom: 1px solid var(--border-s); }
+.sow-line:last-child { border-bottom: none; }
+.sow-line-l { color: var(--ink-4); }
+.sow-line-r { font-weight: 500; }
+
+/* ── CONFIRMATION ── */
+.confirm-hero {
+  text-align: center;
+  padding: 2rem 0 1.5rem;
+}
+.confirm-icon {
+  width: 64px; height: 64px;
+  border-radius: 50%;
+  background: var(--teal-ll);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.8rem;
+  margin: 0 auto 1.25rem;
+}
+.confirm-title {
+  font-family: var(--font-disp);
+  font-size: 2rem;
+  color: var(--ink);
+  margin-bottom: 0.5rem;
+  letter-spacing: -0.02em;
+}
+.confirm-sub { font-size: 0.9rem; color: var(--ink-4); max-width: 420px; margin: 0 auto; line-height: 1.7; }
+.next-steps { display: flex; flex-direction: column; gap: 8px; margin-top: 2rem; }
+.next-step {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 0.9rem 1.1rem;
+  background: var(--fog);
+  border-radius: var(--r-lg);
+  font-size: 0.82rem;
+}
+.next-step-num {
+  width: 22px; height: 22px;
+  border-radius: 50%;
+  background: var(--teal);
+  color: var(--paper);
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+.next-step-title { font-weight: 600; color: var(--ink); margin-bottom: 2px; }
+.next-step-desc { color: var(--ink-4); line-height: 1.5; }
+
+.deliv-row {
+  padding: 7px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+  font-size: 0.75rem;
+}
+.deliv-row:last-child { border-bottom: none; }
+.deliv-code { font-family: var(--font-mono); color: var(--ink-5); font-size: 0.65rem; margin-bottom: 2px; }
+.deliv-title { color: var(--paper); font-weight: 500; margin-bottom: 2px; }
+.deliv-detail { color: var(--ink-4); font-size: 0.68rem; line-height: 1.5; }
+.deliv-subjects { color: var(--teal); font-size: 0.68rem; font-family: var(--font-mono); margin-top: 2px; }
+.mono { font-family: var(--font-mono); }
+.mt-1 { margin-top: 0.5rem; }
+.mt-2 { margin-top: 1rem; }
+
+/* ── CONTEXTUAL EDUCATION HINTS ── */
+.edu-hint{border-radius:var(--r-lg);border:1px solid rgba(35,194,194,0.25);overflow:hidden;margin-top:.85rem;background:var(--ink);display:none}
+.edu-hint.visible{display:block;animation:hintIn .3s cubic-bezier(.22,1,.36,1) both}
+@keyframes hintIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+.edu-hint-header{display:flex;align-items:center;justify-content:space-between;padding:.6rem 1rem;background:rgba(35,194,194,.08);border-bottom:1px solid rgba(82,183,136,0.12);cursor:pointer;user-select:none}
+.edu-hint-label{font-family:var(--font-mono);font-size:.65rem;letter-spacing:.1em;color:#23C2C2;text-transform:uppercase}
+.edu-hint-toggle{font-family:var(--font-mono);font-size:.65rem;color:var(--ink-4);background:none;border:none;cursor:pointer}
+.edu-hint-body{padding:1rem 1.1rem;background:var(--section-bg)}
+.edu-hint-body.collapsed{display:none}
+.edu-fact-row{display:flex;gap:10px;padding:6px 0;border-bottom:1px solid rgba(255,255,255,.04);font-size:.78rem;align-items:flex-start}
+.edu-fact-row:last-child{border-bottom:none}
+.edu-fact-key{font-family:var(--font-mono);font-size:.68rem;color:rgba(35,194,194,.9);min-width:130px;flex-shrink:0;padding-top:1px;letter-spacing:.04em}
+.edu-fact-val{color:var(--ink-3);line-height:1.5;flex:1}
+.edu-fact-val strong{color:var(--ink);font-weight:500}
+.edu-domain-hint{display:none;margin-top:.75rem;padding:.9rem 1rem;background:var(--section-bg);border:1px solid rgba(35,194,194,.25);border-radius:var(--r-lg);animation:hintIn .25s cubic-bezier(.22,1,.36,1) both}
+.edu-domain-hint.visible{display:block}
+.edu-domain-code{font-family:var(--font-mono);font-size:.65rem;color:#23C2C2;letter-spacing:.08em;text-transform:uppercase;margin-bottom:3px}
+.edu-domain-desc{font-size:.78rem;color:var(--ink-3);line-height:1.5;margin-bottom:8px}
+.edu-domain-stats{display:flex;gap:8px;flex-wrap:wrap}
+.edu-stat{font-family:var(--font-mono);font-size:.62rem;color:rgba(35,194,194,.9);background:rgba(35,194,194,.1);border:1px solid rgba(35,194,194,.2);border-radius:3px;padding:2px 8px;letter-spacing:.04em}
+.edu-link{font-size:.72rem;color:#23C2C2;text-decoration:none;font-family:var(--font-mono);letter-spacing:.04em}
+.edu-link:hover{color:#7BE8E8}
+.bioseq-edu{display:none;margin-top:.75rem;padding:1rem 1.1rem;background:var(--section-bg);border:1px solid rgba(35,194,194,.25);border-radius:var(--r-lg);animation:hintIn .3s cubic-bezier(.22,1,.36,1) both}
+.bioseq-edu.visible{display:block}
+.bioseq-edu-title{font-family:var(--font-mono);font-size:.65rem;color:#23C2C2;letter-spacing:.08em;text-transform:uppercase;margin-bottom:.6rem}
+.bsr{display:flex;gap:8px;padding:5px 0;border-bottom:1px solid rgba(255,255,255,.04);font-size:.75rem;align-items:baseline}
+.bsr:last-child{border-bottom:none}
+.bsr-w{font-family:var(--font-mono);font-size:.68rem;color:#23C2C2;min-width:70px;flex-shrink:0}
+.bsr-h{font-family:var(--font-mono);font-size:.68rem;color:rgba(35,194,194,.75);min-width:90px;flex-shrink:0}
+.bsr-f{font-family:var(--font-mono);font-size:.65rem;color:rgba(232,123,110,.9);min-width:52px;flex-shrink:0}
+.bsr-r{font-size:.72rem;color:var(--ink-4);flex:1;line-height:1.4}
+
+/* Responsive tweak */
+@media (max-width: 900px) {
+  .shell { grid-template-columns: 1fr; }
+  .preview-panel { display: none; }
+  .form-panel { padding: 1.5rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-logo">nema<span>life</span></div>
+  <div class="nav-step-indicator" id="navDots"></div>
+  <div class="nav-save" id="navSave">auto-saving…</div>
+</nav>
+
+<div class="shell">
+
+  <!-- ══════════════════════════════════
+       LEFT: FORM PANEL
+  ══════════════════════════════════ -->
+  <div class="form-panel">
+    <div class="progress-track">
+      <div class="progress-fill" id="progressFill" style="width:20%"></div>
+    </div>
+
+    <!-- ─── STEP 1: WHO YOU ARE ─── -->
+    <div class="step active" id="step-1">
+      <div class="step-eyebrow">Step 1 of 5 — Respondent</div>
+      <h1 class="step-title">Tell us about you and your company</h1>
+      <p class="step-sub">This helps us configure the right study type, contract template, and communication routing for your team.</p>
+
+      <div class="field-row">
+        <div class="field">
+          <label>First & last name <span class="req">*</span></label>
+          <input type="text" id="f-name" placeholder="e.g. Bill Chioffi" oninput="updatePreview()">
+        </div>
+        <div class="field">
+          <label>Company <span class="req">*</span></label>
+          <input type="text" id="f-company" placeholder="e.g. Nammex Mushrooms" oninput="updatePreview()">
+        </div>
+      </div>
+
+      <div class="field-row">
+        <div class="field">
+          <label>Title <span class="req">*</span></label>
+          <input type="text" id="f-title" placeholder="e.g. COO">
+        </div>
+        <div class="field">
+          <label>Work email <span class="req">*</span></label>
+          <input type="email" id="f-email" placeholder="you@company.com">
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Role / team <span class="req">*</span></label>
+        <div class="pill-group">
+          <label class="pill"><input type="radio" name="role" value="rd"><span class="pill-label">R&D / Science</span></label>
+          <label class="pill"><input type="radio" name="role" value="clinical"><span class="pill-label">Clinical / Medical</span></label>
+          <label class="pill"><input type="radio" name="role" value="brand"><span class="pill-label">Brand / Marketing</span></label>
+          <label class="pill"><input type="radio" name="role" value="regulatory"><span class="pill-label">Regulatory / QA</span></label>
+          <label class="pill"><input type="radio" name="role" value="exec"><span class="pill-label">Executive / Strategy</span></label>
+          <label class="pill"><input type="radio" name="role" value="procurement"><span class="pill-label">Procurement / Finance</span></label>
+        </div>
+      </div>
+
+      <div class="field-row">
+        <div class="field">
+          <label>Company type <span class="req">*</span></label>
+          <select id="f-company-type" onchange="updatePreview()">
+            <option value="">Select…</option>
+            <option value="supplier">Ingredient supplier / manufacturer</option>
+            <option value="distributor">Ingredient distributor</option>
+            <option value="brand">Consumer brand</option>
+            <option value="cdmo">CDMO / CMO</option>
+            <option value="both">Supplier + brand</option>
+          </select>
+          <div class="field-hint">Determines your contract template and workflow routing</div>
+        </div>
+        <div class="field">
+          <label>Number of employees</label>
+          <select id="f-employees">
+            <option value="">Select…</option>
+            <option value="small">&lt; 100</option>
+            <option value="mid">&lt; 500</option>
+            <option value="large">&lt; 1,000</option>
+            <option value="enterprise">&gt; 1,000</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Annual new product development budget</label>
+        <select id="f-budget">
+          <option value="">Prefer not to say</option>
+          <option value="xs">&lt; $500,000</option>
+          <option value="s">&lt; $1,000,000</option>
+          <option value="m">&lt; $2,000,000</option>
+          <option value="l">&lt; $5,000,000</option>
+          <option value="xl">&gt; $5,000,000</option>
+        </select>
+      </div>
+
+      <div class="form-nav">
+        <div></div>
+        <button class="btn btn-primary" onclick="goStep(2)">Continue <span class="btn-arrow">→</span></button>
+      </div>
+    </div>
+
+    <!-- ─── STEP 2: YOUR INGREDIENT ─── -->
+    <div class="step" id="step-2">
+      <div class="step-eyebrow">Step 2 of 5 — Ingredient</div>
+      <h1 class="step-title">Tell us about your ingredient</h1>
+      <p class="step-sub">The more context you provide, the more accurately we can configure your study design. All information is treated as confidential.</p>
+
+      <div class="field-row">
+        <div class="field">
+          <label>Ingredient name(s) <span class="req">*</span></label>
+          <input type="text" id="f-ingredient" placeholder="e.g. Erinacine A from H. erinaceus" oninput="updatePreview()">
+        </div>
+        <div class="field">
+          <label>Ingredient category <span class="req">*</span></label>
+          <select id="f-category" onchange="updatePreview()">
+            <option value="">Select…</option>
+            <option value="botanical">Botanical / herb</option>
+            <option value="fungi">Fungi / mushroom</option>
+            <option value="probiotic">Probiotic</option>
+            <option value="prebiotic">Prebiotic</option>
+            <option value="postbiotic">Postbiotic / metabolite</option>
+            <option value="protein">Protein</option>
+            <option value="peptide">Peptide</option>
+            <option value="fatty-acid">Fatty acid / lipid</option>
+            <option value="vitamin">Vitamin / mineral</option>
+            <option value="phytonutrient">Phytonutrient / polyphenol</option>
+            <option value="amino-acid">Amino acid</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>What do you already know? <span class="opt">(optional but valuable)</span></label>
+        <textarea id="f-evidence" placeholder="Share any existing evidence — clinical references, prior preclinical data, known mechanisms, dose information, source details. Paste URLs if relevant." rows="4" oninput="updatePreview()"></textarea>
+        <div class="field-hint">Our science team reviews this before your study begins. Strong prior evidence helps us design a more targeted assay protocol.</div>
+      <!-- edu hint: category -->
+      <div class="edu-hint" id="edu-category-hint">
+        <div class="edu-hint-header" onclick="toggleEduHint('edu-category-hint')">
+          <span class="edu-hint-label">What our model tells you about this ingredient class</span>
+          <span class="edu-hint-toggle" id="edu-category-hint-tog">show ↓</span>
+        </div>
+        <div class="edu-hint-body collapsed" id="edu-category-hint-body">
+          <div class="edu-fact-row">
+            <span class="edu-fact-key">Model organism</span>
+            <span class="edu-fact-val"><strong>C. elegans</strong> — 1mm transparent roundworm. 20,000 protein-coding genes. 60–80% genetic similarity to humans. The most deeply characterised model organism in biology.</span>
+          </div>
+          <div class="edu-fact-row" id="edu-cat-concordance">
+            <span class="edu-fact-key">Category concordance</span>
+            <span class="edu-fact-val" id="edu-cat-concordance-val">Select a category to see relevant translatability evidence.</span>
+          </div>
+          <div class="edu-fact-row">
+            <span class="edu-fact-key">Study timeline</span>
+            <span class="edu-fact-val"><strong>16 weeks</strong> from sample receipt to delivered results. Equivalent rodent studies: 12–18 months, 10–50× the cost.</span>
+          </div>
+          <div class="edu-fact-row">
+            <span class="edu-fact-key">Nobel validation</span>
+            <span class="edu-fact-val"><strong>4 Nobel Prizes</strong> in C. elegans biology. 40,000+ published papers. Direct concordance with Urolithin A, Resveratrol, and Rapamycin clinical outcomes.</span>
+          </div>
+          <div style="margin-top:.75rem;padding-top:.75rem;border-top:1px solid rgba(255,255,255,.05)">
+            <a href="nemalife-discovery-microsite.html" target="_blank" class="edu-link">Explore the full science ↗</a>
+          </div>
+        </div>
+      </div>
+
+      </div>
+
+      <div class="field">
+        <label>Project stage <span class="req">*</span></label>
+        <div class="pill-group">
+          <label class="pill"><input type="checkbox" name="stage" value="selection"><span class="pill-label">Ingredient selection</span></label>
+          <label class="pill"><input type="checkbox" name="stage" value="preclinical"><span class="pill-label">Pre-clinical validation</span></label>
+          <label class="pill"><input type="checkbox" name="stage" value="clinical"><span class="pill-label">Clinical validation</span></label>
+          <label class="pill"><input type="checkbox" name="stage" value="prelaunxh"><span class="pill-label">Pre-launch</span></label>
+          <label class="pill"><input type="checkbox" name="stage" value="postlaunch"><span class="pill-label">Post-launch optimisation</span></label>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>R&D capabilities in-house <span class="opt">(select all that apply)</span></label>
+        <div class="pill-group">
+          <label class="pill"><input type="checkbox" name="rd" value="vitro"><span class="pill-label">In vitro</span></label>
+          <label class="pill"><input type="checkbox" name="rd" value="vivo"><span class="pill-label">In vivo</span></label>
+          <label class="pill"><input type="checkbox" name="rd" value="clinical"><span class="pill-label">Clinical</span></label>
+          <label class="pill"><input type="checkbox" name="rd" value="silico"><span class="pill-label">In silico</span></label>
+        </div>
+      </div>
+
+      <div class="form-nav">
+        <button class="btn btn-ghost" onclick="goStep(1)">← Back</button>
+        <button class="btn btn-primary" onclick="goStep(3)">Continue <span class="btn-arrow">→</span></button>
+      </div>
+    </div>
+
+    <!-- ─── STEP 3: STUDY DESIGN ─── -->
+    <div class="step" id="step-3">
+      <div class="step-eyebrow">Step 3 of 5 — Study design</div>
+      <h1 class="step-title">Design your study</h1>
+      <p class="step-sub">Select the health domains you want to evaluate. Your pricing and timeline update live in the panel to the right.</p>
+
+      <div class="field">
+        <label>Health benefit domains <span class="req">*</span> <span class="opt">— select all that apply</span></label>
+        <div class="domain-grid">
+          <label class="domain-card">
+            <input type="checkbox" name="domain" value="cognitive" onchange="updatePreview();updateDomainHint()">
+            <div class="domain-inner">
+              <div class="domain-icon">🧠</div>
+              <div class="domain-name">Cognitive health</div>
+            </div>
+          </label>
+          <label class="domain-card">
+            <input type="checkbox" name="domain" value="gut" onchange="updatePreview();updateDomainHint()">
+            <div class="domain-inner">
+              <div class="domain-icon">🫁</div>
+              <div class="domain-name">Gut health</div>
+            </div>
+          </label>
+          <label class="domain-card">
+            <input type="checkbox" name="domain" value="metabolic" onchange="updatePreview();updateDomainHint()">
+            <div class="domain-inner">
+              <div class="domain-icon">⚡</div>
+              <div class="domain-name">Metabolic health</div>
+            </div>
+          </label>
+          <label class="domain-card">
+            <input type="checkbox" name="domain" value="muscle" onchange="updatePreview();updateDomainHint()">
+            <div class="domain-inner">
+              <div class="domain-icon">💪</div>
+              <div class="domain-name">Muscle performance</div>
+            </div>
+          </label>
+          <label class="domain-card">
+            <input type="checkbox" name="domain" value="stress" onchange="updatePreview();updateDomainHint()">
+            <div class="domain-inner">
+              <div class="domain-icon">🧘</div>
+              <div class="domain-name">Stress resilience</div>
+            </div>
+          </label>
+          <label class="domain-card">
+            <input type="checkbox" name="domain" value="longevity" onchange="updatePreview();updateDomainHint()">
+            <div class="domain-inner">
+              <div class="domain-icon">🌿</div>
+              <div class="domain-name">Healthy aging</div>
+            </div>
+          </label>
+        </div>
+      </div>
+
+      <!-- edu hint: domain -->
+      <div class="edu-domain-hint" id="edu-domain-hint">
+        <div class="edu-domain-code" id="edu-dom-code">—</div>
+        <div class="edu-domain-desc" id="edu-dom-desc">Select a health domain above to see the assay protocol and human pathway relevance.</div>
+        <div class="edu-domain-stats" id="edu-dom-stats"></div>
+        <div style="margin-top:.6rem">
+          <a href="nemalife-discovery-microsite.html#flywheel" target="_blank" class="edu-link">See all 6 assays in detail ↗</a>
+        </div>
+      </div>
+
+      <div class="field mt-2">
+        <label>Number of doses per ingredient <span class="req">*</span></label>
+        <div style="display:flex;align-items:center;gap:1rem;">
+          <div class="dose-control">
+            <button class="dose-btn" onclick="changeDose(-1)">−</button>
+            <div class="dose-val" id="doseVal">2</div>
+            <button class="dose-btn" onclick="changeDose(1)">+</button>
+          </div>
+          <span class="text-muted" style="font-size:0.8rem;">Recommended: 2–3 doses. Max: 6.</span>
+        </div>
+        <div class="field-hint mt-1">Each dose = one treatment group. More doses = broader dose-response characterisation, higher cost.</div>
+      </div>
+
+      <div class="field mt-2">
+        <label>Add BioSeq™ transcriptomics</label>
+        <div class="bioseq-toggle" id="bioseqToggle" onclick="toggleBioseq()">
+          <div class="bioseq-header">
+            <div>
+              <div class="bioseq-title">BioSeq™ — whole-organism transcriptomics</div>
+            </div>
+            <div class="toggle-switch" id="bioseqSwitch"></div>
+          </div>
+          <div class="bioseq-desc">Maps human-relevant genes, pathways, and mechanisms of action using HT RNA-Seq. Generates worm-to-human gene mapping, pathway analysis, and mode-of-action data. Supports clinical study design, patent filings, and claims dossiers. Pricing is custom — our science team will include a BioSeq quote in your SoW.</div>
+        </div>
+      </div>
+
+      <div class="field mt-2" id="bioseq-dose-field" style="display:none">
+        <label>Number of doses for BioSēq™ <span class="req">*</span></label>
+        <div style="display:flex;align-items:center;gap:1rem;">
+          <div class="dose-control">
+            <button class="dose-btn" onclick="changeBsDose(-1)">−</button>
+            <div class="dose-val" id="bsDoseVal">1</div>
+            <button class="dose-btn" onclick="changeBsDose(1)">+</button>
+          </div>
+          <span class="text-muted" style="font-size:0.8rem;">BioSēq™ is applied to your top-performing dose(s). Default: 1 dose.</span>
+        </div>
+        <div class="field-hint mt-1">BioSēq™ doses are independent of Discovery Flywheel™ doses. Pricing: $15,000 per dose.</div>
+      </div>
+      <!-- edu hint: bioseq -->
+      <div class="bioseq-edu" id="edu-bioseq-hint">
+        <div class="bioseq-edu-title">Urolithin A — example BioSeq™ findings</div>
+        <div class="bsr"><span class="bsr-w">GST-20</span><span class="bsr-h">GSTA1–4</span><span class="bsr-f">▲ 6.40×</span><span class="bsr-r">Glutathione S-transferase — oxidative stress detoxification</span></div>
+        <div class="bsr"><span class="bsr-w">HLH-14</span><span class="bsr-h">ASCL1</span><span class="bsr-f">▲ 7.20×</span><span class="bsr-r">Proneural transcription factor — neuroplasticity, cognitive health</span></div>
+        <div class="bsr"><span class="bsr-w">UNC-63</span><span class="bsr-h">CHRNA1/2/3</span><span class="bsr-f">▲ 4.09×</span><span class="bsr-r">Nicotinic acetylcholine receptor — cholinergic neurotransmission</span></div>
+        <div class="bsr"><span class="bsr-w">ACO-2</span><span class="bsr-h">ACO-2</span><span class="bsr-f">▲ 1.89×</span><span class="bsr-r">Aconitase — TCA cycle, mitochondrial health</span></div>
+        <div class="bsr"><span class="bsr-w">HUM-1</span><span class="bsr-h">MYO / MYH</span><span class="bsr-f">▲ 1.16×</span><span class="bsr-r">Myosin heavy chain — sarcomere integrity, muscle function</span></div>
+        <div style="margin-top:.75rem;padding-top:.75rem;border-top:1px solid rgba(255,255,255,.05);font-size:.72rem;color:rgba(240,238,233,.4);line-height:1.5">
+          BioSeq™ outputs: DEG list · worm→human gene map · pathway enrichment (KEGG/Reactome) · mode-of-action diagram · hallmarks of aging mapping.
+          <span style="display:block;margin-top:4px"><a href="nemalife-discovery-microsite.html#bioseq" target="_blank" class="edu-link">Full BioSeq™ workflow ↗</a></span>
+        </div>
+      </div>
+
+      <div class="form-nav">
+        <button class="btn btn-ghost" onclick="goStep(2)">← Back</button>
+        <button class="btn btn-primary" onclick="goStep(4)">Continue <span class="btn-arrow">→</span></button>
+      </div>
+    </div>
+
+    <!-- ─── STEP 4: SUBSTANCE INFO ─── -->
+    <div class="step" id="step-4">
+      <div class="step-eyebrow">Step 4 of 5 — Sample submission</div>
+      <h1 class="step-title">Substance information</h1>
+      <p class="step-sub">Required before your formulation study begins. Your ingredient is assigned a blinded study code — your company identity is not disclosed to the assay team during execution.</p>
+
+      <!-- Formulation study explainer -->
+      <div style="background:var(--section-bg);border-radius:var(--r-lg);padding:1.1rem 1.25rem;margin-bottom:1.25rem;border:1px solid rgba(35,194,194,.2)">
+        <div style="font-size:0.72rem;font-family:var(--font-mono);text-transform:uppercase;letter-spacing:.08em;color:var(--ink-4);margin-bottom:0.6rem">Formulation study — $3,000 · included with every new ingredient</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px">
+          <div style="background:var(--white);border-radius:var(--r);padding:0.75rem 0.85rem;border:1px solid var(--border-s)">
+            <div style="font-size:0.72rem;font-weight:600;color:var(--ink-3);margin-bottom:3px">① Solubility &amp; pH</div>
+            <div style="font-size:0.72rem;color:var(--ink-5);line-height:1.5">Compatibility with nematode growth medium (NGM)</div>
+          </div>
+          <div style="background:var(--white);border-radius:var(--r);padding:0.75rem 0.85rem;border:1px solid var(--border-s)">
+            <div style="font-size:0.72rem;font-weight:600;color:var(--ink-3);margin-bottom:3px">② Chip compatibility</div>
+            <div style="font-size:0.72rem;color:var(--ink-5);line-height:1.5">Compatibility with Infinity X100 microfluidic chips</div>
+          </div>
+          <div style="background:var(--white);border-radius:var(--r);padding:0.75rem 0.85rem;border:1px solid var(--border-s)">
+            <div style="font-size:0.72rem;font-weight:600;color:var(--ink-3);margin-bottom:3px">③ 48-hr acute tox</div>
+            <div style="font-size:0.72rem;color:var(--ink-5);line-height:1.5">Survival at highest soluble dose or target dose</div>
+          </div>
+        </div>
+        <div style="margin-top:10px;padding-top:10px;border-top:1px solid var(--border-s)">
+          <label class="pill" style="display:inline-flex">
+            <input type="checkbox" id="f-repeat-ingredient" onchange="toggleRepeatIngredient()">
+            <span class="pill-label" style="border-radius:var(--r);font-size:0.78rem">This ingredient has been previously tested by NemaLife — skip formulation study ($3,000 waived)</span>
+          </label>
+          <div class="field-hint" style="margin-top:6px">Our team will verify prior test records before waiving this fee. Applies only if the same ingredient, form, and concentration was tested in a prior NemaLife project.</div>
+        </div>
+      </div>
+
+      <div class="substance-section">
+        <div class="substance-section-title">Chemical information</div>
+
+        <div class="field-row">
+          <div class="field">
+            <label>Substance identifier <span class="req">*</span></label>
+            <input type="text" id="f-subst-id" placeholder="e.g. ABC-01 (your internal code)" value="">
+            <div class="field-hint">NemaLife will assign a blinded study code (e.g. NL-2026-047-A)</div>
+          </div>
+          <div class="field">
+            <label>Molecular weight <span class="opt">(if applicable)</span></label>
+            <input type="text" id="f-mol-weight" placeholder="e.g. 472.7 g/mol">
+          </div>
+        </div>
+
+        <div class="field-row">
+          <div class="field">
+            <label>Molecular formula <span class="opt">(if applicable)</span></label>
+            <input type="text" id="f-mol-formula" placeholder="e.g. C₂₈H₄₄O₅">
+          </div>
+          <div class="field">
+            <label>MSDS available</label>
+            <select id="f-msds">
+              <option value="">Select…</option>
+              <option value="yes">Yes — will provide on request</option>
+              <option value="yes-attached">Yes — attaching to this submission</option>
+              <option value="no">No</option>
+              <option value="na">Not applicable</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="hazard-notice">
+          Fields marked * below are required before study initiation. Incomplete hazard information will delay the formulation assessment.
+        </div>
+
+        <div class="field">
+          <label>Known hazards <span class="req">*</span></label>
+          <input type="text" id="f-hazards" placeholder="e.g. None known / irritant / flammable / specific toxicity…">
+        </div>
+
+        <div class="field">
+          <label>Hazard mitigation <span class="req">*</span></label>
+          <input type="text" id="f-hazard-mit" placeholder="e.g. Standard PPE / fume hood required…">
+        </div>
+      </div>
+
+      <div class="substance-section">
+        <div class="substance-section-title">Shipping, handling & storage</div>
+
+        <div class="field-row">
+          <div class="field">
+            <label>Shipping temperature <span class="req">*</span></label>
+            <select id="f-ship-temp">
+              <option value="">Select…</option>
+              <option value="ambient">Ambient (15–25°C)</option>
+              <option value="cool">Cool (2–8°C)</option>
+              <option value="frozen">Frozen (−20°C)</option>
+              <option value="deep-frozen">Deep frozen (−80°C)</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Handling temperature <span class="req">*</span></label>
+            <select id="f-handle-temp">
+              <option value="">Select…</option>
+              <option value="ambient">Ambient (15–25°C)</option>
+              <option value="cool">Cool (2–8°C)</option>
+              <option value="frozen">Frozen (−20°C)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="field-row-3">
+          <div class="field">
+            <label>Light sensitive</label>
+            <select id="f-light"><option value="no">No</option><option value="yes">Yes</option></select>
+          </div>
+          <div class="field">
+            <label>Moisture sensitive</label>
+            <select id="f-moisture"><option value="no">No</option><option value="yes">Yes</option></select>
+          </div>
+          <div class="field">
+            <label>Oxygen sensitive</label>
+            <select id="f-oxygen"><option value="no">No</option><option value="yes">Yes</option></select>
+          </div>
+        </div>
+
+        <div class="field-row">
+          <div class="field">
+            <label>Quantity to ship <span class="req">*</span></label>
+            <input type="text" id="f-quantity" placeholder="e.g. 500 mg / 2 g">
+          </div>
+          <div class="field">
+            <label>Form <span class="req">*</span></label>
+            <select id="f-form" onchange="toggleSolutionFields()">
+              <option value="">Select…</option>
+              <option value="powder">Powder</option>
+              <option value="solution">Solution / liquid</option>
+              <option value="oil">Oil / lipid</option>
+              <option value="extract">Extract / concentrate</option>
+            </select>
+          </div>
+        </div>
+
+        <div id="solution-fields" style="display:none">
+          <div class="field-row">
+            <div class="field">
+              <label>Solvent <span class="req">*</span></label>
+              <input type="text" id="f-solvent" placeholder="e.g. DMSO, ethanol, water">
+            </div>
+            <div class="field">
+              <label>Concentration <span class="req">*</span></label>
+              <input type="text" id="f-concentration" placeholder="e.g. 10 mg/mL">
+            </div>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Long-term storage condition <span class="req">*</span></label>
+          <input type="text" id="f-storage" placeholder="e.g. −20°C, desiccated, protected from light">
+        </div>
+
+        <div class="field">
+          <label>Disposal protocol <span class="req">*</span></label>
+          <input type="text" id="f-disposal" placeholder="e.g. Standard lab waste / incineration / return unused material">
+        </div>
+      </div>
+
+      <div class="form-nav">
+        <button class="btn btn-ghost" onclick="goStep(3)">← Back</button>
+        <button class="btn btn-primary" onclick="goStep(5)">Review & submit <span class="btn-arrow">→</span></button>
+      </div>
+    </div>
+
+    <!-- ─── STEP 5: REVIEW ─── -->
+    <div class="step" id="step-5">
+      <div class="step-eyebrow">Step 5 of 5 — Review</div>
+      <h1 class="step-title">Review your study design</h1>
+      <p class="step-sub">Please review the details below. On submission, NemaLife will generate your Statement of Work for review and e-signature.</p>
+
+      <!-- SoW preview card -->
+      <div class="sow-preview">
+        <div class="sow-watermark">DRAFT</div>
+        <div class="sow-logo">nemalife</div>
+        <div class="sow-title">Statement of Work — preview</div>
+        <div id="sowPreviewLines"></div>
+      </div>
+
+      <div class="summary-block">
+        <div class="summary-block-header">Respondent</div>
+        <div class="summary-block-body" id="summaryRespondent"></div>
+      </div>
+
+      <div class="summary-block">
+        <div class="summary-block-header">Ingredient</div>
+        <div class="summary-block-body" id="summaryIngredient"></div>
+      </div>
+
+      <div class="summary-block">
+        <div class="summary-block-header">Study design</div>
+        <div class="summary-block-body" id="summaryStudy"></div>
+      </div>
+
+      <div class="summary-block">
+        <div class="summary-block-header">Pricing & payment</div>
+        <div class="summary-block-body" id="summaryPricing"></div>
+      </div>
+
+      <div class="summary-block">
+        <div class="summary-block-header">Data deliverables</div>
+        <div class="summary-block-body" id="summaryDeliverables"></div>
+      </div>
+
+      <div class="field mt-2">
+        <label>Additional notes for the science team <span class="opt">(optional)</span></label>
+        <textarea placeholder="Any specific requirements, constraints, or context the study team should know…" rows="3"></textarea>
+      </div>
+
+      <div class="form-nav">
+        <button class="btn btn-ghost" onclick="goStep(4)">← Back</button>
+        <button class="btn btn-cta" onclick="goStep(6)">Submit study request →</button>
+      </div>
+    </div>
+
+    <!-- ─── STEP 6: CONFIRMATION ─── -->
+    <div class="step" id="step-6">
+      <div class="confirm-hero">
+        <div class="confirm-icon">✓</div>
+        <h1 class="confirm-title">Study request submitted</h1>
+        <p class="confirm-sub">Your study design has been received. Your Statement of Work will be prepared and sent to you for review within 1 business day.</p>
+      </div>
+
+      <div class="summary-block">
+        <div class="summary-block-header">Your project reference</div>
+        <div class="summary-block-body">
+          <div class="summary-row">
+            <span class="summary-row-l">Project code</span>
+            <span class="summary-row-r mono" id="confirmCode">NL-2026-001</span>
+          </div>
+          <div class="summary-row">
+            <span class="summary-row-l">Estimated study start</span>
+            <span class="summary-row-r">Upon SoW execution + sample receipt</span>
+          </div>
+          <div class="summary-row">
+            <span class="summary-row-l">Expected delivery</span>
+            <span class="summary-row-r">16 weeks from kickoff</span>
+          </div>
+          <div class="summary-row">
+            <span class="summary-row-l">SoW sent to</span>
+            <span class="summary-row-r" id="confirmEmail">—</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="next-steps">
+        <div class="next-step">
+          <div class="next-step-num">1</div>
+          <div>
+            <div class="next-step-title">Review & sign your SoW + MSA</div>
+            <div class="next-step-desc">We'll email your Statement of Work and Master Services Agreement for review. Sign digitally via the platform — no printing required.</div>
+          </div>
+        </div>
+        <div class="next-step">
+          <div class="next-step-num">2</div>
+          <div>
+            <div class="next-step-title">Complete payment</div>
+            <div class="next-step-desc" id="confirmPaymentNote">100% upfront payment due. Study initiates on receipt of payment and your ingredient sample.</div>
+          </div>
+        </div>
+        <div class="next-step">
+          <div class="next-step-num">3</div>
+          <div>
+            <div class="next-step-title">Ship your sample</div>
+            <div class="next-step-desc">Ship to NemaLife, 3911 4th St, Lubbock TX 79409. Mark package with your project code. Follow the handling conditions you specified.</div>
+          </div>
+        </div>
+        <div class="next-step">
+          <div class="next-step-num">4</div>
+          <div>
+            <div class="next-step-title">Track your project in real time</div>
+            <div class="next-step-desc">Once your study begins, your dashboard will show live phase progress — no need to email for updates.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /form-panel -->
+
+  <!-- ══════════════════════════════════
+       RIGHT: LIVE PREVIEW PANEL
+  ══════════════════════════════════ -->
+  <div class="preview-panel">
+    <div class="preview-header">Live study preview</div>
+
+    <div class="project-id" id="previewProjectId">Project code: —</div>
+
+    <div class="preview-customer" id="previewCustomer">
+      <div class="preview-name" id="previewName">—</div>
+      <div class="preview-company" id="previewCompany">Awaiting company details…</div>
+    </div>
+
+    <div class="preview-ingredient" id="previewIngredientBlock" style="opacity:0.35">
+      <div class="preview-ingredient-name" id="previewIngredient">No ingredient entered yet</div>
+      <div class="preview-ingredient-cat" id="previewCategory">—</div>
+    </div>
+
+    <div class="preview-domains">
+      <div class="preview-section-label">Health domains selected</div>
+      <div class="domain-pills-preview">
+        <span class="domain-pill-prev inactive" id="pill-cognitive">Cognitive</span>
+        <span class="domain-pill-prev inactive" id="pill-gut">Gut</span>
+        <span class="domain-pill-prev inactive" id="pill-metabolic">Metabolic</span>
+        <span class="domain-pill-prev inactive" id="pill-muscle">Muscle</span>
+        <span class="domain-pill-prev inactive" id="pill-stress">Stress</span>
+        <span class="domain-pill-prev inactive" id="pill-longevity">Longevity</span>
+      </div>
+    </div>
+
+    <div class="assay-list">
+      <div class="preview-section-label">Assay protocol</div>
+      <div class="assay-row inactive" id="assay-formulation">
+        <div><div class="assay-code">FA-01</div><div class="assay-name">Formulation study</div></div>
+        <span class="assay-status included" id="formulation-status">Included</span>
+      </div>
+      <div class="assay-row inactive" id="assay-lha">
+        <div><div class="assay-code">DF1</div><div class="assay-name">Longevity / aging</div></div>
+        <span class="assay-status add" id="lha-status">Add domain</span>
+      </div>
+      <div class="assay-row inactive" id="assay-cog">
+        <div><div class="assay-code">DF2</div><div class="assay-name">Cognitive / endurance</div></div>
+        <span class="assay-status add" id="cog-status">Add domain</span>
+      </div>
+      <div class="assay-row inactive" id="assay-mha">
+        <div><div class="assay-code">DF3</div><div class="assay-name">Muscle health</div></div>
+        <span class="assay-status add" id="mha-status">Add domain</span>
+      </div>
+      <div class="assay-row inactive" id="assay-lky">
+        <div><div class="assay-code">DF4</div><div class="assay-name">Gut health (leaky gut)</div></div>
+        <span class="assay-status add" id="lky-status">Add domain</span>
+      </div>
+      <div class="assay-row inactive" id="assay-met">
+        <div><div class="assay-code">DF6</div><div class="assay-name">Metabolic / stress</div></div>
+        <span class="assay-status add" id="met-status">Add domain</span>
+      </div>
+      <div class="assay-row inactive" id="assay-bioseq">
+        <div><div class="assay-code">BSQ-1</div><div class="assay-name">BioSeq™ transcriptomics</div></div>
+        <span class="assay-status optional" id="bioseq-status">Off</span>
+      </div>
+    </div>
+
+    <div class="assay-list" id="deliverables-preview" style="display:none">
+      <div class="preview-section-label">Data deliverables</div>
+      <div id="deliverables-list"></div>
+    </div>
+
+    <div class="preview-meta">
+      <div class="meta-item">
+        <div class="meta-label">Timeline</div>
+        <div class="meta-val" id="metaTimeline">16 wks</div>
+        <div class="meta-sub">from kickoff</div>
+      </div>
+      <div class="meta-item">
+        <div class="meta-label">Conditions</div>
+        <div class="meta-val" id="metaConditions">—</div>
+        <div class="meta-sub">treatment groups</div>
+      </div>
+      <div class="meta-item">
+        <div class="meta-label">Doses</div>
+        <div class="meta-val" id="metaDoses">2</div>
+        <div class="meta-sub">per ingredient</div>
+      </div>
+      <div class="meta-item">
+        <div class="meta-label">Subjects / arm</div>
+        <div class="meta-val" id="metaSubjects">≥100</div>
+        <div class="meta-sub" id="metaSubjectsSub">C. elegans in vivo</div>
+      </div>
+    </div>
+
+    <div class="price-block">
+      <div class="preview-section-label" style="margin-bottom:10px">Estimated cost</div>
+      <div class="price-line active" id="price-formulation">
+        <span id="price-formulation-label">Formulation study</span>
+        <span class="price-amt active" id="price-formulation-amt">$3,000</span>
+      </div>
+      <div class="price-line" id="price-flywheel">
+        <span id="price-flywheel-label">Discovery Flywheel™</span>
+        <span class="price-amt" id="price-flywheel-amt">—</span>
+      </div>
+      <div class="price-line" id="price-bioseq-line" style="opacity:0.3">
+        <span>BioSeq™ add-on</span>
+        <span class="price-amt" id="price-bioseq-amt">—</span>
+      </div>
+      <hr class="price-divider">
+      <div class="price-total">
+        <span class="price-total-label">Total estimate</span>
+        <span class="price-total-val" id="priceTotal">$3,000</span>
+      </div>
+      <div class="price-note" id="priceNote">Select health domains to see full estimate</div>
+      <div class="price-payment" id="pricePayment" style="display:none"></div>
+    </div>
+  </div><!-- /preview-panel -->
+
+</div><!-- /shell -->
+
+<script>
+// ── STATE ──
+const state = {
+  step: 1,
+  totalSteps: 6,
+  doses: 2,
+  bioseq: false,
+  bsDoses: 1,
+  repeatIngredient: false,
+  domains: [],
+  projectCode: 'NL-' + new Date().getFullYear() + '-' + String(Math.floor(Math.random()*900)+100).padStart(3,'0')
+};
+
+// ── PRICING — confirmed rate card ──
+// Formulation study: $3,000 (skippable for repeat ingredients)
+// Discovery Flywheel: $8,000 per health benefit per dose; capped at $35,000 for all 6 benefits
+// BioSeq: $15,000 per ingredient dose
+const PRICE_FORMULATION   = 3000;
+const PRICE_PER_BEN_DOSE  = 8000;
+const PRICE_FLYWHEEL_CAP  = 35000;  // all-6-benefits cap, per dose
+const PRICE_BIOSEQ        = 15000;  // per dose
+
+// Flywheel cost: $8k × benefits × doses, but if all 6 selected → $35k × doses
+function calcFlywheel(nBenefits, doses) {
+  if (nBenefits === 0) return 0;
+  const perDose = nBenefits === 6 ? PRICE_FLYWHEEL_CAP : nBenefits * PRICE_PER_BEN_DOSE;
+  return perDose * doses;
+}
+
+const ASSAY_MAP = {
+  cognitive: 'cog', gut: 'lky', metabolic: 'met',
+  muscle: 'mha', stress: 'met', longevity: 'lha'
+};
+
+// ── NAVIGATION ──
+function goStep(n) {
+  document.getElementById('step-' + state.step).classList.remove('active');
+  state.step = n;
+  document.getElementById('step-' + n).classList.add('active');
+  updateNavDots();
+  updateProgress();
+  if (n === 5) buildSummary();
+  if (n === 6) buildConfirmation();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  updatePreview();
+  // update save indicator
+  document.getElementById('navSave').textContent = 'saved just now';
+  setTimeout(() => { document.getElementById('navSave').textContent = 'auto-saving…'; }, 2000);
+}
+
+function updateNavDots() {
+  const container = document.getElementById('navDots');
+  container.innerHTML = '';
+  for (let i = 1; i <= 5; i++) {
+    const dot = document.createElement('div');
+    dot.className = 'nav-dot' + (i < state.step ? ' done' : i === state.step ? ' active' : '');
+    container.appendChild(dot);
+  }
+}
+
+function updateProgress() {
+  const pct = Math.min(((state.step - 1) / (state.totalSteps - 2)) * 100, 100);
+  document.getElementById('progressFill').style.width = pct + '%';
+}
+
+// ── DOSE CONTROL ──
+function changeDose(delta) {
+  state.doses = Math.max(1, Math.min(6, state.doses + delta));
+  document.getElementById('doseVal').textContent = state.doses;
+  updatePreview();
+}
+
+// ── BIOSEQ DOSE CONTROL ──
+function changeBsDose(delta) {
+  state.bsDoses = Math.max(1, Math.min(6, state.bsDoses + delta));
+  document.getElementById('bsDoseVal').textContent = state.bsDoses;
+  updatePreview();
+}
+
+// ── BIOSEQ TOGGLE ──
+function toggleBioseq() {
+  state.bioseq = !state.bioseq;
+  const el = document.getElementById('bioseqToggle');
+  el.classList.toggle('on', state.bioseq);
+  const doseFld = document.getElementById('bioseq-dose-field');
+  if (doseFld) doseFld.style.display = state.bioseq ? 'block' : 'none';
+  showBioSeqHint(state.bioseq);
+  updatePreview();
+}
+
+// ── DELIVERABLES ENGINE — grounded in DSM SoW and TPB SoW ──
+// Subject counts: ≥100/group for all assays except gut health (≥50/group — single endpoint day 20)
+// Measurement windows from actual SoW protocols
+const DELIVERABLE_SPECS = {
+  longevity: {
+    code: 'DF1', label: 'Longevity / healthy aging',
+    dataset: 'DS — Longevity',
+    method: 'Survivorship from day 4 to day 28',
+    paradigm: 'Natural aging paradigm (healthy subjects)',
+    subjects: '≥100 organisms / treatment group'
+  },
+  cognitive: {
+    code: 'DF2', label: 'Cognitive performance & endurance',
+    dataset: 'DS — Cognitive health',
+    method: 'Reflexive response to mechanical stimulus; stimulated speed quantified days 6–10',
+    paradigm: 'Natural aging paradigm (healthy subjects)',
+    subjects: '≥100 organisms / treatment group'
+  },
+  muscle: {
+    code: 'DF3', label: 'Muscle performance',
+    dataset: 'DS — Muscle health',
+    method: 'Age-induced decline in movement; distance covered quantified days 12–20',
+    paradigm: 'Natural aging paradigm (healthy subjects)',
+    subjects: '≥100 organisms / treatment group'
+  },
+  gut: {
+    code: 'DF4', label: 'Gut health (intestinal barrier integrity)',
+    dataset: 'DS — Gut health',
+    method: 'Leaky gut due to natural aging; AI model scores degree of leakiness on day 20',
+    paradigm: 'Natural aging paradigm (healthy subjects)',
+    subjects: '≥50 organisms / treatment group'
+  },
+  metabolic: {
+    code: 'DF6', label: 'Metabolic health',
+    dataset: 'DS — Metabolic health',
+    method: 'Chronic glucose diet causing fat accumulation and metabolic stress; survivorship days 4–20',
+    paradigm: 'Stress-induced paradigm (unhealthy subjects)',
+    subjects: '≥100 organisms / treatment group'
+  },
+  stress: {
+    code: 'DF7', label: 'Stress resilience',
+    dataset: 'DS — Stress resilience',
+    method: 'Chronic paraquat exposure generating ROS; survivorship quantified days 4–14',
+    paradigm: 'Stress-induced paradigm (unhealthy subjects)',
+    subjects: '≥100 organisms / treatment group'
+  }
+};
+
+const STANDARD_DELIVERABLES = [
+  { code: 'PD',    label: 'Presentation deck',           detail: 'Study design, methodology, exemplary images, statistical methods, results, and summary narrative' },
+  { code: 'DATA',  label: 'Numerical data package',      detail: 'Raw and processed data for all datasets in MS Excel format' },
+  { code: 'VID',   label: 'LivingProof™ videos',         detail: 'Up to 3 short-form organism videos for marketing / presentation use (additional at $350 each)' },
+  { code: 'CONS',  label: '30-day post-study consultation', detail: 'Up to 3 hours free technical consultation after results delivery; $250/hr thereafter' },
+];
+
+function buildDeliverables() {
+  const domains = state.domains;
+
+  // Preview panel
+  const previewBlock = document.getElementById('deliverables-preview');
+  const previewList  = document.getElementById('deliverables-list');
+
+  if (domains.length === 0) {
+    previewBlock.style.display = 'none';
+    return;
+  }
+  previewBlock.style.display = 'block';
+
+  let html = '';
+  // Formulation dataset (always)
+  if (!state.repeatIngredient) {
+    html += `<div class="deliv-row">
+      <div class="deliv-code">FA-DATA</div>
+      <div class="deliv-title">Formulation study report</div>
+      <div class="deliv-detail">Solubility &amp; pH in NGM · chip compatibility · 48-hr acute tox results</div>
+      <div class="deliv-subjects">N/A — compatibility assessment</div>
+    </div>`;
+  }
+  // Per-domain datasets
+  domains.forEach((d, i) => {
+    const spec = DELIVERABLE_SPECS[d];
+    if (!spec) return;
+    const dsNum = i + 1;
+    html += `<div class="deliv-row">
+      <div class="deliv-code">${spec.code} · DS${dsNum}</div>
+      <div class="deliv-title">${spec.label}</div>
+      <div class="deliv-detail">${spec.method}</div>
+      <div class="deliv-subjects">${spec.subjects}</div>
+    </div>`;
+  });
+  // BioSeq
+  if (state.bioseq) {
+    html += `<div class="deliv-row">
+      <div class="deliv-code">BSQ-1</div>
+      <div class="deliv-title">BioSeq™ transcriptomics report</div>
+      <div class="deliv-detail">DEG analysis · worm-to-human ortholog mapping · pathway analysis · mode-of-action mechanism map</div>
+      <div class="deliv-subjects">Applied to ${state.doses} dose${state.doses>1?'s':''} · homology score included</div>
+    </div>`;
+  }
+  // Standard deliverables
+  STANDARD_DELIVERABLES.forEach(sd => {
+    html += `<div class="deliv-row">
+      <div class="deliv-code">${sd.code}</div>
+      <div class="deliv-title">${sd.label}</div>
+      <div class="deliv-detail">${sd.detail}</div>
+    </div>`;
+  });
+  previewList.innerHTML = html;
+}
+
+// ── CONTEXTUAL EDUCATION HINTS ──
+
+// Category concordance copy — grounded in discovery deck science
+const CAT_CONCORDANCE = {
+  botanical:    { text: '<strong>Botanical extracts</strong> are among the most validated ingredient classes in C. elegans. Polyphenols, terpenoids, and alkaloids have well-characterised mechanisms via NRF2/SKN-1, mTOR/DAF-16, and AMPK/AAK-1 pathways — all conserved from worm to human.', example: 'e.g. Lion\'s Mane (Erinacine A), Ashwagandha, Berberine' },
+  fungi:        { text: '<strong>Fungal extracts</strong> are one of NemaLife\'s strongest ingredient classes. Beta-glucans, terpenoids, and ergothioneine show consistent activity across longevity, cognitive, and stress domains. Mushroom bioactives have direct concordance with autophagy and mitophagy pathways.', example: 'e.g. Erinacine A (H. erinaceus), Ergothioneine, Psilocybin analogues' },
+  probiotic:    { text: '<strong>Probiotic strains</strong> are evaluated via the gut-brain axis in C. elegans. The worm\'s intestinal epithelium shares tight junction biology, mucus layer architecture, and microvillae with the human gut — making it an ideal model for barrier integrity and microbial metabolite effects.', example: 'e.g. Lactobacillus strains, Bifidobacterium, spore-forming probiotics' },
+  prebiotic:    { text: '<strong>Prebiotic fibres and oligosaccharides</strong> are evaluated for gut barrier integrity (LKY-1 assay), metabolic health effects, and indirect longevity signalling via the gut-brain axis. C. elegans gut physiology is highly conserved for tight junction and mucus biology.', example: 'e.g. FOS, GOS, HMOs, inulin, beta-glucan fibres' },
+  postbiotic:   { text: '<strong>Postbiotics and metabolites</strong> are NemaLife\'s most validated category. Urolithin A — the benchmark postbiotic — shows positive effects in 5 of 6 health domains in C. elegans with direct clinical concordance across mitophagy, muscle, and longevity endpoints.', example: 'e.g. Urolithin A, short-chain fatty acids, Trimethylamine N-oxide' },
+  protein:      { text: '<strong>Protein and peptide ingredients</strong> are evaluated for muscle performance (MHA-1), metabolic health, and stress resilience. C. elegans muscle sarcomere structure and function is conserved with human skeletal muscle — MYH and ACTN gene families are direct orthologs.', example: 'e.g. Whey hydrolysates, plant proteins, collagen peptides' },
+  peptide:      { text: '<strong>Bioactive peptides</strong> interact with conserved signalling pathways in C. elegans — particularly insulin/IGF-1 (longevity), cholinergic (cognitive), and NRF2 (oxidative stress). Peptide absorption and receptor binding are well-modelled in the worm gut and nervous system.', example: 'e.g. Collagen tripeptides, milk bioactive peptides, plant-derived peptides' },
+  'fatty-acid': { text: '<strong>Fatty acids and lipids</strong> modulate C. elegans lipid metabolism, mitochondrial function, and membrane integrity via conserved pathways. Omega-3 fatty acids, ceramides, and phospholipids have established activity in longevity and metabolic assays.', example: 'e.g. DHA/EPA, CLA, phosphatidylserine, sphingolipids' },
+  vitamin:      { text: '<strong>Vitamins and minerals</strong> have well-characterised mechanisms in C. elegans. Vitamins D, K2, B12, and minerals like magnesium and zinc act on conserved metabolic and signalling enzymes with direct human pathway mapping.', example: 'e.g. Vitamin D3, K2-MK7, B12, NAD+ precursors' },
+  phytonutrient:{ text: '<strong>Phytonutrients and polyphenols</strong> are one of the most studied ingredient classes in C. elegans longevity research. Resveratrol, quercetin, EGCG, and curcumin all have established worm-to-human concordance via SIRT1/SIR-2.1, NRF2/SKN-1, and mTOR/DAF-16.', example: 'e.g. Resveratrol, Quercetin, EGCG, Curcumin, Anthocyanins' },
+  'amino-acid': { text: '<strong>Amino acids and derivatives</strong> act on conserved nutrient-sensing pathways in C. elegans. Branched-chain amino acids, creatine, taurine, and beta-alanine have established activity in muscle performance and metabolic health assays.', example: 'e.g. BCAAs, L-theanine, Creatine, Taurine, Beta-alanine' },
+  other:        { text: 'C. elegans whole-organism biology covers a broad range of mechanisms. Our science team will review your ingredient prior to study design to confirm the most relevant assay configuration.', example: 'Tell us more in the evidence field below — the more context, the better.' },
+};
+
+// Domain hint copy — matches discovery deck assay specs
+const DOMAIN_HINTS = {
+  cognitive: {
+    code: 'DF2 · Natural aging paradigm',
+    desc: 'Cognitive health assessed from reflexive response to mechanical stimulus. Stimulated speed quantified days 6–10 during mechanosensory nervous system decline.',
+    stats: ['≥100 organisms / group', 'Days 6–10', 'Pathway: cholinergic / CHRNA', 'Urolithin A: positive effect ✓']
+  },
+  gut: {
+    code: 'DF4 · Natural aging paradigm',
+    desc: 'Gut health assessed from leaky gut due to natural aging on day 20. Proprietary AI model scores degree of leakiness in the gut.',
+    stats: ['≥50 organisms / group', 'Day 20 single endpoint', 'Pathway: tight junction / ERM-1', 'Urolithin A: positive effect ✓']
+  },
+  metabolic: {
+    code: 'MET-1 · Stress-induced paradigm',
+    desc: 'Survival under metabolic stress. Organisms exposed to a metabolic stressor; daily survival tracked from day 4 to day 20. Evaluates whether the ingredient improves resilience in challenged (unhealthy) conditions.',
+    stats: ['≥100 organisms / group', 'Days 4–20', 'Pathway: insulin/IGF-1 · mTOR', 'Urolithin A: no effect']
+  },
+  muscle: {
+    code: 'MHA-1 · Natural aging paradigm',
+    desc: 'Quantifies age-induced decline in locomotor function. Stimulated movement measured on even days from day 12–20 — the window where C. elegans sarcomere disorganisation accelerates, mirroring human sarcopenia.',
+    stats: ['≥100 organisms / group', 'Days 12–20 (even days)', 'Pathway: MYH / ACTN sarcomere', 'Urolithin A: positive effect ✓']
+  },
+  stress: {
+    code: 'SRS-1 · Stress-induced paradigm',
+    desc: 'Survival under oxidative stress. Organisms exposed to juglone or tert-butyl hydroperoxide. Identifies ingredients that confer resilience in pathological oxidative conditions — valuable for stressed or aging target populations.',
+    stats: ['≥100 organisms / group', 'Days 4–20', 'Pathway: NRF2 / SKN-1 · GST', 'Urolithin A: positive effect ✓']
+  },
+  longevity: {
+    code: 'DF1 · Natural aging paradigm',
+    desc: 'Longevity is assessed from survivorship from day 4 to day 28.',
+    stats: ['≥100 organisms / group', 'Days 4–28', 'Pathway: DAF-16 / FOXO · SIR-2.1', 'Urolithin A: positive effect ✓']
+  }
+};
+
+function toggleEduHint(id) {
+  const body = document.getElementById(id + '-body');
+  const tog  = document.getElementById(id + '-tog');
+  if (!body) return;
+  const collapsed = body.classList.toggle('collapsed');
+  if (tog) tog.textContent = collapsed ? 'show ↓' : 'hide ↑';
+}
+
+function showCategoryHint(cat) {
+  const hint = document.getElementById('edu-category-hint');
+  const valEl = document.getElementById('edu-cat-concordance-val');
+  if (!hint || !cat) return;
+  hint.classList.add('visible');
+  // Auto-open the body
+  const body = document.getElementById('edu-category-hint-body');
+  const tog  = document.getElementById('edu-category-hint-tog');
+  if (body) body.classList.remove('collapsed');
+  if (tog)  tog.textContent = 'hide ↑';
+
+  const data = CAT_CONCORDANCE[cat];
+  if (valEl && data) {
+    valEl.innerHTML = data.text + '<br><span style="font-size:.72rem;color:rgba(149,213,178,.6);margin-top:3px;display:block">' + data.example + '</span>';
+  }
+}
+
+function updateDomainHint() {
+  const checked = [...document.querySelectorAll('input[name="domain"]:checked')].map(cb => cb.value);
+  const hint = document.getElementById('edu-domain-hint');
+  if (!hint) return;
+
+  if (checked.length === 0) {
+    hint.classList.remove('visible');
+    return;
+  }
+  hint.classList.add('visible');
+
+  // Show info for the most recently checked domain
+  const last = checked[checked.length - 1];
+  const data = DOMAIN_HINTS[last];
+  if (!data) return;
+
+  document.getElementById('edu-dom-code').textContent = data.code;
+  document.getElementById('edu-dom-desc').textContent = data.desc;
+  const statsEl = document.getElementById('edu-dom-stats');
+  if (statsEl) {
+    statsEl.innerHTML = data.stats.map(s =>
+      `<span class="edu-stat">${s}</span>`
+    ).join('');
+  }
+}
+
+function showBioSeqHint(on) {
+  const hint = document.getElementById('edu-bioseq-hint');
+  if (hint) hint.classList.toggle('visible', on);
+}
+
+// ── TOGGLE REPEAT INGREDIENT ──
+function toggleRepeatIngredient() {
+  state.repeatIngredient = document.getElementById('f-repeat-ingredient').checked;
+  updatePreview();
+}
+
+// ── SOLUTION FIELDS ──
+function toggleSolutionFields() {
+  const val = document.getElementById('f-form').value;
+  document.getElementById('solution-fields').style.display = val === 'solution' ? 'block' : 'none';
+}
+
+// ── LIVE PREVIEW UPDATE ──
+function updatePreview() {
+  // name/company intentionally not read — preview is anonymized
+  const ingredient = document.getElementById('f-ingredient')?.value || '';
+  const category = document.getElementById('f-category')?.value || '';
+  const catLabels = {
+    botanical:'Botanical / herb', fungi:'Fungi / mushroom', probiotic:'Probiotic',
+    prebiotic:'Prebiotic', postbiotic:'Postbiotic / metabolite', protein:'Protein',
+    peptide:'Peptide', 'fatty-acid':'Fatty acid / lipid', vitamin:'Vitamin / mineral',
+    phytonutrient:'Phytonutrient / polyphenol', 'amino-acid':'Amino acid', other:'Other'
+  };
+
+  // Show category education hint when category selected
+  if (category) showCategoryHint(category);
+
+  // Customer — show role/type only, not name or company
+  const compTypeVal = document.getElementById('f-company-type')?.value || '';
+  const compTypeLabels = {
+    supplier:'Ingredient supplier', distributor:'Ingredient distributor',
+    brand:'Consumer brand', cdmo:'CDMO / CMO', both:'Supplier + brand'
+  };
+  const roleEl = document.querySelector('input[name="role"]:checked');
+  const roleLabels = {
+    rd:'R&D / Science', clinical:'Clinical / Medical', brand:'Brand / Marketing',
+    regulatory:'Regulatory / QA', exec:'Executive / Strategy', procurement:'Procurement / Finance'
+  };
+  document.getElementById('previewName').textContent =
+    (roleEl ? roleLabels[roleEl.value] : '—') || '—';
+  document.getElementById('previewCompany').textContent =
+    compTypeVal ? compTypeLabels[compTypeVal] : 'Awaiting company type…';
+  document.getElementById('previewProjectId').textContent = 'Project code: ' + state.projectCode;
+
+  // Ingredient
+  const ingBlock = document.getElementById('previewIngredientBlock');
+  ingBlock.style.opacity = ingredient ? '1' : '0.35';
+  document.getElementById('previewIngredient').textContent = ingredient || 'No ingredient entered yet';
+  document.getElementById('previewCategory').textContent = catLabels[category] || '—';
+
+  // Domains
+  const domCheckboxes = document.querySelectorAll('input[name="domain"]');
+  state.domains = [];
+  domCheckboxes.forEach(cb => { if (cb.checked) state.domains.push(cb.value); });
+
+  const domainPills = ['cognitive','gut','metabolic','muscle','stress','longevity'];
+  domainPills.forEach(d => {
+    const pill = document.getElementById('pill-' + d);
+    if (pill) pill.classList.toggle('inactive', !state.domains.includes(d));
+  });
+
+  // Assay rows — always show formulation as active
+  document.getElementById('assay-formulation').classList.remove('inactive');
+
+  const assayMapping = [
+    { id: 'assay-lha', domains: ['longevity'], statusId: 'lha-status', label: 'Included' },
+    { id: 'assay-cog', domains: ['cognitive'], statusId: 'cog-status', label: 'Included' },
+    { id: 'assay-mha', domains: ['muscle'], statusId: 'mha-status', label: 'Included' },
+    { id: 'assay-lky', domains: ['gut'], statusId: 'lky-status', label: 'Included' },
+    { id: 'assay-met', domains: ['metabolic','stress'], statusId: 'met-status', label: 'Included' },
+  ];
+
+  assayMapping.forEach(a => {
+    const active = a.domains.some(d => state.domains.includes(d));
+    document.getElementById(a.id).classList.toggle('inactive', !active);
+    const statusEl = document.getElementById(a.statusId);
+    if (active) {
+      statusEl.textContent = 'Included';
+      statusEl.className = 'assay-status included';
+    } else {
+      statusEl.textContent = 'Add domain';
+      statusEl.className = 'assay-status add';
+    }
+  });
+
+  // BioSeq
+  const bioseqRow = document.getElementById('assay-bioseq');
+  const bioseqStatusEl = document.getElementById('bioseq-status');
+  bioseqRow.classList.toggle('inactive', !state.bioseq);
+  bioseqStatusEl.textContent = state.bioseq ? 'Included' : 'Off';
+  bioseqStatusEl.className = 'assay-status ' + (state.bioseq ? 'included' : 'optional');
+
+  // Meta
+  const nDomains = state.domains.length;
+  const conditions = nDomains > 0 ? 2 + state.doses : 0;
+  document.getElementById('metaConditions').textContent = conditions > 0 ? String(conditions) : '—';
+  document.getElementById('metaDoses').textContent = state.doses;
+  document.getElementById('metaTimeline').textContent = state.bioseq ? '18 wks' : '16 wks';
+
+  // Subjects per arm — gut health uses ≥50; all other assays ≥100
+  // If gut is the ONLY domain selected: ≥50. If gut + others: show ≥50 / ≥100 split
+  const gutOnly = state.domains.length === 1 && state.domains.includes('gut');
+  const hasGut  = state.domains.includes('gut');
+  const hasOther = state.domains.some(d => d !== 'gut');
+  let subjectsLabel, subjectsSub;
+  if (gutOnly) {
+    subjectsLabel = '≥50';
+    subjectsSub = 'gut health (day 20 endpoint)';
+  } else if (hasGut && hasOther) {
+    subjectsLabel = '≥50–100';
+    subjectsSub = '≥50 gut · ≥100 all others';
+  } else {
+    subjectsLabel = '≥100';
+    subjectsSub = 'C. elegans in vivo';
+  }
+  document.getElementById('metaSubjects').textContent = subjectsLabel;
+  document.getElementById('metaSubjectsSub').textContent = subjectsSub;
+
+  // Build deliverables preview
+  buildDeliverables();
+  const formCost     = state.repeatIngredient ? 0 : PRICE_FORMULATION;
+  const flywheelCost = calcFlywheel(nDomains, state.doses);
+  const bioseqCost   = state.bioseq ? state.bsDoses * PRICE_BIOSEQ : 0;
+  const grandTotal   = formCost + flywheelCost + bioseqCost;
+
+  // Formulation line
+  const formLine = document.getElementById('price-formulation');
+  const formAmt  = document.getElementById('price-formulation-amt');
+  const formLbl  = document.getElementById('price-formulation-label');
+  if (state.repeatIngredient) {
+    formLine.style.opacity = '0.4';
+    formLbl.textContent    = 'Formulation study (waived — repeat ingredient)';
+    formAmt.textContent    = '$0';
+  } else {
+    formLine.style.opacity = '1';
+    formLbl.textContent    = 'Formulation study';
+    formAmt.textContent    = '$3,000';
+  }
+
+  const flywheelLine = document.getElementById('price-flywheel');
+  const flywheelAmt  = document.getElementById('price-flywheel-amt');
+  const flywheelLbl  = document.getElementById('price-flywheel-label');
+  if (nDomains > 0) {
+    flywheelLine.classList.add('active');
+    flywheelAmt.classList.add('active');
+    const capNote = nDomains === 6 ? ' — all-6 cap' : '';
+    flywheelLbl.textContent = 'Discovery Flywheel™ (' + nDomains + ' benefit' + (nDomains>1?'s':'') + ' × ' + state.doses + ' dose' + (state.doses>1?'s':'')+capNote+')';
+    flywheelAmt.textContent = '$' + flywheelCost.toLocaleString();
+  } else {
+    flywheelLine.classList.remove('active');
+    flywheelAmt.classList.remove('active');
+    flywheelLbl.textContent = 'Discovery Flywheel™';
+    flywheelAmt.textContent = '—';
+  }
+
+  // BioSeq line
+  const bioseqLine = document.getElementById('price-bioseq-line');
+  const bioseqAmt  = document.getElementById('price-bioseq-amt');
+  bioseqLine.style.opacity = state.bioseq ? '1' : '0.3';
+  if (state.bioseq) bioseqLine.classList.add('active'); else bioseqLine.classList.remove('active');
+  bioseqAmt.textContent = state.bioseq
+    ? '$' + bioseqCost.toLocaleString() + ' (' + state.bsDoses + ' dose' + (state.bsDoses>1?'s':'') + ' × $15k)'
+    : '—';
+
+  document.getElementById('priceTotal').textContent = '$' + grandTotal.toLocaleString();
+
+  const note = document.getElementById('priceNote');
+  const payment = document.getElementById('pricePayment');
+
+  if (nDomains === 0) {
+    note.textContent = state.repeatIngredient
+      ? 'Formulation study waived. Select health domains to see Flywheel estimate.'
+      : 'Select health domains to see full estimate.';
+    payment.style.display = 'none';
+  } else {
+    const perDoseNote = nDomains === 6
+      ? '$35,000/dose (all-6-benefits cap) × ' + state.doses + ' dose' + (state.doses>1?'s':'')
+      : '$8,000/benefit × ' + nDomains + ' benefit' + (nDomains>1?'s':'') + ' × ' + state.doses + ' dose' + (state.doses>1?'s':'');
+    note.textContent = '* Flywheel: ' + perDoseNote + '. Final pricing confirmed in SoW.';
+    payment.style.display = 'block';
+    if (grandTotal <= 50000) {
+      payment.textContent = 'Payment terms: 100% upfront on SoW execution. Study initiates on receipt of payment and sample.';
+    } else {
+      const upfront = Math.round(grandTotal * 0.75);
+      const completion = grandTotal - upfront;
+      payment.textContent = 'Payment terms: 75% ($' + upfront.toLocaleString() + ') on execution · 25% ($' + completion.toLocaleString() + ') on completion. Net 60.';
+    }
+  }
+}
+
+// ── SUMMARY (Step 5) ──
+function buildSummary() {
+  const email = document.getElementById('f-email')?.value || '—';
+  const ingredient = document.getElementById('f-ingredient')?.value || '—';
+  const category = document.getElementById('f-category')?.value || '—';
+  const bioseqOn = state.bioseq;
+  const nDomains = state.domains.length;
+  const conditions = nDomains > 0 ? 2 + state.doses : 0;
+  const formCost = state.repeatIngredient ? 0 : PRICE_FORMULATION;
+  const flywheelCost = calcFlywheel(nDomains, state.doses);
+  const bioseqCost = bioseqOn ? state.bsDoses * PRICE_BIOSEQ : 0;
+  const grandTotal = formCost + flywheelCost + bioseqCost;
+
+  const domainLabels = { cognitive:'Cognitive health', gut:'Gut health', metabolic:'Metabolic health', muscle:'Muscle performance', stress:'Stress resilience', longevity:'Healthy aging' };
+
+  const roleEl2 = document.querySelector('input[name="role"]:checked');
+  const roleLabels2 = { rd:'R&D / Science', clinical:'Clinical / Medical', brand:'Brand / Marketing', regulatory:'Regulatory / QA', exec:'Executive / Strategy', procurement:'Procurement / Finance' };
+  const compTypeLabels2 = { supplier:'Ingredient supplier', distributor:'Ingredient distributor', brand:'Consumer brand', cdmo:'CDMO / CMO', both:'Supplier + brand' };
+  const compTypeVal2 = document.getElementById('f-company-type')?.value || '';
+  const sowLines = [
+    ['Company type', compTypeLabels2[compTypeVal2] || '—'],
+    ['Contact role', roleEl2 ? roleLabels2[roleEl2.value] : '—'],
+    ['Contact email', email],
+    ['Project code', state.projectCode],
+    ['Bioactive ingredient', ingredient],
+    ['Bio-Intelligence tools', 'Discovery Flywheel™' + (bioseqOn ? ' + BioSeq™' : '')],
+    ['Health benefits', state.domains.map(d => domainLabels[d]).join(', ') || '—'],
+    ['Number of doses', state.doses + ' dose' + (state.doses > 1 ? 's' : '') + ' per ingredient'],
+    ['Total conditions', String(conditions)],
+    ['Total cost', '$' + grandTotal.toLocaleString()],
+    ['Timeline', bioseqOn ? '18 weeks' : '16 weeks'],
+  ];
+  document.getElementById('sowPreviewLines').innerHTML = sowLines.map(([l, r]) =>
+    `<div class="sow-line"><span class="sow-line-l">${l}</span><span class="sow-line-r">${r}</span></div>`
+  ).join('');
+
+  document.getElementById('summaryRespondent').innerHTML = [
+    ['Contact role', roleEl2 ? roleLabels2[roleEl2.value] : '—'],
+    ['Company type', compTypeLabels2[compTypeVal2] || '—'],
+    ['Contact email', email]
+  ].map(([l, r]) => `<div class="summary-row"><span class="summary-row-l">${l}</span><span class="summary-row-r">${r}</span></div>`).join('');
+
+  document.getElementById('summaryIngredient').innerHTML = [
+    ['Ingredient', ingredient], ['Category', category],
+    ['Domains', state.domains.map(d => domainLabels[d]).join(', ') || '—']
+  ].map(([l, r]) => `<div class="summary-row"><span class="summary-row-l">${l}</span><span class="summary-row-r">${r}</span></div>`).join('');
+
+  document.getElementById('summaryStudy').innerHTML = [
+    ['Doses per ingredient', state.doses],
+    ['Total conditions', conditions],
+    ['BioSeq™', bioseqOn ? 'Requested — ' + state.bsDoses + ' dose' + (state.bsDoses>1?'s':'') + ' · $' + bioseqCost.toLocaleString() + ' included in SoW' : 'Not selected'],
+    ['Estimated timeline', bioseqOn ? '18 weeks' : '16 weeks'],
+  ].map(([l, r]) => `<div class="summary-row"><span class="summary-row-l">${l}</span><span class="summary-row-r">${r}</span></div>`).join('');
+
+  const paymentStr = grandTotal <= 50000
+    ? '100% upfront on SoW execution'
+    : '75% on execution · 25% on completion (Net 60)';
+
+  document.getElementById('summaryPricing').innerHTML = [
+    ['Formulation study', state.repeatIngredient ? 'Waived (repeat ingredient — subject to verification)' : '$3,000'],
+    ['Discovery Flywheel™', nDomains > 0 ? '$' + flywheelCost.toLocaleString() + ' (' + nDomains + ' benefit' + (nDomains>1?'s':'') + ' × ' + state.doses + ' dose' + (state.doses>1?'s':'') + ')' : '—'],
+    ['BioSeq™', bioseqOn ? '$' + bioseqCost.toLocaleString() + ' (' + state.bsDoses + ' dose' + (state.bsDoses>1?'s':'') + ' × $15,000)' : '—'],
+    ['Total estimate', '$' + grandTotal.toLocaleString()],
+    ['Payment terms', paymentStr],
+  ].map(([l, r]) => `<div class="summary-row"><span class="summary-row-l">${l}</span><span class="summary-row-r">${r}</span></div>`).join('');
+
+  // Deliverables — grounded in SoW specs
+  const delivRows = [];
+  if (!state.repeatIngredient) {
+    delivRows.push({ title: 'FA-DATA — Formulation study report', detail: 'Solubility & pH in NGM · chip compatibility · 48-hr acute tox at highest soluble / target dose', subjects: 'N/A — compatibility assessment' });
+  }
+  state.domains.forEach((d, idx) => {
+    const spec = DELIVERABLE_SPECS[d];
+    if (!spec) return;
+    delivRows.push({ title: spec.code + ' — ' + spec.label, detail: spec.method, subjects: spec.subjects });
+  });
+  if (bioseqOn) {
+    delivRows.push({ title: 'BSQ-1 — BioSeq™ transcriptomics', detail: 'DEG analysis · worm-to-human ortholog mapping · pathway analysis · mode-of-action mechanism map', subjects: 'Applied to ' + state.bsDoses + ' dose' + (state.bsDoses>1?'s':'') + ' · homology score included' });
+  }
+  STANDARD_DELIVERABLES.forEach(sd => {
+    delivRows.push({ title: sd.code + ' — ' + sd.label, detail: sd.detail, subjects: '' });
+  });
+  document.getElementById('summaryDeliverables').innerHTML = delivRows.map(r =>
+    `<div style="padding:9px 1.1rem;border-bottom:1px solid var(--border-s)">
+      <div style="font-weight:500;font-size:0.82rem;color:var(--ink);margin-bottom:2px">${r.title}</div>
+      <div style="font-size:0.78rem;color:var(--ink-4);line-height:1.5;margin-bottom:2px">${r.detail}</div>
+      ${r.subjects ? `<div style="font-size:0.72rem;color:var(--green);font-family:'DM Mono',monospace">${r.subjects}</div>` : ''}
+    </div>`
+  ).join('');
+}
+
+// ── CONFIRMATION ──
+function buildConfirmation() {
+  document.getElementById('confirmCode').textContent = state.projectCode;
+  const email = document.getElementById('f-email')?.value || '—';
+  document.getElementById('confirmEmail').textContent = email;
+  const formCost   = state.repeatIngredient ? 0 : PRICE_FORMULATION;
+  const flywheel   = calcFlywheel(state.domains.length, state.doses);
+  const bioseq     = state.bioseq ? state.bsDoses * PRICE_BIOSEQ : 0;
+  const grandTotal = formCost + flywheel + bioseq;
+  const noteEl     = document.getElementById('confirmPaymentNote');
+  if (grandTotal <= 50000) {
+    noteEl.textContent = '100% upfront payment of $' + grandTotal.toLocaleString() + ' due on SoW execution. Study initiates on receipt of payment and your ingredient sample.';
+  } else {
+    const up = Math.round(grandTotal * 0.75);
+    const co = grandTotal - up;
+    noteEl.textContent = '75% ($' + up.toLocaleString() + ') due on execution · 25% ($' + co.toLocaleString() + ') on completion. Net 60.';
+  }
+}
+
+// ── INIT ──
+updateNavDots();
+updateProgress();
+updatePreview();
+</script>
+</body>
+</html>

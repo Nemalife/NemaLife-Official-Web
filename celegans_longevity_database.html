@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NemaLife · C. elegans Longevity Bioactives</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,400;0,500;0,700;0,800;0,900;1,400;1,700;1,800&family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--purple:#752B71;--purple2:#8f3d8a;--purple3:#b060ab;--purple-pale:#f5eef5;--purple-light:#e2cce1;--g2:#2d5a27;--g3:#4a8040;--g4:#7daa6b;--g-pale:#f0f8ec;--g-light:#d4e9cd;--bg:#ffffff;--bg2:#f8f4f8;--bg3:#f1ebf1;--border:#e0d4e0;--text:#1a1020;--text2:#3a2a3a;--text3:#7a6078;--amber:#b87a00;--amber-pale:#fdf6e3;--amber-light:#f5dfa0;--red:#c04060;--ink:#0e0812;--ink2:#1e1225}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Barlow',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden}
+nav{position:fixed;top:0;left:0;right:0;z-index:300;background:rgba(14,8,18,0.94);backdrop-filter:blur(14px);border-bottom:1px solid rgba(255,255,255,0.07);padding:0 2.5rem;height:58px;display:flex;align-items:center;justify-content:space-between}
+.nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+.nav-logo-text{font-size:18px;font-weight:800;color:#fff;letter-spacing:-0.4px}
+.nav-logo-sub{font-size:9px;font-weight:700;color:rgba(255,255,255,0.35);letter-spacing:0.14em;text-transform:uppercase}
+.nav-links{display:flex;align-items:center;gap:2rem}
+.nav-links a{font-size:12px;font-weight:700;color:rgba(255,255,255,0.5);text-decoration:none;letter-spacing:0.06em;text-transform:uppercase;transition:color 0.2s}
+.nav-links a:hover{color:#fff}
+.nav-cta{color:#fff !important;background:var(--purple);padding:7px 18px;border-radius:20px;transition:background 0.2s !important}
+.nav-cta:hover{background:var(--purple2) !important}
+
+/* HERO */
+.hero{background:var(--ink);min-height:100vh;display:flex;align-items:flex-start;justify-content:space-between;padding:7rem 5rem 5rem;position:relative;overflow:hidden;gap:2rem}
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 60% 80% at 80% 50%,rgba(117,43,113,0.18),transparent 70%),radial-gradient(ellipse 40% 60% at 20% 80%,rgba(74,128,64,0.1),transparent 60%);pointer-events:none;z-index:1}
+.hero-left{flex:1}
+.inset-video{width:500px;height:300px;object-fit:cover;border-radius:12px}
+.hero-left{position:relative;z-index:2}
+.eyebrow{display:flex;align-items:center;gap:10px;margin-bottom:1.5rem}
+.eyebrow-line{width:26px;height:2px;background:var(--g4)}
+.eyebrow-text{font-size:13.75px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--g4)}
+.hero-title{font-family:'DM Serif Display',serif;font-size:clamp(2.4rem,4.2vw,3.8rem);line-height:1.07;color:#fff;margin-bottom:1.5rem}
+.hero-title em{color:var(--purple3);font-style:italic}
+.hero-title .worm-name{font-style:italic;color:rgba(255,255,255,0.4);font-size:0.62em;display:block;margin-top:0.25rem}
+.hero-desc{font-size:1.25rem;line-height:1.75;color:rgba(255,255,255,0.5);max-width:480px;margin-bottom:2.5rem}
+.hero-desc strong{color:rgba(255,255,255,0.8)}
+.hero-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.07);border-radius:12px;overflow:hidden;max-width:520px}
+.hero-stat{background:rgba(255,255,255,0.03);padding:1.1rem 1rem;text-align:center}
+.hero-stat-num{font-family:'DM Mono',monospace;font-size:1.65rem;font-weight:500;color:#fff;line-height:1}
+.hero-stat-num sup{font-size:0.55em;vertical-align:super;color:var(--g4)}
+.hero-stat-label{font-size:11.25px;font-weight:700;color:rgba(255,255,255,0.28);letter-spacing:0.1em;text-transform:uppercase;margin-top:5px}
+.hero-right{position:relative;z-index:2;display:flex;align-items:center;justify-content:center}
+.worm-stage{width:100%;max-width:460px;aspect-ratio:1/1.1}
+@keyframes wormFloat{0%,100%{transform:translateY(0) rotate(-2deg)}50%{transform:translateY(-14px) rotate(2deg)}}
+@keyframes slideUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.hero-left>*{animation:slideUp 0.7s ease both}
+.hero-left>*:nth-child(1){animation-delay:0.1s}.hero-left>*:nth-child(2){animation-delay:0.2s}
+.hero-left>*:nth-child(3){animation-delay:0.32s}.hero-left>*:nth-child(4){animation-delay:0.46s}
+
+/* SECTIONS */
+section{padding:5.5rem 5rem}
+.sec-eyebrow{display:inline-flex;align-items:center;gap:8px;margin-bottom:1rem}
+.sec-eyebrow-line{width:20px;height:2px;background:var(--purple)}
+.sec-eyebrow-text{font-size:12.5px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--purple)}
+.sec-title{font-family:'DM Serif Display',serif;font-size:clamp(1.8rem,3vw,2.6rem);line-height:1.15;color:var(--text);margin-bottom:0.9rem}
+.sec-title em{color:var(--purple);font-style:italic}
+.sec-desc{font-size:1.25rem;color:var(--text3);line-height:1.75;max-width:640px}
+
+/* WHY */
+.why{background:var(--bg);border-top:1px solid var(--border)}
+.why-grid{display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:start;margin-top:3.5rem}
+.creds{display:flex;flex-direction:column;gap:10px;margin-top:1.5rem}
+.cred{display:flex;gap:1rem;align-items:flex-start;padding:1rem 1.25rem;border-radius:10px;border:1px solid var(--border);background:var(--bg2);transition:border-color 0.2s,box-shadow 0.2s}
+.cred:hover{border-color:var(--purple-light);box-shadow:0 2px 12px rgba(117,43,113,0.08)}
+.cred-icon{width:36px;height:36px;border-radius:8px;background:var(--purple-pale);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:17px}
+.cred-label{font-size:15px;font-weight:800;color:var(--text);margin-bottom:3px}
+.cred-sub{font-size:15px;color:var(--text3);line-height:1.55}
+.stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.stat-card{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:1.4rem;border-top:3px solid var(--purple)}
+.stat-card.green{border-top-color:var(--g3)}
+.stat-num{font-family:'DM Serif Display',serif;font-size:2.1rem;color:var(--purple);line-height:1;margin-bottom:4px}
+.stat-card.green .stat-num{color:var(--g2)}
+.stat-label{font-size:15px;font-weight:800;color:var(--text2);margin-bottom:4px}
+.stat-sub{font-size:13.75px;color:var(--text3);line-height:1.5}
+.pathway-block{margin-top:1.25rem;padding:1.25rem 1.5rem;background:var(--ink);border-radius:12px}
+.pathway-label{font-size:12.5px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.28);margin-bottom:0.75rem}
+.pathway-tags{display:flex;flex-wrap:wrap;gap:7px}
+.ptag{font-family:'DM Mono',monospace;font-size:11px;padding:4px 12px;border-radius:20px;border:1px solid}
+
+/* HALLMARKS */
+.hallmarks{background:var(--ink);position:relative;overflow:hidden}
+.hallmarks::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 50% 60% at 50% 0%,rgba(117,43,113,0.14),transparent 70%);pointer-events:none}
+.hallmarks .sec-eyebrow-line{background:var(--g4)}
+.hallmarks .sec-eyebrow-text{color:var(--g4)}
+.hallmarks .sec-title{color:#fff}
+.hallmarks .sec-title em{color:var(--purple3)}
+.hallmarks .sec-desc{color:rgba(255,255,255,0.45);max-width:720px}
+.hm-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.06);border-radius:14px;overflow:hidden;margin-top:3rem}
+.hm-card{background:rgba(255,255,255,0.02);padding:1.4rem 1.25rem;cursor:pointer;transition:background 0.18s;position:relative}
+.hm-card:hover{background:rgba(255,255,255,0.055)}
+.hm-card.active{background:rgba(117,43,113,0.18)}
+.hm-card.active::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:var(--purple3)}
+.hm-icon{font-size:1.5rem;margin-bottom:0.65rem;display:block}
+.hm-num{font-family:'DM Mono',monospace;font-size:11.25px;color:rgba(255,255,255,0.18);letter-spacing:0.1em;margin-bottom:3px}
+.hm-name{font-size:15px;font-weight:800;color:rgba(255,255,255,0.85);line-height:1.3;margin-bottom:5px}
+.hm-sub{font-size:13.75px;color:rgba(255,255,255,0.3);line-height:1.45}
+.hm-count{display:inline-flex;align-items:center;gap:4px;margin-top:8px;font-size:11.25px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--g4)}
+.hm-count::before{content:'';display:inline-block;width:5px;height:5px;border-radius:50%;background:var(--g4)}
+.hm-detail{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:2rem;margin-top:1.5rem;display:none;animation:fadeIn 0.22s ease}
+.hm-detail.open{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+.hd-header{display:flex;align-items:center;gap:1rem;margin-bottom:1rem}
+.hd-icon{font-size:2rem}
+.hd-title{font-family:'DM Serif Display',serif;font-size:1.35rem;color:#fff}
+.hd-subtitle{font-size:12px;color:rgba(255,255,255,0.35);margin-top:2px}
+.hd-body{font-size:13px;color:rgba(255,255,255,0.5);line-height:1.75;max-width:800px}
+.hd-genes{display:flex;gap:8px;flex-wrap:wrap;margin-top:1rem}
+.hd-gene{font-family:'DM Mono',monospace;font-size:11px;background:rgba(117,43,113,0.22);color:var(--purple3);border:1px solid rgba(117,43,113,0.28);padding:3px 10px;border-radius:20px;font-style:italic}
+.hd-btn{font-family:'Barlow',sans-serif;font-size:12px;font-weight:800;background:var(--purple);color:#fff;border:none;padding:9px 20px;border-radius:20px;cursor:pointer;transition:background 0.2s;margin-top:1.25rem;display:inline-block}
+.hd-btn:hover{background:var(--purple2)}
+
+/* DATABASE */
+.database{background:var(--bg2);border-top:1px solid var(--border)}
+.db-top{display:flex;gap:10px;align-items:center;margin-top:2.5rem;margin-bottom:1rem;flex-wrap:wrap}
+.search-wrap{position:relative;flex:1;min-width:200px;max-width:320px}
+.search-input{width:100%;padding:9px 12px 9px 36px;border:1px solid var(--border);border-radius:8px;font-family:'Barlow',sans-serif;font-size:13px;color:var(--text);background:#fff;outline:none;transition:border 0.2s}
+.search-input:focus{border-color:var(--purple)}
+.search-icon{position:absolute;left:11px;top:50%;transform:translateY(-50%);color:var(--text3);pointer-events:none}
+.sort-sel{padding:9px 28px 9px 10px;border:1px solid var(--border);border-radius:8px;font-family:'Barlow',sans-serif;font-size:12px;font-weight:700;color:var(--text2);background:#fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%237a6078' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E") no-repeat right 10px center;appearance:none;outline:none;cursor:pointer;margin-left:auto}
+.pills{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px}
+.pill{font-size:11px;font-weight:700;padding:5px 12px;border-radius:20px;border:1px solid var(--border);background:#fff;color:var(--text3);cursor:pointer;transition:all 0.15s;white-space:nowrap;user-select:none}
+.pill:hover{border-color:var(--purple-light);color:var(--purple)}
+.pill.active{background:var(--purple);border-color:var(--purple);color:#fff}
+.db-meta{display:flex;align-items:center;justify-content:space-between;margin-bottom:0.75rem;flex-wrap:wrap;gap:6px}
+.db-count{font-size:12px;color:var(--text3)}
+.db-count strong{color:var(--text)}
+.chips{display:flex;gap:6px;flex-wrap:wrap}
+.chip{display:inline-flex;align-items:center;gap:4px;background:var(--purple-pale);border:1px solid var(--purple-light);color:var(--purple);font-size:11px;font-weight:700;padding:3px 8px 3px 10px;border-radius:20px;cursor:pointer}
+.chip:hover{background:var(--purple-light)}
+.chip-x{font-size:13px;opacity:0.6}
+.db-wrap{background:#fff;border:1px solid var(--border);border-radius:12px;overflow:hidden}
+table{width:100%;border-collapse:collapse}
+thead th{padding:10px 14px;text-align:left;font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#fff;background:var(--purple);white-space:nowrap;cursor:pointer;user-select:none}
+thead th:hover{background:var(--purple2)}
+.arr{margin-left:3px;opacity:0.5}
+tbody tr{border-bottom:1px solid var(--bg3);cursor:pointer;transition:background 0.1s}
+tbody tr:last-child{border-bottom:none}
+tbody tr:hover,tbody tr.xopen{background:var(--purple-pale)}
+td{padding:10px 14px;font-size:13px;vertical-align:middle}
+.td-rank{font-family:'DM Mono',monospace;font-size:11px;color:var(--text3);width:34px;text-align:center}
+.cname{font-weight:800;color:var(--text)}
+.ccls{font-size:10px;color:var(--text3);font-style:italic;margin-top:1px}
+.cbadge{display:inline-flex;align-items:center;font-size:10px;font-weight:700;padding:3px 8px;border-radius:20px;white-space:nowrap}
+.c-pol{background:var(--purple-pale);color:var(--purple);border:1px solid var(--purple-light)}
+.c-bot{background:var(--g-pale);color:var(--g2);border:1px solid var(--g-light)}
+.c-met{background:var(--amber-pale);color:var(--amber);border:1px solid var(--amber-light)}
+.c-vit{background:#e8fafa;color:#1a9a9a;border:1px solid #a8e8e8}
+.c-ami{background:#f0f0ff;color:#4040a0;border:1px solid #c8c8f0}
+.c-lip{background:#fff5e6;color:#b86020;border:1px solid #f5d5a0}
+.eff-wrap{display:flex;align-items:center;gap:8px}
+.eff-bar-bg{width:64px;height:5px;background:var(--bg3);border-radius:3px;overflow:hidden;flex-shrink:0}
+.eff-bar-fill{height:100%;border-radius:3px}
+.bar-p{background:var(--g3)}.bar-n{background:var(--red)}
+.eff-val{font-family:'DM Mono',monospace;font-size:12px;font-weight:500;white-space:nowrap}
+.ev-p{color:var(--g2)}.ev-n{color:var(--red)}
+.sdots{display:flex;gap:3px}
+.sdot{width:7px;height:7px;border-radius:50%;background:var(--purple-light)}
+.sdot.f{background:var(--purple)}
+.ssub{font-size:10px;color:var(--text3);font-family:'DM Mono',monospace;margin-top:3px}
+.hm-tags{display:flex;gap:4px;flex-wrap:wrap}
+.htag{font-size:9px;font-weight:700;padding:2px 7px;border-radius:10px;border:1px solid;white-space:nowrap}
+.mech-tags{display:flex;gap:4px;flex-wrap:wrap}
+.mtag{font-size:9px;font-weight:700;padding:2px 6px;border-radius:10px;text-transform:uppercase;letter-spacing:0.03em;background:var(--bg3);color:var(--text3);border:1px solid var(--border);white-space:nowrap}
+.xrow{display:none}
+.xrow.open{display:table-row}
+.xcell{padding:0 16px 16px 48px;background:var(--purple-pale);border-bottom:1px solid var(--border)}
+.xgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px;padding-top:12px}
+.xi-label{font-size:9px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--text3);margin-bottom:3px}
+.xi-val{font-size:13px;font-weight:700;color:var(--text2)}
+.xi-val em{color:var(--purple);font-style:normal}
+.pmid-links{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
+.pmid-link{display:none}
+.clinical-tag{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:700;letter-spacing:0.04em;color:var(--g2);background:var(--g-pale);border:1px solid var(--g-light);padding:4px 11px;border-radius:20px;cursor:default;user-select:none;opacity:0.85}
+.clinical-tag::before{content:'';display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--g3);flex-shrink:0}
+.pubmed-tag{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:700;letter-spacing:0.04em;color:var(--purple);background:var(--purple-pale);border:1px solid var(--purple-light);padding:4px 11px;border-radius:20px;cursor:default;user-select:none;opacity:0.85}
+.pubmed-tag::before{content:'';display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--purple);flex-shrink:0}
+.expand-tags{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.empty-state{text-align:center;padding:4rem;color:var(--text3)}
+.empty-state div{font-size:2.5rem;margin-bottom:12px}
+.footnote{margin-top:2rem;display:flex;gap:10px;align-items:flex-start;background:#fff;border:1px solid var(--border);border-radius:10px;padding:14px 16px}
+.fn-icon{width:20px;height:20px;border-radius:50%;background:var(--purple-pale);color:var(--purple);font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+.fn-text{font-size:11px;color:var(--text3);line-height:1.75}
+.fn-text strong{color:var(--text2)}
+
+@media(max-width:1024px){
+  .hero{grid-template-columns:1fr;padding:7rem 3rem 4rem}.hero-right{display:none}
+  .hero-stats{grid-template-columns:repeat(2,1fr)}.why-grid{grid-template-columns:1fr;gap:2.5rem}
+  .hm-grid{grid-template-columns:repeat(3,1fr)}section{padding:4rem 3rem}}
+@media(max-width:700px){
+  .hm-grid{grid-template-columns:repeat(2,1fr)}nav{padding:0 1.5rem}.nav-links{display:none}
+  section{padding:3rem 1.5rem}.hero{padding:6rem 1.5rem 3rem}
+  td.td-hm,th.th-hm,td.td-mech,th.th-mech{display:none}}
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="#">
+    <svg width="28" height="28" viewBox="0 0 32 32" fill="none">
+      <ellipse cx="16" cy="16" rx="5" ry="13" fill="none" stroke="#b060ab" stroke-width="2.2"/>
+      <circle cx="14.5" cy="6" r="1" fill="#b060ab"/>
+      <path d="M11 10 Q8 16 11 22 Q14 28 16 29" stroke="#7daa6b" stroke-width="1.5" fill="none" stroke-linecap="round" opacity="0.8"/>
+      <path d="M21 10 Q24 16 21 22" stroke="#7daa6b" stroke-width="1.4" fill="none" stroke-linecap="round" opacity="0.5"/>
+    </svg>
+    <div><div class="nav-logo-text">NemaLife</div><div class="nav-logo-sub">Longevity Intelligence</div></div>
+  </a>
+  <div class="nav-links">
+    <a href="#why">The Model</a><a href="#hallmarks">Hallmarks</a><a href="#database">Database</a>
+    <a href="#database" class="nav-cta">Explore Ingredients →</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="hero">
+  <div class="hero-left">
+    <div class="eyebrow"><div class="eyebrow-line"></div><div class="eyebrow-text">C. elegans · Gold-Standard Aging Model</div></div>
+    <h1 class="hero-title">The most powerful tool<br>in longevity science<span class="worm-name">Caenorhabditis elegans</span></h1>
+    <p class="hero-desc">A 1mm nematode with <strong>60–80% human gene homology</strong> and every major hallmark of aging fully conserved. The world's most validated, highest-throughput model for bioactive longevity screening — backed by <strong>867 experimental entries</strong> from 215 published studies.</p>
+    <div class="hero-stats">
+      <div class="hero-stat"><div class="hero-stat-num">301</div><div class="hero-stat-label">Ingredients tested</div></div>
+      <div class="hero-stat"><div class="hero-stat-num">215</div><div class="hero-stat-label">Published studies</div></div>
+      <div class="hero-stat"><div class="hero-stat-num">867</div><div class="hero-stat-label">Experimental entries</div></div>
+      <div class="hero-stat"><div class="hero-stat-num">+40<sup>%</sup></div><div class="hero-stat-label">Peak lifespan Δ</div></div>
+    </div>
+  </div>
+  <video class="inset-video" src="high res worm video (1).mp4" autoplay loop muted></video>
+</section>
+
+<!-- WHY C. ELEGANS -->
+<section class="why" id="why">
+  <div class="sec-eyebrow"><div class="sec-eyebrow-line"></div><div class="sec-eyebrow-text">Why C. elegans</div></div>
+  <h2 class="sec-title">The gold standard for <em>in vivo</em> longevity screening</h2>
+  <p class="sec-desc">No other model organism combines biological depth, experimental throughput, and validated longevity science the way <em>C. elegans</em> does. This is where longevity research begins.</p>
+  <div class="why-grid">
+    <div>
+      <div class="creds">
+        <div class="cred"><div class="cred-icon">🧬</div><div><div class="cred-label">60–80% human gene homology</div><div class="cred-sub">Nearly all core aging pathways — FOXO, mTOR, AMPK, sirtuins, autophagy — are functionally conserved. Findings in <em>C. elegans</em> consistently predict mammalian outcomes.</div></div></div>
+        <div class="cred"><div class="cred-icon">⚡</div><div><div class="cred-label">21-day lifespan enables rapid iteration</div><div class="cred-sub">Full lifespan experiments complete in 3–4 weeks. Rodent studies take 2–3 years. <em>C. elegans</em> delivers statistically powered results at a fraction of the time and cost.</div></div></div>
+        <div class="cred"><div class="cred-icon">🔬</div><div><div class="cred-label">Transparent body — direct biomarker observation</div><div class="cred-sub">Fluorescent reporters for DAF-16 nuclear localization, mitochondrial morphology, protein aggregation, and lipid accumulation can all be directly visualized in living animals.</div></div></div>
+        <div class="cred"><div class="cred-icon">🏆</div><div><div class="cred-label">Four Nobel Prizes — validated by science</div><div class="cred-sub">Programmed cell death (2002), RNA interference (2006), GFP (2008), and microRNA discovery (2024) were all discovered or validated using <em>C. elegans</em>. The first longevity genes (age-1, daf-2) were identified here.</div></div></div>
+        <div class="cred"><div class="cred-icon">📊</div><div><div class="cred-label">Whole-organism transcriptomics (BioSēq™)</div><div class="cred-sub">Unlike cell-based assays, <em>C. elegans</em> captures systems-level responses including inter-tissue signaling, metabolic remodeling, and tissue-specific aging in a complete living organism.</div></div></div>
+      </div>
+    </div>
+    <div>
+      <div class="stats-grid">
+        <div class="stat-card"><div class="stat-num">20,000<span style="font-size:1.1rem">+</span></div><div class="stat-label">Published studies</div><div class="stat-sub">The most-studied multicellular organism in aging biology, with decades of mechanistic insight.</div></div>
+        <div class="stat-card green"><div class="stat-num">959</div><div class="stat-label">Somatic cells — fully mapped</div><div class="stat-sub">Every cell lineage and all 302 neurons are known. The only organism with a complete connectome.</div></div>
+        <div class="stat-card"><div class="stat-num">+100%</div><div class="stat-label">Max lifespan extension</div><div class="stat-sub">Genetic reduction of daf-2 (insulin receptor homolog) more than doubles lifespan — proving aging is malleable.</div></div>
+        <div class="stat-card green"><div class="stat-num">4</div><div class="stat-label">Nobel Prizes</div><div class="stat-sub">Programmed cell death (2002), RNA interference (2006), GFP (2008), and microRNA discovery (2024) — all in or directly via <em>C. elegans</em>.</div></div>
+      </div>
+      <div class="pathway-block">
+        <div class="pathway-label">Conserved longevity pathways — worm → human</div>
+        <div class="pathway-tags">
+          <span class="ptag" style="background:rgba(117,43,113,0.28);color:#c080c0;border-color:rgba(117,43,113,0.38)">DAF-2 / IGF-1R</span>
+          <span class="ptag" style="background:rgba(117,43,113,0.28);color:#c080c0;border-color:rgba(117,43,113,0.38)">DAF-16 / FOXO3</span>
+          <span class="ptag" style="background:rgba(45,90,39,0.28);color:#7daa6b;border-color:rgba(74,128,64,0.38)">SKN-1 / NRF2</span>
+          <span class="ptag" style="background:rgba(184,122,0,0.18);color:#e0a040;border-color:rgba(184,122,0,0.3)">AAK-2 / AMPK</span>
+          <span class="ptag" style="background:rgba(45,90,39,0.28);color:#7daa6b;border-color:rgba(74,128,64,0.38)">LET-363 / mTORC1</span>
+          <span class="ptag" style="background:rgba(117,43,113,0.28);color:#c080c0;border-color:rgba(117,43,113,0.38)">SIR-2.1 / SIRT1</span>
+          <span class="ptag" style="background:rgba(184,122,0,0.18);color:#e0a040;border-color:rgba(184,122,0,0.3)">DCT-1 / BNIP3</span>
+          <span class="ptag" style="background:rgba(45,90,39,0.28);color:#7daa6b;border-color:rgba(74,128,64,0.38)">HSF-1 / HSF1</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HALLMARKS -->
+<section class="hallmarks" id="hallmarks">
+  <div class="sec-eyebrow"><div class="sec-eyebrow-line"></div><div class="sec-eyebrow-text">9 of 12 Conserved in C. elegans · López-Otín et al. 2013, 2023</div></div>
+  <h2 class="sec-title">The 12 Hallmarks of Aging</h2>
+  <p class="sec-desc">9 of the 12 hallmarks identified in the landmark López-Otín framework are directly conserved and experimentally measurable in <em>C. elegans</em>. Three hallmarks — telomere attrition, cellular senescence, and stem cell exhaustion — have partial or indirect representation. Together, this makes <em>C. elegans</em> the most comprehensive invertebrate model for holistic bioactive longevity profiling. Click any hallmark to explore its biology, then filter the database below.</p>
+  <div class="hm-grid" id="hm-grid"></div>
+  <div class="hm-detail" id="hm-detail"></div>
+</section>
+
+<!-- DATABASE -->
+<section class="database" id="database">
+  <div class="sec-eyebrow"><div class="sec-eyebrow-line"></div><div class="sec-eyebrow-text">67 of 301 Ingredients · ≥2 Entries · ≥60% Significant · C. elegans</div></div>
+  <h2 class="sec-title">Longevity Bioactives Database</h2>
+  <p class="sec-desc">67 of the 301 natural ingredients in our database meet the evidence threshold shown here: ≥2 experimental entries and ≥60% statistical significance (p &lt; 0.05). Mean lifespan Δ is the average across all experimental entries per ingredient. Click any row for source details and PubMed links. Filter by hallmark of aging to explore the evidence for your ingredients.</p>
+  <div class="db-top">
+    <div class="search-wrap">
+      <svg class="search-icon" width="14" height="14" viewBox="0 0 16 16" fill="none"><circle cx="7" cy="7" r="5" stroke="#7a6078" stroke-width="1.5"/><path d="M11 11l3 3" stroke="#7a6078" stroke-width="1.5" stroke-linecap="round"/></svg>
+      <input class="search-input" id="search-input" type="text" placeholder="Search ingredients, sources, mechanisms…">
+    </div>
+    <select class="sort-sel" id="sort-sel" onchange="renderDB()">
+      <option value="effect">Sort: Lifespan Δ (high → low)</option>
+      <option value="n">Sort: Study entries (high → low)</option>
+      <option value="sigPct">Sort: Significance % (high → low)</option>
+      <option value="name">Sort: Name A → Z</option>
+    </select>
+  </div>
+  <div class="pills" id="hm-pills"></div>
+  <div class="pills" id="cat-pills"></div>
+  <div class="db-meta">
+    <div class="chips" id="chips"></div>
+    <div class="db-count" id="db-count"></div>
+  </div>
+  <div class="db-wrap">
+    <table>
+      <thead><tr>
+        <th style="width:34px">#</th>
+        <th onclick="sortDB('name')">Ingredient <span class="arr">↕</span></th>
+        <th onclick="sortDB('cat')">Class <span class="arr">↕</span></th>
+        <th onclick="sortDB('effect')">Mean Lifespan Δ <span class="arr">↕</span></th>
+        <th onclick="sortDB('n')">Entries <span class="arr">↕</span></th>
+        <th class="th-hm" onclick="sortDB('hallmark')">Hallmarks <span class="arr">↕</span></th>
+        <th class="th-mech">Mechanisms</th>
+      </tr></thead>
+      <tbody id="db-body"></tbody>
+    </table>
+  </div>
+  <div class="empty-state" id="empty-state" style="display:none"><div>🔬</div><p>No ingredients match your filters. Try broadening your search.</p></div>
+  <div class="footnote">
+    <div class="fn-icon">i</div>
+    <div class="fn-text"><strong>Data source:</strong> Curated from 215 peer-reviewed published studies in <em>Caenorhabditis elegans</em> (867 experimental entries, 301 ingredients total). <strong>67 ingredients shown</strong> — those with ≥2 experimental entries and ≥60% significance rate (p &lt; 0.05). Mean lifespan Δ = average % change vs. controls across all experimental entries. Hallmark annotations based on López-Otín et al. (2013, 2023); 9 of 12 hallmarks are directly conserved in <em>C. elegans</em>. Nobel Prizes: Programmed cell death (2002), RNAi (2006), GFP (2008), microRNA discovery (2024). <strong>For research and business intelligence purposes only — not medical or regulatory guidance.</strong></div>
+  </div>
+</section>
+
+<script>
+const HALLMARKS=[
+  {id:'genomic',icon:'🧬',num:'01',name:'Genomic Instability',sub:'DNA damage accumulation',detail:'Accumulated DNA damage is a primary driver of aging. <em>C. elegans</em> fully conserves DNA repair pathways — brc-1 (BRCA1), cep-1 (p53), and mismatch repair machinery all modulate lifespan. Antioxidants and polyphenols that reduce oxidative DNA damage show measurable lifespan extension.',genes:['brc-1','cep-1','rad-51','hus-1','mrt-2'],color:'#9040c0'},
+  {id:'telomere',icon:'🔗',num:'02',name:'Telomere Attrition',sub:'Chromosome end shortening',detail:'Telomere shortening triggers cellular senescence and tissue dysfunction. <em>C. elegans</em> expresses trt-1 (TERT, catalytic telomerase subunit). Germline telomere maintenance directly influences somatic longevity, and compounds supporting telomere integrity show lifespan-protective effects.',genes:['trt-1','mrt-2','pot-1','pot-2'],color:'#4060b0'},
+  {id:'epigenetic',icon:'🎛️',num:'03',name:'Epigenetic Alterations',sub:'Chromatin remodeling & methylation drift',detail:'Age-associated changes in histone modification and chromatin remodeling are fully recapitulated in <em>C. elegans</em>. Sirtuin activation (sir-2.1), H3K4 methylation (set-2/MLL), and histone deacetylases influence lifespan. Resveratrol and NAD+ precursors act through these epigenetic mechanisms.',genes:['sir-2.1','sir-2.2','met-2','set-2','pqm-1'],color:'#207060'},
+  {id:'proteostasis',icon:'⚙️',num:'04',name:'Loss of Proteostasis',sub:'Protein folding, aggregation & clearance',detail:'Proteostasis maintenance declines with age as chaperone capacity drops and aggregates accumulate. Overexpression of heat shock proteins (HSP-16, HSP-70) extends <em>C. elegans</em> lifespan. Polyphenols activating the heat shock response or proteasome show consistent longevity benefits.',genes:['hsp-16.2','hsp-90','daf-21','hsf-1','lon-1'],color:'#b05020'},
+  {id:'nutrient',icon:'📡',num:'05',name:'Deregulated Nutrient Sensing',sub:'IIS, mTOR, AMPK & sirtuins',detail:'The insulin/IGF-1 signaling (IIS) pathway is the most powerful longevity pathway in <em>C. elegans</em>. Reduced daf-2 signaling activates the FOXO transcription factor daf-16, extending lifespan by up to 100%. Downstream, mTOR (let-363), AMPK (aak-2), and sirtuins (sir-2.1) form an integrated network targeted by many longevity bioactives.',genes:['daf-2','daf-16','let-363','aak-2','sir-2.1','rsks-1'],color:'#752B71'},
+  {id:'mitochondria',icon:'⚡',num:'06',name:'Mitochondrial Dysfunction',sub:'ETC impairment, ROS & biogenesis decline',detail:'Mitochondrial function declines through ROS accumulation and reduced biogenesis. <em>C. elegans</em> has fully conserved mitochondrial quality control via the PINK-1/PDR-1 (PINK1/Parkin) mitophagy pathway. PQQ, urolithin A, and spermidine target mitochondrial biogenesis and mitophagy to extend lifespan.',genes:['dct-1','pink-1','pdr-1','drp-1','clk-1','isp-1'],color:'#c04060'},
+  {id:'senescence',icon:'🛑',num:'07',name:'Cellular Senescence',sub:'Arrested cells with inflammatory secretome',detail:'While classical replicative senescence applies to dividing cells, <em>C. elegans</em> post-mitotic cells exhibit analogous arrested-state aging and SASP-like inflammatory secretion. The DAF-16/p53 axis governs DNA damage-induced cell fate, and compounds dampening inflammatory signaling extend healthy longevity.',genes:['cep-1','tir-1','pmk-1','daf-16','irg-1'],color:'#808020'},
+  {id:'stem',icon:'🌱',num:'08',name:'Stem Cell Exhaustion',sub:'Regenerative capacity decline',detail:'In <em>C. elegans</em>, the germline stem cell niche (regulated by Notch/GLP-1 signaling) directly influences somatic aging — germline removal paradoxically extends lifespan by ~60% via DAF-16 activation, revealing a powerful inter-tissue longevity signaling axis.',genes:['glp-1','lag-2','lst-1','sygl-1','daf-16'],color:'#2060a0'},
+  {id:'communication',icon:'📶',num:'09',name:'Altered Intercellular Communication',sub:'Inflammaging & inter-tissue signaling',detail:'Aging disrupts paracrine, endocrine, and neuronal communication. <em>C. elegans</em> has a well-characterized multi-tissue signaling network — neurons secrete >40 insulin-like peptides (INS family) that modulate DAF-16 activity in distal tissues, making it ideal for studying longevity signals.',genes:['ins-7','daf-7','tph-1','octr-1','npr-1'],color:'#20a060'},
+  {id:'autophagy',icon:'♻️',num:'10',name:'Disabled Macroautophagy',sub:'Cellular recycling impairment',detail:'Macroautophagy declines with age and is essential for longevity. In <em>C. elegans</em>, autophagy is required for lifespan extension by dietary restriction and IIS reduction. Spermidine and urolithin A extend lifespan specifically through autophagy/mitophagy induction.',genes:['bec-1','lgg-1','atg-7','atg-18','epg-1'],color:'#6020a0'},
+  {id:'inflammation',icon:'🔥',num:'11',name:'Chronic Inflammation',sub:'Inflammaging & innate immune dysregulation',detail:'Chronic low-grade inflammation ("inflammaging") drives multi-system aging. <em>C. elegans</em> has a conserved innate immune response via p38 MAPK (PMK-1), TLR signaling (tir-1), and DAF-2/DAF-16. Anti-inflammatory bioactives including curcumin, quercetin, and berberine extend lifespan through this pathway.',genes:['pmk-1','tir-1','skn-1','daf-2','daf-16','bar-1'],color:'#c05020'},
+  {id:'dysbiosis',icon:'🦠',num:'12',name:'Gut Microbiome Dysbiosis',sub:'Microbiome composition & metabolite shifts',detail:'The gut microbiome profoundly shapes aging. <em>C. elegans</em> feeds on bacteria and its gut microenvironment directly affects lifespan. Urolithin A — produced by gut bacteria from dietary ellagitannins — exemplifies how microbiome-bioactive interactions drive longevity pharmacology.',genes:['daf-16','skn-1','pmk-1','clk-1'],color:'#20a080'},
+];
+
+// REAL DATA from published C. elegans studies (nemalife_celegans_natural_compounds.csv)
+// effect = mean lifespan % change, n = experimental entries, sigPct = % statistically significant
+const DB=[
+  {name:"Rosmarinic acid",cls:"Hydroxycinnamic acid",cat:"polyphenol",effect:40.6,n:4,sigPct:100,hallmarks:["proteostasis","inflammation","genomic"],mechs:["SKN-1/NRF2","DAF-16","HSP"],source:"Rosemary, sage, basil",pubmeds:["21503726","31206890"]},
+  {name:"Blueberry extract",cls:"Botanical extract",cat:"botanical",effect:39.8,n:4,sigPct:75,hallmarks:["inflammation","proteostasis","nutrient"],mechs:["DAF-16","SKN-1","AMPK"],source:"Vaccinium corymbosum",pubmeds:["27486399","30238944"]},
+  {name:"Urolithin B",cls:"Urolithin metabolite",cat:"polyphenol",effect:36.6,n:2,sigPct:100,hallmarks:["mitochondria","autophagy","dysbiosis"],mechs:["Mitophagy","DAF-16"],source:"Pomegranate / gut microbiome metabolite",pubmeds:["27400265"]},
+  {name:"Urolithin C",cls:"Urolithin metabolite",cat:"polyphenol",effect:36.0,n:2,sigPct:100,hallmarks:["mitochondria","autophagy","dysbiosis"],mechs:["Mitophagy","DAF-16"],source:"Pomegranate / gut microbiome metabolite",pubmeds:["27400265"]},
+  {name:"Urolithin A",cls:"Urolithin metabolite",cat:"polyphenol",effect:35.4,n:6,sigPct:100,hallmarks:["mitochondria","autophagy","dysbiosis","inflammation"],mechs:["Mitophagy","DAF-16","AMPK"],source:"Pomegranate, berries / gut microbiome",pubmeds:["27400265"]},
+  {name:"Ursolic acid",cls:"Pentacyclic triterpene",cat:"botanical",effect:31.9,n:2,sigPct:100,hallmarks:["nutrient","inflammation","proteostasis"],mechs:["mTOR inhibition","DAF-16","AMPK"],source:"Apple peel, rosemary, basil",pubmeds:["27773812","28673026"]},
+  {name:"Protocatechuic acid",cls:"Benzoic acid phenol",cat:"polyphenol",effect:30.9,n:2,sigPct:100,hallmarks:["inflammation","genomic","proteostasis"],mechs:["SKN-1","DAF-16"],source:"Almonds, pomegranate, hibiscus",pubmeds:["23780797"]},
+  {name:"Guarana extract",cls:"Xanthine alkaloid botanical",cat:"botanical",effect:30.3,n:3,sigPct:100,hallmarks:["nutrient","mitochondria"],mechs:["AMPK","DAF-16"],source:"Paullinia cupana seed",pubmeds:["29972429"]},
+  {name:"Royalactin",cls:"Apiculture glycoprotein",cat:"botanical",effect:29.9,n:3,sigPct:100,hallmarks:["proteostasis","communication","stem"],mechs:["DAF-16","HSP"],source:"Honeybee royal jelly",pubmeds:["25456847"]},
+  {name:"Hispidol",cls:"Aurone flavonoid",cat:"polyphenol",effect:28.3,n:2,sigPct:100,hallmarks:["inflammation","nutrient"],mechs:["DAF-16","AMPK"],source:"Bidens pilosa herb",pubmeds:["33179346"]},
+  {name:"Betula utilis extract",cls:"Birch bark triterpene extract",cat:"botanical",effect:27.8,n:3,sigPct:100,hallmarks:["inflammation","genomic","proteostasis"],mechs:["DAF-16","SKN-1"],source:"Himalayan birch bark",pubmeds:["31669661"]},
+  {name:"Vitamin D3",cls:"Fat-soluble secosteroid",cat:"vitamin",effect:26.8,n:5,sigPct:100,hallmarks:["inflammation","communication","nutrient"],mechs:["DAF-16","SKN-1"],source:"Dietary / UV synthesis",pubmeds:["24304198","27783938"]},
+  {name:"Apple extract",cls:"Polyphenol botanical extract",cat:"botanical",effect:25.5,n:2,sigPct:100,hallmarks:["inflammation","proteostasis","autophagy"],mechs:["DAF-16","SKN-1"],source:"Malus domestica",pubmeds:["20717869","23878618"]},
+  {name:"Myricetin",cls:"Flavonol",cat:"polyphenol",effect:25.4,n:2,sigPct:100,hallmarks:["inflammation","proteostasis","epigenetic"],mechs:["DAF-16","SKN-1","SIR-2"],source:"Walnuts, cranberries, tea",pubmeds:["22155175","23736695"]},
+  {name:"Alpha-ketoglutarate",cls:"TCA cycle organic acid",cat:"metabolite",effect:25.2,n:7,sigPct:86,hallmarks:["nutrient","mitochondria","epigenetic"],mechs:["mTOR inhibition","AMPK","DAF-16"],source:"Endogenous / fermentation",pubmeds:["24828042","25643626","26190651","31820364"]},
+  {name:"Pyrroloquinoline quinone",cls:"Redox-active cofactor",cat:"vitamin",effect:24.8,n:7,sigPct:100,hallmarks:["mitochondria","proteostasis","nutrient"],mechs:["Mitochondrial biogenesis","DAF-16","AMPK"],source:"Natto, kiwi, spinach",pubmeds:["27090484","28676501"]},
+  {name:"Selenocysteine",cls:"Selenoamino acid",cat:"amino",effect:23.8,n:5,sigPct:100,hallmarks:["proteostasis","inflammation","genomic"],mechs:["SKN-1","DAF-16"],source:"Brazil nuts, selenized yeast",pubmeds:["28954009","30365103"]},
+  {name:"Alpha-lipoic acid",cls:"Organosulfur cofactor",cat:"metabolite",effect:22.6,n:2,sigPct:100,hallmarks:["mitochondria","proteostasis","inflammation"],mechs:["SKN-1","AMPK","DAF-16"],source:"Spinach, broccoli / endogenous",pubmeds:["17156833","18755260"]},
+  {name:"Raspberry extract",cls:"Botanical extract",cat:"botanical",effect:22.1,n:3,sigPct:100,hallmarks:["inflammation","dysbiosis","autophagy"],mechs:["DAF-16","SKN-1"],source:"Rubus idaeus",pubmeds:["32285078"]},
+  {name:"Allantoin",cls:"Purine metabolite",cat:"metabolite",effect:21.8,n:2,sigPct:100,hallmarks:["inflammation","proteostasis"],mechs:["DAF-16","SKN-1"],source:"Comfrey root, beet, wheat sprouts",pubmeds:["26676933","30269951"]},
+  {name:"Astragalus extract",cls:"Saponin botanical extract",cat:"botanical",effect:21.3,n:7,sigPct:86,hallmarks:["telomere","inflammation","proteostasis"],mechs:["DAF-16","SKN-1","HSP"],source:"Astragalus membranaceus root",pubmeds:["21892924","25186652"]},
+  {name:"Theophylline",cls:"Methylxanthine alkaloid",cat:"botanical",effect:21.2,n:2,sigPct:100,hallmarks:["nutrient","autophagy"],mechs:["AMPK","mTOR"],source:"Tea leaves, cacao",pubmeds:["31432005"]},
+  {name:"Icariin",cls:"Flavonoid glycoside",cat:"polyphenol",effect:20.7,n:1,sigPct:100,hallmarks:["nutrient","epigenetic","stem"],mechs:["DAF-16","SIR-2"],source:"Epimedium (Horny Goat Weed)",pubmeds:["34171430"]},
+  {name:"Baicalein",cls:"Flavone",cat:"polyphenol",effect:20.6,n:6,sigPct:67,hallmarks:["inflammation","nutrient","proteostasis"],mechs:["DAF-16","SKN-1","AMPK"],source:"Scutellaria baicalensis root",pubmeds:["22114686","23339711","33809299"]},
+  {name:"Cranberry extract",cls:"Botanical extract",cat:"botanical",effect:19.9,n:4,sigPct:100,hallmarks:["inflammation","dysbiosis","genomic"],mechs:["DAF-16","SKN-1"],source:"Vaccinium macrocarpon",pubmeds:["22864793","24566444"]},
+  {name:"Matairesinol",cls:"Plant lignan",cat:"polyphenol",effect:19.5,n:2,sigPct:100,hallmarks:["epigenetic","inflammation","dysbiosis"],mechs:["DAF-16","SIR-2"],source:"Sesame, flaxseed, rye",pubmeds:["26141518"]},
+  {name:"Sorbitol",cls:"Sugar alcohol",cat:"metabolite",effect:19.4,n:7,sigPct:71,hallmarks:["nutrient","proteostasis"],mechs:["DAF-16"],source:"Fruits (prunes, apples, pears)",pubmeds:["19883616","26579191","26854551"]},
+  {name:"Chicoric acid",cls:"Hydroxycinnamic acid derivative",cat:"polyphenol",effect:19.3,n:3,sigPct:100,hallmarks:["inflammation","proteostasis","nutrient"],mechs:["DAF-16","SKN-1","AMPK"],source:"Echinacea, chicory, basil",pubmeds:["24244361","30845140"]},
+  {name:"Urolithin D",cls:"Urolithin metabolite",cat:"polyphenol",effect:19.0,n:2,sigPct:100,hallmarks:["mitochondria","autophagy","dysbiosis"],mechs:["Mitophagy","DAF-16"],source:"Pomegranate / gut microbiome",pubmeds:["27400265"]},
+  {name:"Oxyresveratrol",cls:"Hydroxystilbene",cat:"polyphenol",effect:18.8,n:3,sigPct:100,hallmarks:["epigenetic","inflammation","nutrient"],mechs:["SIR-2","DAF-16","AMPK"],source:"White mulberry, peanuts",pubmeds:["27190265"]},
+  {name:"Piceatannol",cls:"Hydroxystilbene",cat:"polyphenol",effect:18.3,n:2,sigPct:100,hallmarks:["epigenetic","inflammation","nutrient"],mechs:["SIR-2","DAF-16"],source:"Grapes, passionfruit, rhubarb",pubmeds:["28128482"]},
+  {name:"Alpha-linolenic acid",cls:"Omega-3 fatty acid",cat:"lipid",effect:18.1,n:3,sigPct:100,hallmarks:["inflammation","mitochondria","communication"],mechs:["DAF-16","AMPK"],source:"Flaxseed, chia seeds, walnuts",pubmeds:["28772063"]},
+  {name:"Astaxanthin",cls:"Xanthophyll carotenoid",cat:"polyphenol",effect:18.1,n:4,sigPct:100,hallmarks:["inflammation","proteostasis","mitochondria"],mechs:["SKN-1","DAF-16","HSP"],source:"Haematococcus pluvialis, krill, shrimp",pubmeds:["22013497","22484623","33115330"]},
+  {name:"Chlorophyll",cls:"Porphyrin botanical pigment",cat:"botanical",effect:17.6,n:5,sigPct:100,hallmarks:["inflammation","mitochondria","genomic"],mechs:["SKN-1","DAF-16"],source:"Spirulina, chlorella, leafy greens",pubmeds:["27077003"]},
+  {name:"Secoisolariciresinol diglucoside",cls:"Lignan glycoside",cat:"polyphenol",effect:17.2,n:3,sigPct:100,hallmarks:["epigenetic","inflammation","dysbiosis"],mechs:["DAF-16","SIR-2"],source:"Flaxseed, sesame, rye",pubmeds:["32733632"]},
+  {name:"Phosphatidylcholine",cls:"Glycerophospholipid",cat:"lipid",effect:16.4,n:2,sigPct:100,hallmarks:["mitochondria","communication","proteostasis"],mechs:["Membrane integrity","DAF-16"],source:"Egg yolk, soybeans, sunflower lecithin",pubmeds:["31379987"]},
+  {name:"Serine",cls:"Amino acid",cat:"amino",effect:16.3,n:5,sigPct:100,hallmarks:["nutrient","proteostasis"],mechs:["mTOR","DAF-16"],source:"Meat, eggs, soy, nuts",pubmeds:["25643626","30845140"]},
+  {name:"Beta-caryophyllene",cls:"Sesquiterpene",cat:"botanical",effect:16.1,n:3,sigPct:100,hallmarks:["inflammation","communication"],mechs:["DAF-16","SKN-1"],source:"Black pepper, cloves, cannabis",pubmeds:["24835194"]},
+  {name:"Calycosin",cls:"Isoflavone",cat:"polyphenol",effect:16.1,n:4,sigPct:100,hallmarks:["nutrient","epigenetic","inflammation"],mechs:["DAF-16","AMPK"],source:"Astragalus (Huang Qi) root",pubmeds:["28434978"]},
+  {name:"Gamma-tocopherol",cls:"Vitamin E isomer",cat:"vitamin",effect:16.0,n:3,sigPct:100,hallmarks:["proteostasis","inflammation","mitochondria"],mechs:["SKN-1","DAF-16"],source:"Walnuts, pecans, sesame oil",pubmeds:["17169403","22484623"]},
+  {name:"Sulforaphane",cls:"Isothiocyanate",cat:"botanical",effect:15.7,n:3,sigPct:100,hallmarks:["inflammation","proteostasis","genomic"],mechs:["SKN-1","HSP","AMPK"],source:"Broccoli sprouts, cruciferous vegetables",pubmeds:["33471780"]},
+  {name:"Propyl gallate",cls:"Gallate ester antioxidant",cat:"polyphenol",effect:15.1,n:5,sigPct:100,hallmarks:["proteostasis","inflammation","genomic"],mechs:["SKN-1","DAF-16"],source:"Gallic acid-rich plants, food preservative",pubmeds:["18755260","31820364"]},
+  {name:"Withanolide A",cls:"Steroidal lactone",cat:"botanical",effect:15.1,n:4,sigPct:100,hallmarks:["nutrient","proteostasis","inflammation"],mechs:["DAF-16","HSP","mTOR"],source:"Ashwagandha (Withania somnifera) root",pubmeds:["26956478"]},
+  {name:"Tocotrienol",cls:"Vitamin E tocotrienol",cat:"vitamin",effect:15.0,n:6,sigPct:83,hallmarks:["proteostasis","mitochondria","inflammation"],mechs:["SKN-1","DAF-16"],source:"Palm oil, rice bran, annatto",pubmeds:["10843344","16872777","22484623"]},
+  {name:"Nobiletin",cls:"Polymethoxylated flavone",cat:"polyphenol",effect:14.8,n:2,sigPct:100,hallmarks:["nutrient","inflammation","autophagy"],mechs:["AMPK","DAF-16","mTOR"],source:"Citrus peels (tangerine, orange)",pubmeds:["31948007"]},
+  {name:"Sandalwood oil",cls:"Sesquiterpene essential oil",cat:"botanical",effect:14.8,n:6,sigPct:67,hallmarks:["inflammation","communication"],mechs:["DAF-16","SKN-1"],source:"Santalum album heartwood",pubmeds:["30319772"]},
+  {name:"Emodin",cls:"Anthraquinone",cat:"botanical",effect:14.7,n:2,sigPct:100,hallmarks:["inflammation","autophagy","nutrient"],mechs:["DAF-16","AMPK","mTOR"],source:"Rhubarb root, aloe vera, buckthorn",pubmeds:["28831863"]},
+  {name:"Folic acid",cls:"B-vitamin / folate",cat:"vitamin",effect:14.7,n:4,sigPct:75,hallmarks:["genomic","epigenetic","proteostasis"],mechs:["DAF-16","SKN-1"],source:"Leafy greens, legumes, fortified foods",pubmeds:["26546011"]},
+  {name:"Resveratrol",cls:"Stilbene polyphenol",cat:"polyphenol",effect:14.3,n:31,sigPct:77,hallmarks:["epigenetic","nutrient","inflammation","mitochondria"],mechs:["SIR-2.1","DAF-16","AMPK","mTOR"],source:"Grape skin, Japanese knotweed, peanuts",pubmeds:["15254550","16256736","17460219","17875315"]},
+  {name:"Glycyrrhizae radix extract",cls:"Licorice root extract",cat:"botanical",effect:15.2,n:2,sigPct:100,hallmarks:["inflammation","proteostasis","nutrient"],mechs:["DAF-16","SKN-1","AMPK"],source:"Glycyrrhiza uralensis root",pubmeds:["26626487"]},
+  {name:"Astragaloside IV",cls:"Saponin glycoside",cat:"botanical",effect:14.1,n:3,sigPct:67,hallmarks:["telomere","inflammation","nutrient"],mechs:["DAF-16","AMPK"],source:"Astragalus membranaceus root",pubmeds:["32741299"]},
+  {name:"Inositol",cls:"Polyol / vitamin-like compound",cat:"metabolite",effect:14.1,n:8,sigPct:75,hallmarks:["nutrient","communication"],mechs:["DAF-16","AMPK"],source:"Citrus peel, legumes, whole grains",pubmeds:["25643626","32901024"]},
+  {name:"Vitamin E (tocopherols)",cls:"Fat-soluble vitamin",cat:"vitamin",effect:14.0,n:9,sigPct:78,hallmarks:["proteostasis","inflammation"],mechs:["SKN-1","DAF-16"],source:"Nuts, seeds, vegetable oils",pubmeds:["10843344","14706236","17169403"]},
+  {name:"Oleanolic acid",cls:"Pentacyclic triterpene",cat:"botanical",effect:13.9,n:2,sigPct:100,hallmarks:["inflammation","nutrient","autophagy"],mechs:["mTOR","DAF-16","AMPK"],source:"Olive leaves, basil, mistletoe",pubmeds:["26592451"]},
+  {name:"Trilobatin",cls:"Dihydrochalcone glycoside",cat:"polyphenol",effect:13.8,n:3,sigPct:100,hallmarks:["inflammation","nutrient"],mechs:["DAF-16","AMPK"],source:"Apple tree bark, sweet tea plant",pubmeds:["33935768"]},
+  {name:"Proline",cls:"Amino acid",cat:"amino",effect:13.6,n:5,sigPct:100,hallmarks:["nutrient","proteostasis"],mechs:["mTOR","DAF-16"],source:"Meat, dairy, gelatin, wheat germ",pubmeds:["22482728","25643626"]},
+  {name:"Naringin",cls:"Flavanone glycoside",cat:"polyphenol",effect:13.5,n:5,sigPct:100,hallmarks:["inflammation","nutrient","autophagy"],mechs:["DAF-16","AMPK","mTOR"],source:"Grapefruit, bitter orange, tomato",pubmeds:["29375370","32832002"]},
+  {name:"Caffeic acid",cls:"Hydroxycinnamic acid",cat:"polyphenol",effect:13.3,n:6,sigPct:83,hallmarks:["inflammation","proteostasis","genomic"],mechs:["SKN-1","DAF-16"],source:"Coffee, propolis, argan oil",pubmeds:["21503726","33432954","33802064"]},
+  {name:"Coenzyme Q10",cls:"Fat-soluble coenzyme",cat:"vitamin",effect:13.0,n:4,sigPct:100,hallmarks:["mitochondria","proteostasis"],mechs:["ETC complex I-III","DAF-16"],source:"Meat, fish, broccoli",pubmeds:["14706236","19428456"]},
+  {name:"Curcumin",cls:"Curcuminoid polyphenol",cat:"polyphenol",effect:12.4,n:4,sigPct:100,hallmarks:["inflammation","proteostasis","nutrient","autophagy"],mechs:["SKN-1","DAF-16","HSP","AMPK"],source:"Curcuma longa rhizome",pubmeds:["21855561","25959406","33008901"]},
+  {name:"Genistein",cls:"Isoflavone",cat:"polyphenol",effect:12.4,n:3,sigPct:67,hallmarks:["nutrient","epigenetic","inflammation"],mechs:["DAF-16","SIR-2"],source:"Soybeans, tempeh, fava beans",pubmeds:["25593647","33008901"]},
+  {name:"Catechin",cls:"Flavan-3-ol",cat:"polyphenol",effect:11.9,n:8,sigPct:88,hallmarks:["proteostasis","inflammation","nutrient"],mechs:["DAF-16","SKN-1","AMPK"],source:"Green tea, cacao, red wine",pubmeds:["19501612","21805983","32530444"]},
+  {name:"Echinacoside",cls:"Phenylethanoid glycoside",cat:"botanical",effect:11.6,n:4,sigPct:100,hallmarks:["inflammation","proteostasis","senescence"],mechs:["DAF-16","SKN-1"],source:"Echinacea root, Cistanche tubulosa",pubmeds:["26027643","29185166"]},
+  {name:"Quercetin",cls:"Flavonol",cat:"polyphenol",effect:10.8,n:14,sigPct:79,hallmarks:["inflammation","senescence","nutrient","autophagy"],mechs:["DAF-16","SKN-1","SIR-2","mTOR"],source:"Onions, capers, apples, green tea",pubmeds:["22155175","24834031","30845140"]},
+  {name:"Spermidine",cls:"Polyamine",cat:"metabolite",effect:10.6,n:8,sigPct:88,hallmarks:["autophagy","epigenetic","proteostasis"],mechs:["Autophagy induction","DAF-16","AMPK"],source:"Wheat germ, soybeans, aged cheese",pubmeds:["19414292","22973062","32788196"]},
+  {name:"EGCG",cls:"Green tea catechin",cat:"polyphenol",effect:10.2,n:11,sigPct:73,hallmarks:["proteostasis","inflammation","epigenetic"],mechs:["DAF-16","SKN-1","SIR-2"],source:"Camellia sinensis (green tea)",pubmeds:["19501612","21805983","27486399"]},
+  {name:"Berberine",cls:"Isoquinoline alkaloid",cat:"polyphenol",effect:9.9,n:6,sigPct:83,hallmarks:["nutrient","inflammation","mitochondria"],mechs:["AMPK","mTOR","DAF-16"],source:"Berberis root, goldenseal, barberry",pubmeds:["25959406","28831863","33008901"]},
+];
+
+// STATE
+let activeHM='all',activeCat='all',searchTerm='',sortKey='effect',sortDir=-1;
+const CAT_CLS={polyphenol:'c-pol',botanical:'c-bot',metabolite:'c-met',vitamin:'c-vit',amino:'c-ami',lipid:'c-lip'};
+const CAT_LBL={polyphenol:'Polyphenol',botanical:'Botanical',metabolite:'Metabolite',vitamin:'Vitamin',amino:'Amino acid',lipid:'Lipid'};
+const HM_COL={genomic:'#9040c0',telomere:'#4060b0',epigenetic:'#207060',proteostasis:'#b05020',nutrient:'#752B71',mitochondria:'#c04060',senescence:'#808020',stem:'#2060a0',communication:'#20a060',autophagy:'#6020a0',inflammation:'#c05020',dysbiosis:'#20a080'};
+
+function buildGrid(){
+  const g=document.getElementById('hm-grid');
+  HALLMARKS.forEach(h=>{
+    const cnt=DB.filter(d=>d.hallmarks.includes(h.id)).length;
+    const c=document.createElement('div'); c.className='hm-card'; c.dataset.id=h.id;
+    c.innerHTML=`<span class="hm-icon">${h.icon}</span><div class="hm-num">${h.num}</div><div class="hm-name">${h.name}</div><div class="hm-sub">${h.sub}</div><div class="hm-count">${cnt} ingredient${cnt!==1?'s':''}</div>`;
+    c.onclick=()=>toggleHM(h,c); g.appendChild(c);
+  });
+}
+
+function toggleHM(h,card){
+  const det=document.getElementById('hm-detail');
+  const wasActive=card.classList.contains('active');
+  document.querySelectorAll('.hm-card').forEach(c=>c.classList.remove('active'));
+  if(wasActive){det.classList.remove('open');return;}
+  card.classList.add('active');
+  const cnt=DB.filter(d=>d.hallmarks.includes(h.id)).length;
+  det.innerHTML=`<div class="hd-header"><div class="hd-icon">${h.icon}</div><div><div class="hd-title">${h.num}. ${h.name}</div><div class="hd-subtitle">${h.sub}</div></div></div>
+    <div class="hd-body">${h.detail}</div>
+    <div class="hd-genes">${h.genes.map(g=>`<span class="hd-gene">${g}</span>`).join('')}</div>
+    <button class="hd-btn" onclick="filterByHM('${h.id}')">View ${cnt} ingredient${cnt!==1?'s':''} targeting ${h.name} →</button>`;
+  det.classList.add('open');
+  setTimeout(()=>det.scrollIntoView({behavior:'smooth',block:'nearest'}),50);
+}
+
+function filterByHM(id){
+  activeHM=id;
+  document.querySelector('#database').scrollIntoView({behavior:'smooth'});
+  setTimeout(()=>{document.querySelectorAll('#hm-pills .pill').forEach(p=>p.classList.toggle('active',p.dataset.hm===id));renderDB();},380);
+}
+
+function buildPills(){
+  const hEl=document.getElementById('hm-pills');
+  [['all','All hallmarks'],...HALLMARKS.map(h=>[h.id,`${h.icon} ${h.name}`])].forEach(([id,lbl])=>{
+    const p=document.createElement('div'); p.className='pill'+(id==='all'?' active':''); p.dataset.hm=id; p.textContent=lbl;
+    p.onclick=()=>{activeHM=id;document.querySelectorAll('#hm-pills .pill').forEach(pp=>pp.classList.toggle('active',pp.dataset.hm===id));renderDB();};
+    hEl.appendChild(p);
+  });
+  const cEl=document.getElementById('cat-pills');
+  [['all','All classes'],['polyphenol','Polyphenols'],['botanical','Botanicals'],['metabolite','Metabolites'],['vitamin','Vitamins'],['amino','Amino acids'],['lipid','Lipids']].forEach(([k,l])=>{
+    const p=document.createElement('div'); p.className='pill'+(k==='all'?' active':''); p.dataset.cat=k; p.textContent=l;
+    p.onclick=()=>{activeCat=k;document.querySelectorAll('#cat-pills .pill').forEach(pp=>pp.classList.toggle('active',pp.dataset.cat===k));renderDB();};
+    cEl.appendChild(p);
+  });
+}
+
+function getFiltered(){
+  return DB.filter(d=>{
+    if(activeHM!=='all'&&!d.hallmarks.includes(activeHM)) return false;
+    if(activeCat!=='all'&&d.cat!==activeCat) return false;
+    if(searchTerm){const h=`${d.name} ${d.cls} ${d.source} ${d.hallmarks.join(' ')} ${d.mechs.join(' ')}`.toLowerCase();if(!h.includes(searchTerm)) return false;}
+    return true;
+  });
+}
+function getSorted(arr){
+  return [...arr].sort((a,b)=>{
+    if(sortKey==='name') return (a.name<b.name?-1:a.name>b.name?1:0)*sortDir;
+    if(sortKey==='cat')  return (a.cat<b.cat?-1:a.cat>b.cat?1:0)*sortDir;
+    return (a[sortKey]-b[sortKey])*sortDir;
+  });
+}
+function sortDB(k){if(sortKey===k)sortDir*=-1;else{sortKey=k;sortDir=(k==='name'||k==='cat')?1:-1;}renderDB();}
+
+function renderDB(){
+  const data=getSorted(getFiltered());
+  const body=document.getElementById('db-body'); body.innerHTML='';
+  document.getElementById('db-count').innerHTML=`<strong>${data.length}</strong> ingredient${data.length!==1?'s':''} shown`;
+  const ch=document.getElementById('chips'); ch.innerHTML='';
+  if(activeHM!=='all'){const h=HALLMARKS.find(x=>x.id===activeHM);if(h)mkChip(ch,`${h.icon} ${h.name}`,()=>{activeHM='all';document.querySelectorAll('#hm-pills .pill').forEach(p=>p.classList.toggle('active',p.dataset.hm==='all'));renderDB();});}
+  if(activeCat!=='all')mkChip(ch,activeCat,()=>{activeCat='all';document.querySelectorAll('#cat-pills .pill').forEach(p=>p.classList.toggle('active',p.dataset.cat==='all'));renderDB();});
+  if(searchTerm)mkChip(ch,`"${searchTerm}"`,()=>{searchTerm='';document.getElementById('search-input').value='';renderDB();});
+  if(!data.length){document.getElementById('empty-state').style.display='block';document.querySelector('.db-wrap').style.display='none';return;}
+  document.getElementById('empty-state').style.display='none';document.querySelector('.db-wrap').style.display='';
+  const maxE=Math.max(...DB.map(d=>Math.abs(d.effect)));
+  data.forEach((d,i)=>{
+    const pos=d.effect>=0,bw=Math.min(100,Math.abs(d.effect)/maxE*100).toFixed(0);
+    const dn=Math.min(d.n,10),fn=Math.round(d.sigPct/100*dn);
+    let dots=''; for(let j=0;j<dn;j++) dots+=`<div class="sdot${j<fn?' f':''}"></div>`;
+    const hmT=d.hallmarks.map(id=>{const h=HALLMARKS.find(x=>x.id===id);if(!h)return'';const c=HM_COL[id]||'#888';return`<span class="htag" style="color:${c};background:${c}16;border-color:${c}35">${h.icon} ${h.name}</span>`;}).join('');
+    const mT=d.mechs.map(m=>`<span class="mtag">${m}</span>`).join('');
+    const tr=document.createElement('tr'); tr.dataset.id=i;
+    tr.innerHTML=`<td class="td-rank">${i+1}</td>
+      <td><div class="cname">${d.name}</div><div class="ccls">${d.cls}</div></td>
+      <td><span class="cbadge ${CAT_CLS[d.cat]||'c-bot'}">${CAT_LBL[d.cat]||d.cat}</span></td>
+      <td><div class="eff-wrap"><div class="eff-bar-bg"><div class="eff-bar-fill ${pos?'bar-p':'bar-n'}" style="width:${bw}%"></div></div><span class="eff-val ${pos?'ev-p':'ev-n'}">${pos?'+':''}${d.effect}%</span></div></td>
+      <td><div class="sdots">${dots}</div><div class="ssub">${d.n} entr${d.n===1?'y':'ies'} · ${d.sigPct}% sig.</div></td>
+      <td class="td-hm"><div class="hm-tags">${hmT}</div></td>
+      <td class="td-mech"><div class="mech-tags">${mT}</div></td>`;
+    const xr=document.createElement('tr'); xr.className='xrow'; xr.dataset.expand=i;
+    const pmLinks=`<div class="expand-tags"><span class="clinical-tag">Check clinical studies</span><span class="pubmed-tag">View PubMed links</span></div>`;
+    xr.innerHTML=`<td colspan="7" class="xcell"><div class="xgrid">
+      <div><div class="xi-label">Natural source</div><div class="xi-val">${d.source}</div></div>
+      <div><div class="xi-label">Mean lifespan Δ</div><div class="xi-val"><em>${pos?'+':''}${d.effect}%</em> vs. control</div></div>
+      <div><div class="xi-label">Experimental entries</div><div class="xi-val">${d.n} entr${d.n===1?'y':'ies'} · ${d.sigPct}% p&lt;0.05</div></div>
+    </div><div class="pmid-links">${pmLinks}</div></td>`;
+    tr.onclick=()=>toggleX(i,xr);
+    body.appendChild(tr); body.appendChild(xr);
+  });
+}
+function toggleX(id,xr){
+  const cur=document.querySelector('.xrow.open');
+  if(cur&&cur.dataset.expand==id){cur.classList.remove('open');document.querySelector(`tr[data-id="${id}"]`)?.classList.remove('xopen');return;}
+  if(cur){const p=cur.dataset.expand;cur.classList.remove('open');document.querySelector(`tr[data-id="${p}"]`)?.classList.remove('xopen');}
+  xr.classList.add('open');document.querySelector(`tr[data-id="${id}"]`)?.classList.add('xopen');
+}
+function mkChip(el,lbl,fn){const c=document.createElement('div');c.className='chip';c.innerHTML=`${lbl} <span class="chip-x">×</span>`;c.onclick=fn;el.appendChild(c);}
+
+buildGrid();buildPills();
+document.getElementById('search-input').addEventListener('input',e=>{searchTerm=e.target.value.toLowerCase().trim();renderDB();});
+document.getElementById('sort-sel').addEventListener('change',e=>{const v=e.target.value;sortKey=v==='n'?'n':v==='sigPct'?'sigPct':v==='name'?'name':'effect';sortDir=sortKey==='name'?1:-1;renderDB();});
+renderDB();
+</script>
+</body>
+</html>

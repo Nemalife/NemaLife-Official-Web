@@ -1,0 +1,1120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NemaLife · C. elegans Longevity Bioactives</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,400;0,500;0,700;0,800;0,900;1,400;1,700;1,800&family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--purple:#752B71;--purple2:#8f3d8a;--purple3:#b060ab;--purple-pale:#f5eef5;--purple-light:#e2cce1;--g2:#2d5a27;--g3:#4a8040;--g4:#7daa6b;--g-pale:#f0f8ec;--g-light:#d4e9cd;--bg:#ffffff;--bg2:#f8f4f8;--bg3:#f1ebf1;--border:#e0d4e0;--text:#1a1020;--text2:#3a2a3a;--text3:#7a6078;--amber:#b87a00;--amber-pale:#fdf6e3;--amber-light:#f5dfa0;--red:#c04060;--ink:#0e0812;--ink2:#1e1225}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Barlow',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden}
+nav{position:fixed;top:0;left:0;right:0;z-index:300;background:rgba(14,8,18,0.94);backdrop-filter:blur(14px);border-bottom:1px solid rgba(255,255,255,0.07);padding:0 2.5rem;height:58px;display:flex;align-items:center;justify-content:space-between}
+.nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+.nav-logo-text{font-size:18px;font-weight:800;color:#fff;letter-spacing:-0.4px}
+.nav-logo-sub{font-size:9px;font-weight:700;color:rgba(255,255,255,0.35);letter-spacing:0.14em;text-transform:uppercase}
+.nav-links{display:flex;align-items:center;gap:2rem}
+.nav-links a{font-size:12px;font-weight:700;color:rgba(255,255,255,0.5);text-decoration:none;letter-spacing:0.06em;text-transform:uppercase;transition:color 0.2s}
+.nav-links a:hover{color:#fff}
+.nav-cta{color:#fff !important;background:var(--purple);padding:7px 18px;border-radius:20px;transition:background 0.2s !important}
+.nav-cta:hover{background:var(--purple2) !important}
+
+/* HERO */
+.hero{background:var(--ink);min-height:100vh;display:grid;grid-template-columns:1fr 1fr;align-items:center;padding:7rem 5rem 5rem;position:relative;overflow:hidden;gap:3rem}
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 60% 80% at 80% 50%,rgba(117,43,113,0.18),transparent 70%),radial-gradient(ellipse 40% 60% at 20% 80%,rgba(74,128,64,0.1),transparent 60%);pointer-events:none}
+.hero-left{position:relative;z-index:2}
+.eyebrow{display:flex;align-items:center;gap:10px;margin-bottom:1.5rem}
+.eyebrow-line{width:26px;height:2px;background:var(--g4)}
+.eyebrow-text{font-size:13.75px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--g4)}
+.hero-title{font-family:'DM Serif Display',serif;font-size:clamp(2.4rem,4.2vw,3.8rem);line-height:1.07;color:#fff;margin-bottom:1.5rem}
+.hero-title em{color:var(--purple3);font-style:italic}
+.hero-title .worm-name{font-style:italic;color:rgba(255,255,255,0.4);font-size:0.62em;display:block;margin-top:0.25rem}
+.hero-desc{font-size:1.25rem;line-height:1.75;color:rgba(255,255,255,0.5);max-width:480px;margin-bottom:2.5rem}
+.hero-desc strong{color:rgba(255,255,255,0.8)}
+.hero-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.07);border-radius:12px;overflow:hidden;max-width:400px}
+.hero-stat{background:rgba(255,255,255,0.03);padding:1.1rem 1rem;text-align:center}
+.hero-stat-num{font-family:'DM Mono',monospace;font-size:1.65rem;font-weight:500;color:#fff;line-height:1}
+.hero-stat-num sup{font-size:0.55em;vertical-align:super;color:var(--g4)}
+.hero-stat-label{font-size:11.25px;font-weight:700;color:rgba(255,255,255,0.28);letter-spacing:0.1em;text-transform:uppercase;margin-top:5px}
+.hero-right{position:relative;z-index:2;display:flex;align-items:flex-start;justify-content:center;padding-top:1.5rem}
+.worm-stage{width:100%;max-width:460px;aspect-ratio:1/1.1}
+@keyframes wormFloat{0%,100%{transform:translateY(0) rotate(-2deg)}50%{transform:translateY(-14px) rotate(2deg)}}
+@keyframes slideUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.hero-left>*{animation:slideUp 0.7s ease both}
+.hero-left>*:nth-child(1){animation-delay:0.1s}.hero-left>*:nth-child(2){animation-delay:0.2s}
+.hero-left>*:nth-child(3){animation-delay:0.32s}.hero-left>*:nth-child(4){animation-delay:0.46s}
+
+/* SECTIONS */
+section{padding:5.5rem 5rem}
+.sec-eyebrow{display:inline-flex;align-items:center;gap:8px;margin-bottom:1rem}
+.sec-eyebrow-line{width:20px;height:2px;background:var(--purple)}
+.sec-eyebrow-text{font-size:12.5px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--purple)}
+.sec-title{font-family:'DM Serif Display',serif;font-size:clamp(1.8rem,3vw,2.6rem);line-height:1.15;color:var(--text);margin-bottom:0.9rem}
+.sec-title em{color:var(--purple);font-style:italic}
+.sec-desc{font-size:1.25rem;color:var(--text3);line-height:1.75;max-width:640px}
+
+/* WHY */
+.why{background:var(--bg);border-top:1px solid var(--border)}
+.why-grid{display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:start;margin-top:3.5rem}
+.creds-row{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:2.5rem}
+@media(max-width:900px){.creds-row{grid-template-columns:1fr}}
+.creds{display:flex;flex-direction:column;gap:10px;margin-top:1.5rem}
+.cred{display:flex;gap:1rem;align-items:flex-start;padding:1rem 1.25rem;border-radius:10px;border:1px solid var(--border);background:var(--bg2);transition:border-color 0.2s,box-shadow 0.2s}
+.cred:hover{border-color:var(--purple-light);box-shadow:0 2px 12px rgba(117,43,113,0.08)}
+.cred-icon{width:36px;height:36px;border-radius:8px;background:var(--purple-pale);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:17px}
+.cred-label{font-size:15px;font-weight:800;color:var(--text);margin-bottom:3px}
+.cred-sub{font-size:15px;color:var(--text3);line-height:1.55}
+.stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.stat-card{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:1.4rem;border-top:3px solid var(--purple)}
+.stat-card.green{border-top-color:var(--g3)}
+.stat-num{font-family:'DM Serif Display',serif;font-size:2.1rem;color:var(--purple);line-height:1;margin-bottom:4px}
+.stat-card.green .stat-num{color:var(--g2)}
+.stat-label{font-size:15px;font-weight:800;color:var(--text2);margin-bottom:4px}
+.stat-sub{font-size:13.75px;color:var(--text3);line-height:1.5}
+.pathway-block{margin-top:1.25rem;padding:1.25rem 1.5rem;background:var(--ink);border-radius:12px}
+.pathway-label{font-size:12.5px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.28);margin-bottom:0.75rem}
+.pathway-tags{display:flex;flex-wrap:wrap;gap:7px}
+.ptag{font-family:'DM Mono',monospace;font-size:11px;padding:4px 12px;border-radius:20px;border:1px solid}
+
+/* HALLMARKS */
+.hallmarks{background:var(--ink);position:relative;overflow:hidden}
+.hallmarks::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 50% 60% at 50% 0%,rgba(117,43,113,0.14),transparent 70%);pointer-events:none}
+.hallmarks .sec-eyebrow-line{background:var(--g4)}
+.hallmarks .sec-eyebrow-text{color:var(--g4)}
+.hallmarks .sec-title{color:#fff}
+.hallmarks .sec-title em{color:var(--purple3)}
+.hallmarks .sec-desc{color:rgba(255,255,255,0.45);max-width:720px}
+.hm-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:3rem}
+/* Flip card container */
+.hm-card{position:relative;cursor:pointer;height:200px;perspective:1000px}
+.hm-card-inner{position:absolute;inset:0;transition:transform 0.55s cubic-bezier(0.4,0.2,0.2,1);transform-style:preserve-3d}
+.hm-card:hover .hm-card-inner,.hm-card.active .hm-card-inner{transform:rotateY(180deg)}
+/* Front face */
+.hm-face{position:absolute;inset:0;border-radius:12px;backface-visibility:hidden;-webkit-backface-visibility:hidden;display:flex;flex-direction:column;justify-content:flex-start;gap:10px;padding:1.1rem}
+.hm-front{background:#fff;border:1px solid var(--border)}
+.hm-front-top{display:flex;align-items:flex-start;justify-content:space-between;gap:6px}
+.hm-icon{font-size:1.5rem;line-height:1}
+.hm-count-badge{font-family:'DM Mono',monospace;font-size:11px;font-weight:500;color:var(--purple);background:var(--purple-pale);border:1px solid var(--purple-light);padding:2px 8px;border-radius:20px;white-space:nowrap}
+/* Front labels */
+.hm-front-label{font-size:9px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--text3);margin-bottom:3px}
+.hm-name{font-size:13px;font-weight:800;color:var(--text);line-height:1.3;margin-bottom:0}
+.hm-front-bottom{}
+.hm-positive{margin-top:10px;padding-top:10px;border-top:1px solid var(--border)}
+.hm-positive-label-head{font-size:9px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--g3);margin-bottom:2px}
+.hm-positive-val{font-size:12px;font-weight:800;color:var(--g2);letter-spacing:0.01em}
+/* Back face */
+.hm-back{background:var(--purple-pale);border:1px solid var(--purple-light);transform:rotateY(180deg);display:flex;flex-direction:column;justify-content:flex-start;gap:8px}
+.hm-back-top{display:flex;align-items:flex-start;gap:8px}
+.hm-back-icon{font-size:1.1rem;flex-shrink:0;margin-top:2px}
+.hm-back-label{font-size:9px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--g3);margin-bottom:2px}
+.hm-back-positive{font-size:14px;font-weight:800;color:var(--g2);line-height:1.2}
+.hm-back-sub{font-size:12.5px;color:var(--text2);line-height:1.6;flex:1}
+/* Active state */
+.hm-card.active .hm-front{border-color:var(--purple-light);background:var(--purple-pale)}
+.hm-card.active .hm-back{border-color:var(--purple)}
+/* Detail panel unchanged */
+
+
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+.hd-btn:hover{background:var(--purple2)}
+@media(max-width:1024px){.hm-grid{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:700px){.hm-grid{grid-template-columns:repeat(2,1fr)}}
+
+/* DATABASE */
+.database{background:var(--bg2);border-top:1px solid var(--border)}
+.db-header-grid{display:grid;grid-template-columns:1fr 380px;gap:4rem;align-items:start;padding-top:0}
+.db-header-left{}
+.db-title{font-size:clamp(1.6rem,2.8vw,2.2rem)!important;margin-top:0.75rem}
+.db-desc{font-size:16px;line-height:1.9;color:var(--text2);max-width:100%}
+.db-header-right{padding-top:2.8rem}
+.db-callout-stacked{display:flex;flex-direction:column;gap:1px;background:var(--border);border:1px solid var(--border);border-radius:12px;overflow:hidden}
+.db-callout-stacked .db-callout-item:first-child{background:var(--bg2)}
+.db-callout-stacked .db-callout-item{background:#fff}
+@media(max-width:1024px){.db-header-grid{grid-template-columns:1fr;gap:2rem}.db-header-right{padding-top:0}}
+.db-top{display:flex;gap:10px;align-items:center;margin-top:2.5rem;margin-bottom:1rem;flex-wrap:wrap}
+.search-wrap{position:relative;flex:1;min-width:240px;max-width:420px}
+.search-input{width:100%;padding:12px 14px 12px 42px;border:1px solid var(--border);border-radius:10px;font-family:'Barlow',sans-serif;font-size:14px;color:var(--text);background:#fff;outline:none;transition:border 0.2s}
+.search-input:focus{border-color:var(--purple)}
+.search-icon{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--text3);pointer-events:none}
+.sort-sel{padding:9px 28px 9px 10px;border:1px solid var(--border);border-radius:8px;font-family:'Barlow',sans-serif;font-size:12px;font-weight:700;color:var(--text2);background:#fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%237a6078' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E") no-repeat right 10px center;appearance:none;outline:none;cursor:pointer;margin-left:auto}
+.pills{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px}
+.pill{font-size:11px;font-weight:700;padding:5px 12px;border-radius:20px;border:1px solid var(--border);background:#fff;color:var(--text3);cursor:pointer;transition:all 0.15s;white-space:nowrap;user-select:none}
+.pill:hover{border-color:var(--purple-light);color:var(--purple)}
+.pill.active{background:var(--purple);border-color:var(--purple);color:#fff}
+.db-meta{display:flex;align-items:center;justify-content:space-between;margin-bottom:0.75rem;flex-wrap:wrap;gap:6px}
+.db-count{font-size:12px;color:var(--text3)}
+.db-count strong{color:var(--text)}
+.chips{display:flex;gap:6px;flex-wrap:wrap}
+.chip{display:inline-flex;align-items:center;gap:4px;background:var(--purple-pale);border:1px solid var(--purple-light);color:var(--purple);font-size:11px;font-weight:700;padding:3px 8px 3px 10px;border-radius:20px;cursor:pointer}
+.chip:hover{background:var(--purple-light)}
+.chip-x{font-size:13px;opacity:0.6}
+.db-wrap{background:#fff;border:1px solid var(--border);border-radius:12px;overflow:hidden}
+table{width:100%;border-collapse:collapse}
+thead th{padding:10px 14px;text-align:left;font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#fff;background:var(--purple);white-space:nowrap;cursor:pointer;user-select:none}
+thead th:hover{background:var(--purple2)}
+.arr{margin-left:3px;opacity:0.5}
+tbody tr{border-bottom:1px solid var(--bg3);cursor:pointer;transition:background 0.15s;position:relative}
+tbody tr:last-child{border-bottom:none}
+tbody tr:hover{background:var(--purple-pale)}
+tbody tr.xopen{background:var(--purple-pale)}
+tbody tr:hover .row-hint{opacity:1;transform:translateX(0)}
+tbody tr.xopen .row-hint{opacity:0}
+.row-hint{position:absolute;right:14px;top:50%;transform:translateY(-50%) translateX(6px);opacity:0;transition:opacity 0.2s,transform 0.2s;display:flex;align-items:center;gap:5px;font-size:11px;font-weight:700;color:var(--purple);pointer-events:none;white-space:nowrap}
+.row-hint-icon{width:18px;height:18px;border-radius:50%;background:var(--purple);color:#fff;display:flex;align-items:center;justify-content:center;font-size:9px;flex-shrink:0}
+td{padding:10px 14px;font-size:13px;vertical-align:middle}
+.td-rank{font-family:'DM Mono',monospace;font-size:11px;color:var(--text3);width:34px;text-align:center}
+.cname{font-weight:800;color:var(--text)}
+.ccls{font-size:10px;color:var(--text3);font-style:italic;margin-top:1px}
+.cbadge{display:inline-flex;align-items:center;font-size:10px;font-weight:700;padding:3px 8px;border-radius:20px;white-space:nowrap}
+.c-pol{background:var(--purple-pale);color:var(--purple);border:1px solid var(--purple-light)}
+.c-bot{background:var(--g-pale);color:var(--g2);border:1px solid var(--g-light)}
+.c-met{background:var(--amber-pale);color:var(--amber);border:1px solid var(--amber-light)}
+.c-vit{background:#e8fafa;color:#1a9a9a;border:1px solid #a8e8e8}
+.c-ami{background:#f0f0ff;color:#4040a0;border:1px solid #c8c8f0}
+.c-lip{background:#fff5e6;color:#b86020;border:1px solid #f5d5a0}
+.eff-wrap{display:flex;align-items:center;gap:8px}
+.eff-bar-bg{width:64px;height:5px;background:var(--bg3);border-radius:3px;overflow:hidden;flex-shrink:0}
+.eff-bar-fill{height:100%;border-radius:3px}
+.bar-p{background:var(--g3)}.bar-n{background:var(--red)}
+.eff-val{font-family:'DM Mono',monospace;font-size:12px;font-weight:500;white-space:nowrap}
+.ev-p{color:var(--g2)}.ev-n{color:var(--red)}
+.sdots{display:flex;gap:3px}
+.sdot{width:7px;height:7px;border-radius:50%;background:var(--purple-light)}
+.sdot.f{background:var(--purple)}
+.ssub{font-size:10px;color:var(--text3);font-family:'DM Mono',monospace;margin-top:3px}
+.hm-tags{display:flex;gap:4px;flex-wrap:wrap}
+.htag{font-size:9px;font-weight:700;padding:2px 7px;border-radius:10px;border:1px solid;white-space:nowrap}
+.mech-tags{display:flex;gap:4px;flex-wrap:wrap}
+.mtag{font-size:9px;font-weight:700;padding:2px 6px;border-radius:10px;text-transform:uppercase;letter-spacing:0.03em;background:var(--bg3);color:var(--text3);border:1px solid var(--border);white-space:nowrap}
+/* ── EXPAND ROW REDESIGN ── */
+.xi-desc{font-size:13px;color:var(--text2);line-height:1.7;padding:14px 0 12px;border-bottom:1px solid var(--border)}
+.xi-report-block{padding-top:12px;display:flex;flex-direction:column;gap:10px}
+.xi-report-header{font-size:13px;font-weight:800;color:var(--text)}
+.xi-price{font-family:'DM Mono',monospace;font-size:13px;color:var(--purple);font-weight:500;margin-left:8px}
+.xi-checks{display:flex;gap:8px;flex-wrap:wrap}
+.xi-check{font-size:11px;font-weight:700;color:var(--g2);background:var(--g-pale);border:1px solid var(--g-light);padding:3px 9px;border-radius:20px}
+.xi-cta{font-family:'Barlow',sans-serif;font-size:12px;font-weight:800;background:var(--purple);color:#fff;border:none;padding:9px 20px;border-radius:20px;cursor:pointer;transition:background 0.2s;align-self:flex-start}
+.xi-cta:hover{background:var(--purple2)}
+.xrow{display:none}
+.xrow.open{display:table-row}
+.xcell{padding:0 16px 16px 48px;background:var(--purple-pale);border-bottom:1px solid var(--border)}
+.xgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px;padding-top:12px}
+.xi-label{font-size:9px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--text3);margin-bottom:3px}
+.xi-val{font-size:13px;font-weight:700;color:var(--text2)}
+.xi-val em{color:var(--purple);font-style:normal}
+.pmid-links{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
+.pmid-link{display:none}
+.clinical-tag{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:700;letter-spacing:0.04em;color:var(--g2);background:var(--g-pale);border:1px solid var(--g-light);padding:4px 11px;border-radius:20px;cursor:default;user-select:none;opacity:0.85}
+.clinical-tag::before{content:'';display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--g3);flex-shrink:0}
+.pubmed-tag{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:700;letter-spacing:0.04em;color:var(--purple);background:var(--purple-pale);border:1px solid var(--purple-light);padding:4px 11px;border-radius:20px;cursor:default;user-select:none;opacity:0.85}
+.pubmed-tag::before{content:'';display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--purple);flex-shrink:0}
+.expand-tags{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.report-tag{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:700;letter-spacing:0.04em;color:#fff;background:var(--purple);border:1px solid var(--purple2);padding:4px 12px;border-radius:20px;cursor:pointer;transition:background 0.18s;user-select:none}
+.report-tag:hover{background:var(--purple2)}
+.sample-tag{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:700;letter-spacing:0.04em;color:var(--g2);background:var(--g-pale);border:1px solid var(--g-light);padding:4px 12px;border-radius:20px;cursor:pointer;transition:all 0.18s;user-select:none}
+.sample-tag:hover{background:var(--g-light);border-color:var(--g3)}
+.sample-tag::before{content:'👁';font-size:11px;margin-right:2px}
+
+/* ── HERO DEMO WIDGET ── */
+.demo-wrap{width:100%;max-width:420px;margin:0 auto}
+.demo-inner{background:#fff;border:1px solid #e0d4e0;border-radius:14px;overflow:hidden;box-shadow:0 8px 40px rgba(117,43,113,0.12)}
+.demo-nav-bar{background:#1a1020;padding:9px 14px;display:flex;align-items:center;gap:7px}
+.demo-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+.demo-logo{margin-left:4px;font-size:10px;font-weight:800;color:#fff;letter-spacing:-0.2px}
+.demo-body{padding:12px}
+.demo-step-label{font-size:9px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#752B71;margin-bottom:6px;min-height:12px;opacity:0;transition:opacity 0.3s}
+.demo-step-label.show{opacity:1}
+.demo-search-row{display:flex;align-items:center;gap:8px;background:#f8f4f8;border:1px solid #e0d4e0;border-radius:7px;padding:7px 10px;margin-bottom:8px}
+.demo-search-text{font-size:12px;color:#1a1020;flex:1;min-height:15px;line-height:1}
+.demo-cursor{display:inline-block;width:1.5px;height:12px;background:#752B71;margin-left:1px;vertical-align:middle;animation:demoBlink 1s step-end infinite}
+@keyframes demoBlink{0%,100%{opacity:1}50%{opacity:0}}
+.demo-pills-row{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:5px}
+.demo-pill{font-size:9px;font-weight:700;padding:3px 8px;border-radius:20px;border:1px solid #e0d4e0;background:#fff;color:#7a6078;transition:all 0.25s;white-space:nowrap}
+.demo-pill.hm-active{background:#752B71;border-color:#752B71;color:#fff}
+.demo-pill.cat-active{background:#4a8040;border-color:#4a8040;color:#fff}
+.demo-count{font-size:10px;color:#7a6078;margin-bottom:6px;min-height:13px}
+.demo-table-wrap{border:1px solid #e0d4e0;border-radius:8px;overflow:hidden}
+.demo-t-head{display:grid;grid-template-columns:1fr 56px 80px;background:#752B71;padding:5px 8px;gap:6px}
+.demo-th{font-size:8px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#fff}
+.demo-t-row{display:grid;grid-template-columns:1fr 56px 80px;padding:7px 8px;gap:6px;border-bottom:1px solid #f1ebf1;align-items:center;opacity:0;transform:translateY(3px);transition:opacity 0.3s ease,transform 0.3s ease,background 0.2s}
+.demo-t-row:last-child{border-bottom:none}
+.demo-t-row.show{opacity:1;transform:translateY(0)}
+.demo-t-row.highlight{background:#f5eef5}
+.demo-r-name{font-size:11px;font-weight:800;color:#1a1020;line-height:1.2}
+.demo-r-cls{font-size:9px;color:#7a6078;margin-top:1px}
+.demo-bar-bg{height:5px;background:#f1ebf1;border-radius:3px;overflow:hidden}
+.demo-bar-fill{height:100%;border-radius:3px;background:#752B71;width:0;transition:width 0.8s cubic-bezier(0.4,0,0.2,1)}
+.demo-hm{display:flex;gap:3px;flex-wrap:wrap}
+.demo-htag{font-size:8px;font-weight:700;padding:2px 4px;border-radius:5px;opacity:0;transition:opacity 0.3s;line-height:1.2}
+.demo-htag.show{opacity:1}
+.demo-expand{display:none;background:#f5eef5;border-bottom:1px solid #e2cce1;padding:8px 10px;grid-column:1/-1}
+.demo-expand.open{display:block}
+.demo-expand-desc{font-size:10px;color:#3a2a3a;line-height:1.55;margin-bottom:7px}
+.demo-expand-cta{display:inline-flex;align-items:center;gap:4px;background:#752B71;color:#fff;font-size:9px;font-weight:800;padding:4px 10px;border-radius:20px}
+
+
+.sample-modal-overlay{position:fixed;inset:0;background:rgba(14,8,18,0.7);backdrop-filter:blur(6px);z-index:500;opacity:0;pointer-events:none;transition:opacity 0.3s ease;display:flex;align-items:center;justify-content:center;padding:2rem}
+.sample-modal-overlay.open{opacity:1;pointer-events:all}
+.sample-modal{background:var(--bg);border-radius:14px;width:100%;max-width:900px;max-height:90vh;display:flex;flex-direction:column;overflow:hidden;box-shadow:0 24px 80px rgba(14,8,18,0.5);transform:translateY(16px);transition:transform 0.35s cubic-bezier(0.22,1,0.36,1)}
+.sample-modal-overlay.open .sample-modal{transform:translateY(0)}
+.sample-modal-header{display:flex;align-items:center;justify-content:space-between;padding:1rem 1.5rem;border-bottom:1px solid var(--border);flex-shrink:0;background:var(--ink)}
+.sample-modal-title{font-family:'DM Serif Display',serif;font-size:1rem;color:#fff}
+.sample-modal-sub{font-size:11px;color:rgba(255,255,255,0.4);margin-top:2px}
+.sample-modal-close{width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,0.08);border:none;color:rgba(255,255,255,0.6);font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background 0.2s;flex-shrink:0}
+.sample-modal-close:hover{background:rgba(255,255,255,0.15);color:#fff}
+.sample-modal-body{flex:1;overflow:hidden;position:relative}
+.sample-modal-body iframe{width:100%;height:100%;border:none;display:block}
+.sample-modal-footer{padding:0.875rem 1.5rem;border-top:1px solid var(--border);background:var(--bg2);display:flex;align-items:center;justify-content:space-between;flex-shrink:0;gap:1rem;flex-wrap:wrap}
+.sample-modal-footer-note{font-size:12px;color:var(--text3);line-height:1.5}
+.sample-modal-footer-note strong{color:var(--text2)}
+.sample-modal-cta{font-family:'Barlow',sans-serif;font-size:12px;font-weight:800;background:var(--purple);color:#fff;border:none;padding:8px 18px;border-radius:20px;cursor:pointer;transition:background 0.2s;white-space:nowrap}
+.sample-modal-cta:hover{background:var(--purple2)}
+
+/* ── DB TRANSITION CALLOUT ── */
+.db-callout{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border);border:1px solid var(--border);border-radius:12px;overflow:hidden;margin:2rem 0 0}
+.db-callout-item{background:#fff;padding:1.1rem 1.5rem;display:flex;align-items:flex-start;gap:12px}
+.db-callout-item:first-child{background:var(--bg2)}
+.db-callout-icon{font-size:1.3rem;flex-shrink:0;margin-top:2px}
+.db-callout-label{font-size:13px;font-weight:800;color:var(--text);margin-bottom:3px}
+.db-callout-sub{font-size:12px;color:var(--text3);line-height:1.55}
+.db-callout-sub strong{color:var(--purple);font-weight:800}
+@media(max-width:600px){.db-callout{grid-template-columns:1fr}}
+.empty-state{text-align:center;padding:4rem;color:var(--text3)}
+.empty-state div{font-size:2.5rem;margin-bottom:12px}
+.footnote{margin-top:2rem;display:flex;gap:10px;align-items:flex-start;background:#fff;border:1px solid var(--border);border-radius:10px;padding:14px 16px}
+.fn-icon{width:20px;height:20px;border-radius:50%;background:var(--purple-pale);color:var(--purple);font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+.fn-text{font-size:11px;color:var(--text3);line-height:1.75}
+.fn-text strong{color:var(--text2)}
+
+@media(max-width:1024px){
+  .hero{grid-template-columns:1fr;padding:7rem 3rem 4rem}.hero-right{display:none}
+  .hero-stats{grid-template-columns:repeat(3,1fr)}.why-grid{grid-template-columns:1fr;gap:2.5rem}
+  .hm-grid{grid-template-columns:repeat(3,1fr)}section{padding:4rem 3rem}}
+@media(max-width:700px){
+  .hm-grid{grid-template-columns:repeat(2,1fr)}nav{padding:0 1.5rem}.nav-links{display:none}
+  section{padding:3rem 1.5rem}.hero{padding:6rem 1.5rem 3rem}
+  td.td-hm,th.th-hm,td.td-mech,th.th-mech{display:none}}
+
+/* ── SLIDE-IN PANEL OVERLAY ── */
+.panel-overlay{position:fixed;inset:0;background:rgba(14,8,18,0.55);backdrop-filter:blur(4px);z-index:400;opacity:0;pointer-events:none;transition:opacity 0.3s ease}
+.panel-overlay.open{opacity:1;pointer-events:all}
+
+/* ── SLIDE-IN PANEL ── */
+.report-panel{position:fixed;top:0;right:0;bottom:0;width:min(640px,100vw);background:var(--bg);z-index:401;display:flex;flex-direction:column;transform:translateX(100%);transition:transform 0.38s cubic-bezier(0.22,1,0.36,1);box-shadow:-8px 0 48px rgba(14,8,18,0.22);overflow:hidden}
+.report-panel.open{transform:translateX(0)}
+
+/* Panel header */
+.rp-header{background:var(--ink);padding:1.5rem 1.75rem 1.25rem;flex-shrink:0;position:relative}
+.rp-close{position:absolute;top:1.25rem;right:1.5rem;width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,0.08);border:none;color:rgba(255,255,255,0.6);font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background 0.2s}
+.rp-close:hover{background:rgba(255,255,255,0.15);color:#fff}
+.rp-eyebrow{font-size:10px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--g4);margin-bottom:6px}
+.rp-name{font-family:'DM Serif Display',serif;font-size:1.8rem;color:#fff;line-height:1.1;margin-bottom:4px}
+.rp-cls{font-size:12px;color:rgba(255,255,255,0.4);font-style:italic}
+.rp-badges{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
+.rp-badge{font-size:10px;font-weight:700;padding:3px 10px;border-radius:20px;border:1px solid}
+
+/* Panel scroll body */
+.rp-body{flex:1;overflow-y:auto;padding:1.75rem}
+.rp-body::-webkit-scrollbar{width:4px}
+.rp-body::-webkit-scrollbar-track{background:var(--bg2)}
+.rp-body::-webkit-scrollbar-thumb{background:var(--purple-light);border-radius:2px}
+
+/* Panel sections */
+.rp-section{margin-bottom:1.75rem;padding-bottom:1.75rem;border-bottom:1px solid var(--border)}
+.rp-section:last-child{border-bottom:none;margin-bottom:0}
+.rp-section-label{font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--purple);display:flex;align-items:center;gap:6px;margin-bottom:1rem}
+.rp-section-label::before{content:'';display:inline-block;width:3px;height:14px;background:var(--purple);border-radius:2px}
+
+/* Free stats grid */
+.rp-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border:1px solid var(--border);border-radius:10px;overflow:hidden;margin-bottom:1.25rem}
+.rp-stat{background:var(--bg2);padding:1rem;text-align:center}
+.rp-stat-num{font-family:'DM Mono',monospace;font-size:1.5rem;font-weight:500;color:var(--purple);line-height:1;margin-bottom:3px}
+.rp-stat-num.green{color:var(--g2)}
+.rp-stat-label{font-size:10px;font-weight:700;color:var(--text3);letter-spacing:0.08em;text-transform:uppercase}
+
+/* Hallmark tags in panel */
+.rp-hm-tags{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:1rem}
+.rp-htag{font-size:11px;font-weight:700;padding:4px 10px;border-radius:20px;border:1px solid}
+
+/* Teaser / preview text */
+.rp-teaser{font-size:13px;line-height:1.75;color:var(--text2);margin-bottom:0.75rem}
+.rp-teaser-blur{position:relative;overflow:hidden;max-height:60px}
+.rp-teaser-blur::after{content:'';position:absolute;bottom:0;left:0;right:0;height:48px;background:linear-gradient(to bottom,rgba(255,255,255,0),rgba(255,255,255,1))}
+
+/* Gate wall */
+.rp-gate{background:linear-gradient(135deg,var(--purple-pale),var(--bg2));border:1px solid var(--purple-light);border-radius:12px;padding:1.5rem;text-align:center;margin-top:0.5rem}
+.rp-gate-icon{font-size:1.8rem;margin-bottom:0.6rem}
+.rp-gate-title{font-family:'DM Serif Display',serif;font-size:1.2rem;color:var(--text);margin-bottom:0.4rem}
+.rp-gate-sub{font-size:13px;color:var(--text3);line-height:1.6;margin-bottom:1.25rem;max-width:360px;margin-left:auto;margin-right:auto}
+.rp-gate-form{display:flex;flex-direction:column;gap:10px;max-width:340px;margin:0 auto}
+.rp-gate-form.hidden{display:none}
+.rp-input{padding:10px 14px;border:1px solid var(--border);border-radius:8px;font-family:'Barlow',sans-serif;font-size:13px;color:var(--text);background:#fff;outline:none;transition:border 0.2s;width:100%}
+.rp-input:focus{border-color:var(--purple)}
+.rp-submit{background:var(--purple);color:#fff;border:none;padding:11px 20px;border-radius:8px;font-family:'Barlow',sans-serif;font-size:13px;font-weight:800;cursor:pointer;transition:background 0.2s;width:100%}
+.rp-submit:hover{background:var(--purple2)}
+.rp-gate-thanks{display:none;text-align:center;padding:0.5rem 0}
+.rp-gate-thanks.show{display:block}
+.rp-gate-thanks-icon{font-size:2rem;margin-bottom:8px}
+.rp-gate-thanks-title{font-size:15px;font-weight:800;color:var(--g2);margin-bottom:4px}
+.rp-gate-thanks-sub{font-size:12px;color:var(--text3);line-height:1.6}
+
+/* Locked sections */
+.rp-locked{position:relative;border-radius:10px;overflow:hidden}
+.rp-locked-content{filter:blur(4px);pointer-events:none;user-select:none;opacity:0.5}
+.rp-lock-badge{position:absolute;inset:0;display:flex;align-items:center;justify-content:center}
+.rp-lock-pill{display:inline-flex;align-items:center;gap:6px;background:var(--ink);color:rgba(255,255,255,0.7);font-size:11px;font-weight:700;padding:6px 14px;border-radius:20px;letter-spacing:0.06em}
+
+/* Validate with NemaLife block */
+.rp-validate{background:var(--ink);border-radius:12px;padding:1.5rem;position:relative;overflow:hidden}
+.rp-validate::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 80% 80% at 100% 0%,rgba(117,43,113,0.3),transparent 70%);pointer-events:none}
+.rp-validate-eyebrow{font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--g4);margin-bottom:6px;position:relative;z-index:1}
+.rp-validate-title{font-family:'DM Serif Display',serif;font-size:1.2rem;color:#fff;margin-bottom:8px;position:relative;z-index:1}
+.rp-validate-body{font-size:13px;color:rgba(255,255,255,0.5);line-height:1.65;margin-bottom:1.25rem;position:relative;z-index:1}
+.rp-validate-services{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:1.25rem;position:relative;z-index:1}
+.rp-svc{font-size:11px;font-weight:700;padding:4px 12px;border-radius:20px;border:1px solid rgba(255,255,255,0.12);color:rgba(255,255,255,0.6);background:rgba(255,255,255,0.05)}
+.rp-validate-cta{display:inline-flex;align-items:center;gap:6px;background:var(--purple);color:#fff;font-family:'Barlow',sans-serif;font-size:12px;font-weight:800;padding:9px 20px;border-radius:20px;border:none;cursor:default;opacity:0.85;user-select:none;position:relative;z-index:1}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-links">
+    <a href="#why">The Model</a><a href="#hallmarks">Hallmarks</a><a href="#database">Database</a>
+    <a href="#database" class="nav-cta">Explore Ingredients →</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="hero">
+  <div class="hero-left">
+    <div class="eyebrow"><div class="eyebrow-line"></div><div class="eyebrow-text">NemaLife · Ingredient Intelligence Platform</div></div>
+    <h1 class="hero-title">Ingredient intelligence for<br>the <em>healthy longevity</em> economy<span class="worm-name">Powered by bio-intelligence</span></h1>
+    <p class="hero-desc">From published evidence to proprietary validation — NemaLife helps ingredient suppliers and nutraceutical brands build <strong>scientifically defensible healthy longevity evidence</strong>, grounded in <em>C. elegans</em> biology and the hallmarks of aging.</p>
+    <div class="hero-stats">
+      <div class="hero-stat"><div class="hero-stat-num">301</div><div class="hero-stat-label">Natural ingredients</div></div>
+      <div class="hero-stat"><div class="hero-stat-num">9</div><div class="hero-stat-label">Hallmarks of aging</div></div>
+      <div class="hero-stat"><div class="hero-stat-num">6</div><div class="hero-stat-label">Ingredient categories</div></div>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="demo-wrap">
+      <div class="demo-inner">
+        <div class="demo-nav-bar">
+          <div class="demo-dot" style="background:#c04060"></div>
+          <div class="demo-dot" style="background:#b87a00"></div>
+          <div class="demo-dot" style="background:#4a8040"></div>
+          <div class="demo-logo"><span style="color:#b060ab">Nema</span>Life · Ingredient Intelligence</div>
+        </div>
+        <div class="demo-body">
+          <div class="demo-step-label" id="demo-step-label"></div>
+          <div class="demo-search-row">
+            <svg width="13" height="13" viewBox="0 0 16 16" fill="none"><circle cx="7" cy="7" r="5" stroke="#7a6078" stroke-width="1.5"/><path d="M11 11l3 3" stroke="#7a6078" stroke-width="1.5" stroke-linecap="round"/></svg>
+            <div class="demo-search-text" id="demo-search-text"><span class="demo-cursor" id="demo-cursor"></span></div>
+          </div>
+          <div class="demo-pills-row" id="demo-hm-pills"></div>
+          <div class="demo-pills-row" id="demo-cat-pills"></div>
+          <div class="demo-count" id="demo-count"></div>
+          <div class="demo-table-wrap">
+            <div class="demo-t-head">
+              <div class="demo-th">Ingredient</div>
+              <div class="demo-th">Signal</div>
+              <div class="demo-th">Hallmarks</div>
+            </div>
+            <div id="demo-t-rows"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHY C. ELEGANS -->
+<section class="why" id="why">
+  <div class="sec-eyebrow"><div class="sec-eyebrow-line"></div><div class="sec-eyebrow-text">Why C. elegans</div></div>
+  <h2 class="sec-title">The gold standard for <em>in vivo</em> longevity screening</h2>
+  <p class="sec-desc">No other model organism combines biological depth, experimental throughput, and validated longevity science the way <em>C. elegans</em> does. This is where longevity research begins.</p>
+  <div class="creds-row">
+    <div class="cred"><div class="cred-icon">🧬</div><div><div class="cred-label">60–80% human gene homology</div><div class="cred-sub">Nearly all core aging pathways — FOXO, mTOR, AMPK, sirtuins, autophagy — are functionally conserved. Findings in <em>C. elegans</em> consistently predict mammalian outcomes.</div></div></div>
+    <div class="cred"><div class="cred-icon">⚡</div><div><div class="cred-label">3–4 week lifespan enables rapid iteration</div><div class="cred-sub">Full lifespan experiments complete in 3–4 weeks. Rodent studies take 2–3 years. <em>C. elegans</em> delivers statistically powered results at a fraction of the time and cost.</div></div></div>
+    <div class="cred"><div class="cred-icon">🏆</div><div><div class="cred-label">Four Nobel Prizes — validated by science</div><div class="cred-sub">Programmed cell death (2002), RNA interference (2006), GFP (2008), and microRNA discovery (2024) were all discovered or validated using <em>C. elegans</em>. The first longevity genes (age-1, daf-2) were identified here.</div></div></div>
+  </div>
+</section>
+
+<!-- HALLMARKS -->
+<section class="hallmarks" id="hallmarks">
+  <div class="sec-eyebrow"><div class="sec-eyebrow-line"></div><div class="sec-eyebrow-text">C. elegans · López-Otín et al. 2013, 2023 · Applied to Ingredient Science</div></div>
+  <h2 class="sec-title">Re-imagining the hallmarks of aging<br>as <em>formulation targets</em></h2>
+  <p class="sec-desc">The 12 hallmarks of aging are the scientific community's consensus map of how and why we age. NemaLife translates each hallmark into an actionable ingredient target — grounding commercial longevity claims in the same biological framework used by leading aging researchers. 9 of the 12 hallmarks are directly conserved and experimentally measurable in <em>C. elegans</em>, making it uniquely suited to screen which ingredients actually move the needle on the biology that matters. Each card below shows the clinical hallmark alongside its positive formulation equivalent — the health outcome your ingredient can substantiate.</p>
+  <div class="hm-grid" id="hm-grid"></div>
+</section>
+
+<!-- DATABASE -->
+<section class="database" id="database">
+  <div class="db-header-grid">
+    <div class="db-header-left">
+      <div class="sec-eyebrow"><div class="sec-eyebrow-line"></div><div class="sec-eyebrow-text">NemaLife-Curated Longevity Ingredients</div></div>
+      <h2 class="sec-title db-title">Organised and curated science for<br><em>positioning your longevity ingredients.</em></h2>
+      <p class="sec-desc db-desc">Every ingredient in this database has published <em>C. elegans</em> lifespan data. What the published literature doesn't give you is a competitive benchmark, a hallmark-to-formulation translation, or a plain-language read on what the evidence means for your product. NemaLife's expert curation team has extracted pathway-level mechanistic data from peer-reviewed source papers — mapping each ingredient to the specific hallmarks of aging it addresses, scoring the evidence depth, and benchmarking it against every other ingredient in the category. <strong>The data is public. The intelligence layer is NemaLife's.</strong></p>
+    </div>
+    <div class="db-header-right">
+      <div class="db-callout-stacked">
+        <div class="db-callout-item">
+          <div class="db-callout-icon">🔍</div>
+          <div>
+            <div class="db-callout-label">Search and filter freely</div>
+            <div class="db-callout-sub">Browse 301 curated ingredients by hallmark of aging, ingredient class, or evidence signal. Click any row to expand the published evidence summary.</div>
+          </div>
+        </div>
+        <div class="db-callout-item">
+          <div class="db-callout-icon">📄</div>
+          <div>
+            <div class="db-callout-label">Go deeper with an Evidence Report</div>
+            <div class="db-callout-sub">Every ingredient row gives you access to a full <strong>$499 Evidence Report</strong> — competitive benchmarking, dose-response context, hallmark coverage map, and NemaLife's formulation intelligence.</div>
+            <div style="margin-top:10px">
+              <span class="sample-tag" onclick="openSampleModal()" style="font-size:11px">See sample evidence report</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="db-top">
+    <div class="search-wrap">
+      <svg class="search-icon" width="14" height="14" viewBox="0 0 16 16" fill="none"><circle cx="7" cy="7" r="5" stroke="#7a6078" stroke-width="1.5"/><path d="M11 11l3 3" stroke="#7a6078" stroke-width="1.5" stroke-linecap="round"/></svg>
+      <input class="search-input" id="search-input" type="text" placeholder="Search ingredients, sources, mechanisms…">
+    </div>
+    <select class="sort-sel" id="sort-sel" onchange="renderDB()">
+      <option value="effect">Sort: Evidence signal (high → low)</option>
+      <option value="n">Sort: Published studies (high → low)</option>
+      <option value="sigPct">Sort: Significance % (high → low)</option>
+      <option value="name">Sort: Name A → Z</option>
+    </select>
+  </div>
+  <div class="pills" id="hm-pills"></div>
+  <div class="pills" id="cat-pills"></div>
+  <div class="db-meta">
+    <div class="chips" id="chips"></div>
+    <div class="db-count" id="db-count"></div>
+  </div>
+  <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;font-size:12px;color:var(--text3)">
+    <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7" stroke="var(--purple)" stroke-width="1.5"/><path d="M8 7v4" stroke="var(--purple)" stroke-width="1.5" stroke-linecap="round"/><circle cx="8" cy="5.5" r="0.75" fill="var(--purple)"/></svg>
+    <span>Click any ingredient row to expand details and access the <strong style="color:var(--purple)">$499 Evidence Report</strong></span>
+  </div>
+  <div class="db-wrap">
+    <table>
+      <thead><tr>
+        <th style="width:34px">#</th>
+        <th onclick="sortDB('name')">Ingredient <span class="arr">↕</span></th>
+        <th onclick="sortDB('cat')">Class <span class="arr">↕</span></th>
+        <th onclick="sortDB('effect')">Evidence Signal <span class="arr">↕</span></th>
+        <th onclick="sortDB('n')">Lifespan Studies <span class="arr">↕</span></th>
+        <th class="th-hm" onclick="sortDB('hallmark')">Targeted Hallmarks <span class="arr">↕</span></th>
+      </tr></thead>
+      <tbody id="db-body"></tbody>
+    </table>
+  </div>
+  <div class="empty-state" id="empty-state" style="display:none"><div>🔬</div><p>No ingredients match your filters. Try broadening your search.</p></div>
+  <div class="footnote">
+    <div class="fn-icon">i</div>
+    <div class="fn-text"><strong>Data source:</strong> Curated from peer-reviewed published studies in <em>Caenorhabditis elegans</em>. Natural botanical and nutritional ingredients only. Mean lifespan Δ = average % change vs. controls. Hallmark annotations based on López-Otín et al. (2013, 2023); 9 of 12 hallmarks are directly conserved in <em>C. elegans</em>. Significance defined as p &lt; 0.05. <strong>For research and business intelligence purposes only — not medical or regulatory guidance.</strong></div>
+  </div>
+</section>
+
+<!-- ══ SLIDE-IN EVIDENCE REPORT PANEL ══ -->
+<div class="panel-overlay" id="panel-overlay" onclick="closePanel()"></div>
+
+<div class="report-panel" id="report-panel">
+  <div class="rp-header">
+    <button class="rp-close" onclick="closePanel()">✕</button>
+    <div class="rp-eyebrow">NemaLife · Evidence Report</div>
+    <div class="rp-name" id="rp-name">—</div>
+    <div class="rp-cls" id="rp-cls">—</div>
+    <div class="rp-badges" id="rp-badges"></div>
+  </div>
+
+  <div class="rp-body">
+
+    <!-- FREE: Key metrics -->
+    <div class="rp-section">
+      <div class="rp-section-label">Published evidence summary</div>
+      <div class="rp-stats" id="rp-stats"></div>
+      <div class="rp-hm-tags" id="rp-hm-tags"></div>
+    </div>
+
+    <!-- FREE: Teaser interpretation -->
+    <div class="rp-section">
+      <div class="rp-section-label">What this means for your formulation</div>
+      <div class="rp-teaser" id="rp-interp-free"></div>
+      <div class="rp-teaser-blur" id="rp-interp-blur">
+        <div style="font-size:13px;line-height:1.75;color:var(--text2)" id="rp-interp-locked-preview"></div>
+      </div>
+    </div>
+
+    <!-- GATE WALL -->
+    <div class="rp-gate" id="rp-gate">
+      <div class="rp-gate-icon">🔬</div>
+      <div class="rp-gate-title">Full Evidence Report</div>
+      <div style="display:inline-flex;align-items:baseline;gap:6px;margin:0.5rem 0 0.75rem">
+        <span style="font-family:'DM Serif Display',serif;font-size:2.2rem;color:var(--purple);line-height:1">$499</span>
+        <span style="font-size:12px;color:var(--text3);font-weight:700">per ingredient</span>
+      </div>
+      <div style="display:flex;gap:6px;flex-wrap:wrap;justify-content:center;margin-bottom:1rem">
+        <span style="font-size:10px;font-weight:700;color:var(--g2);background:var(--g-pale);border:1px solid var(--g-light);padding:3px 9px;border-radius:20px">✓ All published studies</span>
+        <span style="font-size:10px;font-weight:700;color:var(--g2);background:var(--g-pale);border:1px solid var(--g-light);padding:3px 9px;border-radius:20px">✓ PubMed sources</span>
+        <span style="font-size:10px;font-weight:700;color:var(--g2);background:var(--g-pale);border:1px solid var(--g-light);padding:3px 9px;border-radius:20px">✓ Competitive ranking</span>
+        <span style="font-size:10px;font-weight:700;color:var(--g2);background:var(--g-pale);border:1px solid var(--g-light);padding:3px 9px;border-radius:20px">✓ Dose-response data</span>
+        <span style="font-size:10px;font-weight:700;color:var(--g2);background:var(--g-pale);border:1px solid var(--g-light);padding:3px 9px;border-radius:20px">✓ NemaLife commentary</span>
+      </div>
+      <div class="rp-gate-sub">Leave your details and we'll send you a sample report for this ingredient. Pricing and full access details will follow.</div>
+
+      <div class="rp-gate-form" id="rp-gate-form">
+        <input class="rp-input" id="rp-email" type="email" placeholder="Work email address">
+        <input class="rp-input" id="rp-company" type="text" placeholder="Company name">
+        <button class="rp-submit" onclick="submitGate()">Send me the sample report →</button>
+        <div style="font-size:11px;color:var(--text3);text-align:center">A sample report for one ingredient will be sent to your inbox. No spam, no commitment.</div>
+      </div>
+
+      <div class="rp-gate-thanks" id="rp-gate-thanks">
+        <div class="rp-gate-thanks-icon">✅</div>
+        <div class="rp-gate-thanks-title">You're on the list</div>
+        <div class="rp-gate-thanks-sub">A sample evidence report for <strong id="rp-thanks-name"></strong> is on its way. A NemaLife team member will follow up shortly.</div>
+      </div>
+    </div>
+
+    <!-- LOCKED: Competitive benchmarking -->
+    <div class="rp-section" style="margin-top:1.75rem">
+      <div class="rp-section-label">Competitive benchmarking</div>
+      <div class="rp-locked">
+        <div class="rp-locked-content" id="rp-bench-preview">
+          <div style="display:flex;flex-direction:column;gap:8px">
+            <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 12px;background:var(--bg2);border-radius:8px;font-size:12px;font-weight:700">
+              <span>Urolithin A</span><span style="color:var(--g2);font-family:'DM Mono',monospace">+35.4%</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 12px;background:var(--purple-pale);border:1px solid var(--purple-light);border-radius:8px;font-size:12px;font-weight:800">
+              <span id="rp-bench-self">—</span><span id="rp-bench-self-val" style="font-family:'DM Mono',monospace;color:var(--purple)">—</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 12px;background:var(--bg2);border-radius:8px;font-size:12px;font-weight:700">
+              <span>Resveratrol</span><span style="color:var(--g3);font-family:'DM Mono',monospace">+14.3%</span>
+            </div>
+          </div>
+        </div>
+        <div class="rp-lock-badge"><div class="rp-lock-pill">🔒 Full ranking unlocked in report</div></div>
+      </div>
+    </div>
+
+    <!-- LOCKED: All published studies -->
+    <div class="rp-section">
+      <div class="rp-section-label">All published studies</div>
+      <div class="rp-locked">
+        <div class="rp-locked-content">
+          <div style="display:flex;flex-direction:column;gap:6px">
+            <div style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:8px;padding:6px 10px;background:var(--purple);border-radius:6px 6px 0 0">
+              <span style="font-size:10px;font-weight:700;color:rgba(255,255,255,0.7);text-transform:uppercase;letter-spacing:0.08em">Dose</span>
+              <span style="font-size:10px;font-weight:700;color:rgba(255,255,255,0.7);text-transform:uppercase;letter-spacing:0.08em">Lifespan Δ</span>
+              <span style="font-size:10px;font-weight:700;color:rgba(255,255,255,0.7);text-transform:uppercase;letter-spacing:0.08em">Sig.</span>
+              <span style="font-size:10px;font-weight:700;color:rgba(255,255,255,0.7);text-transform:uppercase;letter-spacing:0.08em">PMID</span>
+            </div>
+            <div style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:8px;padding:8px 10px;background:var(--bg2);font-size:12px">
+              <span style="font-family:'DM Mono',monospace">100 µM</span>
+              <span style="color:var(--g2);font-family:'DM Mono',monospace">+38.1%</span>
+              <span style="color:var(--g2);font-weight:700">p&lt;0.05</span>
+              <span style="font-family:'DM Mono',monospace;color:var(--purple)">████████</span>
+            </div>
+            <div style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:8px;padding:8px 10px;background:#fff;font-size:12px">
+              <span style="font-family:'DM Mono',monospace">50 µM</span>
+              <span style="color:var(--g2);font-family:'DM Mono',monospace">+31.4%</span>
+              <span style="color:var(--g2);font-weight:700">p&lt;0.05</span>
+              <span style="font-family:'DM Mono',monospace;color:var(--purple)">████████</span>
+            </div>
+            <div style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:8px;padding:8px 10px;background:var(--bg2);font-size:12px">
+              <span style="font-family:'DM Mono',monospace">200 µM</span>
+              <span style="color:var(--g3);font-family:'DM Mono',monospace">+18.2%</span>
+              <span style="color:var(--g2);font-weight:700">p&lt;0.05</span>
+              <span style="font-family:'DM Mono',monospace;color:var(--purple)">████████</span>
+            </div>
+          </div>
+        </div>
+        <div class="rp-lock-badge"><div class="rp-lock-pill">🔒 All studies + PubMed links in report</div></div>
+      </div>
+    </div>
+
+    <!-- LOCKED: NemaLife commentary -->
+    <div class="rp-section">
+      <div class="rp-section-label">NemaLife ingredient commentary</div>
+      <div class="rp-locked">
+        <div class="rp-locked-content" style="padding:1rem;background:var(--bg2);border-radius:10px;font-size:13px;line-height:1.75;color:var(--text3)">
+          This ingredient ranks in the top quartile of its category for mean lifespan extension and demonstrates excellent study replication. Its primary mechanism aligns with the nutrient-sensing pathway, making it a strong candidate for formulations targeting... The competitive positioning versus analogues in the same hallmark category suggests... NemaLife recommends a validation study at... dose range to confirm translational signal strength.
+        </div>
+        <div class="rp-lock-badge"><div class="rp-lock-pill">🔒 Full commentary in report</div></div>
+      </div>
+    </div>
+
+    <!-- Validate with NemaLife -->
+    <div class="rp-validate">
+      <div class="rp-validate-eyebrow">Go beyond the database</div>
+      <div class="rp-validate-title">Validate this ingredient with NemaLife</div>
+      <div class="rp-validate-body">Published studies tell you what's been done. A NemaLife study tells you what your specific ingredient formulation, dose, and combination does — with whole-organism transcriptomics and a Longevity Signal Score your brand can own.</div>
+      <div class="rp-validate-services">
+        <span class="rp-svc">Discovery Flywheel™</span>
+        <span class="rp-svc">BioSēq™ Transcriptomics</span>
+        <span class="rp-svc">Formulation Study</span>
+        <span class="rp-svc">Space Validated™</span>
+      </div>
+      <button class="rp-validate-cta">Talk to NemaLife →</button>
+    </div>
+
+  </div><!-- end rp-body -->
+</div><!-- end report-panel -->
+
+
+<script>
+const HALLMARKS=[
+  {id:'genomic',icon:'🧬',num:'01',name:'Genomic Instability',sub:'DNA damage accumulation',detail:'Accumulated DNA damage is a primary driver of aging. <em>C. elegans</em> fully conserves DNA repair pathways — brc-1 (BRCA1), cep-1 (p53), and mismatch repair machinery all modulate lifespan. Antioxidants and polyphenols that reduce oxidative DNA damage show measurable lifespan extension.',genes:['brc-1','cep-1','rad-51','hus-1','mrt-2'],color:'#9040c0'},
+  {id:'telomere',icon:'🔗',num:'02',name:'Telomere Attrition',sub:'Chromosome end shortening',detail:'Telomere shortening triggers cellular senescence and tissue dysfunction. <em>C. elegans</em> expresses trt-1 (TERT, catalytic telomerase subunit). Germline telomere maintenance directly influences somatic longevity, and ingredients supporting telomere integrity show lifespan-protective effects.',genes:['trt-1','mrt-2','pot-1','pot-2'],color:'#4060b0'},
+  {id:'epigenetic',icon:'🎛️',num:'03',name:'Epigenetic Alterations',sub:'Chromatin remodeling & methylation drift',detail:'Age-associated changes in histone modification and chromatin remodeling are fully recapitulated in <em>C. elegans</em>. Sirtuin activation (sir-2.1), H3K4 methylation (set-2/MLL), and histone deacetylases influence lifespan. Resveratrol and NAD+ precursors act through these epigenetic mechanisms.',genes:['sir-2.1','sir-2.2','met-2','set-2','pqm-1'],color:'#207060'},
+  {id:'proteostasis',icon:'⚙️',num:'04',name:'Loss of Proteostasis',sub:'Protein folding, aggregation & clearance',detail:'Proteostasis maintenance declines with age as chaperone capacity drops and aggregates accumulate. Overexpression of heat shock proteins extends <em>C. elegans</em> lifespan. Polyphenols activating the heat shock response or proteasome show consistent longevity benefits.',genes:['hsp-16.2','hsp-90','daf-21','hsf-1','lon-1'],color:'#b05020'},
+  {id:'nutrient',icon:'📡',num:'05',name:'Deregulated Nutrient Sensing',sub:'IIS, mTOR, AMPK & sirtuins',detail:'The insulin/IGF-1 signaling (IIS) pathway is the most powerful longevity pathway in <em>C. elegans</em>. Reduced daf-2 signaling activates daf-16/FOXO, extending lifespan by up to 100%. Downstream, mTOR, AMPK, and sirtuins form an integrated network targeted by many longevity ingredients.',genes:['daf-2','daf-16','let-363','aak-2','sir-2.1','rsks-1'],color:'#752B71'},
+  {id:'mitochondria',icon:'⚡',num:'06',name:'Mitochondrial Dysfunction',sub:'ETC impairment, ROS & biogenesis decline',detail:'Mitochondrial function declines through ROS accumulation and reduced biogenesis. <em>C. elegans</em> has fully conserved mitochondrial quality control via the PINK-1/PDR-1 (PINK1/Parkin) mitophagy pathway. PQQ, urolithin A, and spermidine target mitochondrial biogenesis and mitophagy to extend lifespan.',genes:['dct-1','pink-1','pdr-1','drp-1','clk-1','isp-1'],color:'#c04060'},
+  {id:'senescence',icon:'🛑',num:'07',name:'Cellular Senescence',sub:'Arrested cells with inflammatory secretome',detail:'<em>C. elegans</em> post-mitotic cells exhibit analogous arrested-state aging and SASP-like inflammatory secretion. The DAF-16/p53 axis governs DNA damage-induced cell fate, and ingredients dampening inflammatory signaling extend healthy longevity.',genes:['cep-1','tir-1','pmk-1','daf-16','irg-1'],color:'#808020'},
+  {id:'stem',icon:'🌱',num:'08',name:'Stem Cell Exhaustion',sub:'Regenerative capacity decline',detail:'In <em>C. elegans</em>, the germline stem cell niche (Notch/GLP-1 signaling) directly influences somatic aging — germline removal paradoxically extends lifespan by ~60% via DAF-16 activation, revealing a powerful inter-tissue longevity signaling axis.',genes:['glp-1','lag-2','lst-1','sygl-1','daf-16'],color:'#2060a0'},
+  {id:'communication',icon:'📶',num:'09',name:'Altered Intercellular Communication',sub:'Inflammaging & inter-tissue signaling',detail:'<em>C. elegans</em> has a well-characterized multi-tissue signaling network — neurons secrete >40 insulin-like peptides (INS family) that modulate DAF-16 activity in distal tissues, making it ideal for studying longevity inter-tissue signals.',genes:['ins-7','daf-7','tph-1','octr-1','npr-1'],color:'#20a060'},
+  {id:'autophagy',icon:'♻️',num:'10',name:'Disabled Macroautophagy',sub:'Cellular recycling impairment',detail:'Macroautophagy declines with age and is essential for longevity. In <em>C. elegans</em>, autophagy is required for lifespan extension by dietary restriction and IIS reduction. Spermidine and urolithin A extend lifespan specifically through autophagy/mitophagy induction.',genes:['bec-1','lgg-1','atg-7','atg-18','epg-1'],color:'#6020a0'},
+  {id:'inflammation',icon:'🔥',num:'11',name:'Chronic Inflammation',sub:'Inflammaging & innate immune dysregulation',detail:'<em>C. elegans</em> has a conserved innate immune response via p38 MAPK (PMK-1), TLR signaling (tir-1), and DAF-2/DAF-16. Anti-inflammatory ingredients including curcumin, quercetin, and berberine extend lifespan through this pathway.',genes:['pmk-1','tir-1','skn-1','daf-2','daf-16','bar-1'],color:'#c05020'},
+  {id:'dysbiosis',icon:'🦠',num:'12',name:'Gut Microbiome Dysbiosis',sub:'Microbiome composition & metabolite shifts',detail:'<em>C. elegans</em> feeds on bacteria and its gut microenvironment directly affects lifespan. Urolithin A — produced by gut bacteria from dietary ellagitannins — exemplifies how microbiome-ingredient interactions drive longevity pharmacology.',genes:['daf-16','skn-1','pmk-1','clk-1'],color:'#20a080'},
+];
+
+const DB=[
+  {name:"Rosmarinic acid",cls:"Hydroxycinnamic acid",cat:"polyphenol",effect:40.6,n:4,sigPct:100,hallmarks:["proteostasis","inflammation","genomic"],source:"Rosemary, sage, basil",pubmeds:["21503726","31206890"],desc:"A hydroxycinnamic acid polyphenol abundant in rosemary and sage, rosmarinic acid is one of the strongest lifespan-extending ingredients in the C. elegans literature. It activates the SKN-1/NRF2 antioxidant pathway and heat shock proteins, directly supporting protein quality and genomic protection. Its multi-hallmark coverage spans proteostasis, inflammation control, and DNA protection."},
+  {name:"Blueberry extract",cls:"Botanical extract",cat:"botanical",effect:39.8,n:4,sigPct:75,hallmarks:["inflammation","proteostasis","nutrient"],source:"Vaccinium corymbosum",pubmeds:["27486399","30238944"],desc:"A whole-extract polyphenol complex rich in anthocyanins and flavonoids, blueberry extract has demonstrated consistent lifespan extension across multiple independent C. elegans studies. It activates DAF-16/FOXO and SKN-1/NRF2 pathways, supporting metabolic balance and inflammation control. Its broad phytochemical profile makes it a compelling multi-hallmark longevity ingredient."},
+  {name:"Urolithin B",cls:"Urolithin metabolite",cat:"polyphenol",effect:36.6,n:2,sigPct:100,hallmarks:["mitochondria","autophagy","dysbiosis"],source:"Pomegranate / gut microbiome metabolite",pubmeds:["27400265"],desc:"A gut microbiome-derived metabolite produced from ellagitannins in pomegranate and berries, Urolithin B shares the mitophagy-inducing mechanism of its more-studied sibling Urolithin A. It supports mitochondrial health through selective clearance of damaged mitochondria via the DCT-1/BNIP3 pathway. Like all urolithins, its bioavailability is dependent on gut microbiome composition."},
+  {name:"Urolithin C",cls:"Urolithin metabolite",cat:"polyphenol",effect:36.0,n:2,sigPct:100,hallmarks:["mitochondria","autophagy","dysbiosis"],source:"Pomegranate / gut microbiome metabolite",pubmeds:["27400265"],desc:"A direct ellagitannin metabolite produced by gut bacteria, Urolithin C demonstrates strong lifespan extension in C. elegans with full statistical significance. It targets mitochondrial health and cellular recycling through the conserved autophagy/mitophagy pathway. Its activity reinforces the importance of the gut microbiome in mediating longevity benefits from polyphenol-rich foods."},
+  {name:"Urolithin A",cls:"Urolithin metabolite",cat:"polyphenol",effect:35.4,n:6,sigPct:100,hallmarks:["mitochondria","autophagy","dysbiosis","inflammation"],source:"Pomegranate, berries / gut microbiome",pubmeds:["27400265"],desc:"The most studied urolithin metabolite, Urolithin A extends lifespan through induction of mitophagy — selective clearance of damaged mitochondria — via the DCT-1/BNIP3 pathway, confirmed by genetic epistasis. With 6 experimental entries all achieving statistical significance, it represents one of the strongest and most replicable longevity signals in the database. It targets four hallmarks: mitochondrial health, cellular recycling, gut health, and inflammation control."},
+  {name:"Vitamin D3",cls:"Fat-soluble secosteroid",cat:"vitamin",effect:26.8,n:5,sigPct:100,hallmarks:["inflammation","communication","nutrient"],source:"Dietary / UV synthesis",pubmeds:["24304198","27783938"],desc:"Vitamin D3 extends C. elegans lifespan independently of its classical receptor, acting through DAF-16/FOXO and SKN-1 pathway activation. Across 5 experimental entries with 100% statistical significance, it demonstrates consistent support for metabolic balance and inflammation control. Its conserved longevity mechanisms across species make it a credible multi-hallmark ingredient for healthy aging formulations."},
+  {name:"Myricetin",cls:"Flavonol",cat:"polyphenol",effect:25.4,n:2,sigPct:100,hallmarks:["inflammation","proteostasis","epigenetic"],source:"Walnuts, cranberries, tea",pubmeds:["22155175","23736695"],desc:"A structurally potent flavonol found in walnuts, cranberries, and tea, myricetin activates DAF-16/FOXO, SKN-1/NRF2, and sirtuin pathways simultaneously. Both C. elegans studies achieved statistical significance, supporting protein quality, inflammation control, and epigenetic health. Its multi-pathway activation profile positions it as a high-value longevity polyphenol with strong formulation potential."},
+  {name:"Alpha-ketoglutarate",cls:"TCA cycle organic acid",cat:"metabolite",effect:25.2,n:7,sigPct:86,hallmarks:["nutrient","mitochondria","epigenetic"],source:"Endogenous / fermentation",pubmeds:["24828042","25643626","26190651","31820364"],desc:"A central TCA cycle metabolite, alpha-ketoglutarate extends lifespan in C. elegans primarily through inhibition of mTOR signalling and AMPK activation, mimicking aspects of caloric restriction. With 7 experimental entries across 4 independent research groups and 86% significance, it has one of the deepest evidence bases in the metabolite category. It also serves as a cofactor for TET demethylases, giving it a direct epigenetic health dimension."},
+  {name:"Pyrroloquinoline quinone",cls:"Redox-active cofactor",cat:"vitamin",effect:24.8,n:7,sigPct:100,hallmarks:["mitochondria","proteostasis","nutrient"],source:"Natto, kiwi, spinach",pubmeds:["27090484","28676501"],desc:"PQQ is a redox-active cofactor that stimulates mitochondrial biogenesis via homologs of the PGC-1α pathway, directly addressing mitochondrial health. With 7 experimental entries and 100% statistical significance across 2 independent labs, it has an exceptionally consistent evidence profile. It additionally supports protein quality and metabolic balance through AMPK activation."},
+  {name:"Selenocysteine",cls:"Selenoamino acid",cat:"amino",effect:23.8,n:5,sigPct:100,hallmarks:["proteostasis","inflammation","genomic"],source:"Brazil nuts, selenized yeast",pubmeds:["28954009","30365103"],desc:"An organoselenium amino acid that activates glutathione peroxidase homologs in C. elegans, selenocysteine provides potent antioxidant enzyme induction across a narrow but effective dose window. Across 5 experimental entries with 100% significance, it supports DNA protection, protein quality, and inflammation control. Its activity is dose-sensitive — efficacy drops sharply above optimal concentration."},
+  {name:"Raspberry extract",cls:"Botanical extract",cat:"botanical",effect:22.1,n:3,sigPct:100,hallmarks:["inflammation","dysbiosis","autophagy"],source:"Rubus idaeus",pubmeds:["32285078"],desc:"A whole-fruit botanical extract rich in anthocyanins and ellagitannins, raspberry extract extends lifespan in C. elegans with 100% statistical significance across all 3 experimental entries. As an ellagitannin source, it serves as a precursor to urolithin metabolites via gut microbiome conversion, linking it to gut health alongside direct inflammation control and cellular recycling benefits."},
+  {name:"Allantoin",cls:"Purine metabolite",cat:"metabolite",effect:21.8,n:2,sigPct:100,hallmarks:["inflammation","proteostasis"],source:"Comfrey root, beet, wheat sprouts",pubmeds:["26676933","30269951"],desc:"A purine metabolite found naturally in comfrey root, beet, and wheat sprouts, allantoin has demonstrated significant lifespan extension in C. elegans across 2 independent studies. It activates DAF-16/FOXO and SKN-1 pathways, supporting inflammation control and protein quality. As an understudied ingredient with consistent C. elegans evidence, it represents a differentiation opportunity for longevity formulators."},
+  {name:"Astragalus extract",cls:"Saponin botanical extract",cat:"botanical",effect:21.3,n:7,sigPct:86,hallmarks:["telomere","inflammation","proteostasis"],source:"Astragalus membranaceus root",pubmeds:["21892924","25186652"],desc:"A foundational ingredient in traditional Chinese medicine, astragalus extract extends lifespan in C. elegans across 7 experimental entries with 86% significance. It activates DAF-16/FOXO and heat shock proteins, supporting telomere support, inflammation control, and proteostasis. The saponin astragaloside IV and cycloastragenol within the extract are associated with telomerase activation in mammalian models."},
+  {name:"Theophylline",cls:"Methylxanthine alkaloid",cat:"botanical",effect:21.2,n:2,sigPct:100,hallmarks:["nutrient","autophagy"],source:"Tea leaves, cacao",pubmeds:["31432005"],desc:"A methylxanthine alkaloid naturally present in tea and cacao, theophylline extends lifespan through AMPK activation and mTOR inhibition — mechanisms that mimic aspects of dietary restriction. Both C. elegans entries achieved statistical significance, targeting metabolic balance and cellular recycling. Its established pharmacological profile provides a well-characterised mechanistic foundation for longevity formulations."},
+  {name:"Icariin",cls:"Flavonoid glycoside",cat:"polyphenol",effect:20.7,n:1,sigPct:100,hallmarks:["nutrient","epigenetic","stem"],source:"Epimedium (Horny Goat Weed)",pubmeds:["22216122"],desc:"The primary bioactive flavonoid glycoside from Epimedium (Horny Goat Weed), icariin extends C. elegans lifespan through DAF-16/FOXO and sirtuin pathway activation. Its single experimental entry achieved 100% statistical significance. In mammalian models, icariin is associated with stem cell support and epigenetic health, giving it a broad multi-hallmark positioning."},
+  {name:"Baicalein",cls:"Flavone",cat:"polyphenol",effect:20.6,n:6,sigPct:67,hallmarks:["inflammation","nutrient","proteostasis"],source:"Scutellaria baicalensis root",pubmeds:["22114686","23339711","33809299"],desc:"A flavone extracted from Scutellaria baicalensis root, baicalein extends lifespan in C. elegans across 6 experimental entries through DAF-16/FOXO nuclear localisation and SKN-1 activation. It supports inflammation control, metabolic balance, and protein quality. A well-established ingredient in the nutraceutical category with a growing evidence base in longevity science."},
+  {name:"Cranberry extract",cls:"Botanical extract",cat:"botanical",effect:19.9,n:4,sigPct:100,hallmarks:["inflammation","dysbiosis","genomic"],source:"Vaccinium macrocarpon",pubmeds:["22864793","24566444"],desc:"A polyphenol-rich botanical extract containing proanthocyanidins, anthocyanins, and flavonols, cranberry extract extends lifespan in C. elegans with 100% statistical significance across 4 studies. It supports inflammation control, gut health through antimicrobial PAC activity, and DNA protection via antioxidant mechanisms. Its dual positioning in urinary and longevity health makes it a commercially versatile ingredient."},
+  {name:"Urolithin D",cls:"Urolithin metabolite",cat:"polyphenol",effect:19.0,n:2,sigPct:100,hallmarks:["mitochondria","autophagy","dysbiosis"],source:"Pomegranate / gut microbiome metabolite",pubmeds:["27400265"],desc:"A gut microbiome-derived urolithin metabolite produced from pomegranate ellagitannins, Urolithin D demonstrates significant lifespan extension in C. elegans with 100% statistical significance. Like other urolithins, it acts through mitophagy induction and autophagy activation. Its lesser commercial profile versus Urolithin A represents a differentiation opportunity for formulators seeking novel urolithin positioning."},
+  {name:"Astaxanthin",cls:"Xanthophyll carotenoid",cat:"polyphenol",effect:18.1,n:4,sigPct:100,hallmarks:["inflammation","proteostasis","mitochondria"],source:"Haematococcus pluvialis, krill, shrimp",pubmeds:["22013497","22484623","33115330"],desc:"A xanthophyll carotenoid with exceptional singlet oxygen quenching capacity, astaxanthin extends C. elegans lifespan across 4 experimental entries with 100% statistical significance. It activates SKN-1/NRF2 and DAF-16/FOXO pathways and induces heat shock proteins, targeting inflammation control, protein quality, and mitochondrial health simultaneously. One of the most commercially established longevity antioxidants with strong C. elegans corroboration."},
+  {name:"Chlorophyll",cls:"Porphyrin botanical pigment",cat:"botanical",effect:17.6,n:5,sigPct:100,hallmarks:["inflammation","mitochondria","genomic"],source:"Spirulina, chlorella, leafy greens",pubmeds:["27077003"],desc:"Chlorophyll and its metabolite pheophytin a extend lifespan in C. elegans across 5 experimental entries with 100% significance, primarily through SKN-1/NRF2 antioxidant pathway activation. It supports inflammation control, mitochondrial health, and DNA protection. Found in abundance in spirulina, chlorella, and leafy greens, it offers a natural positioning within whole-food longevity ingredient stacks."},
+  {name:"Phosphatidylcholine",cls:"Glycerophospholipid",cat:"lipid",effect:16.4,n:2,sigPct:100,hallmarks:["mitochondria","communication","proteostasis"],source:"Egg yolk, soybeans, sunflower lecithin",pubmeds:["31379987"],desc:"A glycerophospholipid essential for membrane integrity and cholinergic signalling, phosphatidylcholine extends C. elegans lifespan with 100% statistical significance across 2 studies. It supports mitochondrial membrane function, cell signalling, and protein quality. Its established presence in the supplement market and strong mechanistic rationale make it a credible addition to longevity formulations."},
+  {name:"Serine",cls:"Amino acid",cat:"amino",effect:16.3,n:5,sigPct:100,hallmarks:["nutrient","proteostasis"],source:"Meat, eggs, soy, nuts",pubmeds:["25643626","30845140"],desc:"An amino acid serving as a critical substrate for one-carbon metabolism and phospholipid synthesis, serine extends C. elegans lifespan across 5 experimental entries with 100% significance. It activates DAF-16/FOXO and mTOR-related nutrient sensing pathways. Its role in protein synthesis and metabolic regulation positions it as a foundational longevity amino acid with multi-hallmark relevance."},
+  {name:"Calycosin",cls:"Isoflavone",cat:"polyphenol",effect:16.1,n:4,sigPct:100,hallmarks:["nutrient","epigenetic","inflammation"],source:"Astragalus (Huang Qi) root",pubmeds:["28434978"],desc:"An isoflavone from Astragalus root with phytoestrogenic and antioxidant properties, calycosin extends C. elegans lifespan across 4 experimental entries with 100% significance. It activates DAF-16/FOXO and AMPK pathways, targeting metabolic balance, epigenetic health, and inflammation control. Its botanical origin within Astragalus gives it natural positioning alongside other Astragalus-derived longevity actives."},
+  {name:"Beta-caryophyllene",cls:"Sesquiterpene",cat:"botanical",effect:16.1,n:3,sigPct:100,hallmarks:["inflammation","communication"],source:"Black pepper, cloves, cannabis",pubmeds:["24835194"],desc:"A sesquiterpene found in black pepper, cloves, and cannabis, beta-caryophyllene is the first dietary ingredient identified as a cannabinoid receptor agonist in mammals. In C. elegans, it extends lifespan across 3 experimental entries with 100% significance through DAF-16/FOXO and SKN-1 activation, targeting inflammation control and cell signalling. Its GRAS status and broad botanical sourcing support commercial formulation flexibility."},
+  {name:"Gamma-tocopherol",cls:"Vitamin E isomer",cat:"vitamin",effect:16.0,n:3,sigPct:100,hallmarks:["proteostasis","inflammation","mitochondria"],source:"Walnuts, pecans, sesame oil",pubmeds:["17169403","22484623"],desc:"The predominant form of vitamin E in the American diet, gamma-tocopherol shows stronger C. elegans lifespan extension than alpha-tocopherol, with 100% statistical significance across 3 studies. It activates SKN-1/NRF2 and supports protein quality, inflammation control, and mitochondrial health. Its superior anti-inflammatory activity versus alpha-tocopherol offers a more targeted longevity positioning."},
+  {name:"Withanolide A",cls:"Steroidal lactone",cat:"botanical",effect:15.1,n:4,sigPct:100,hallmarks:["nutrient","proteostasis","inflammation"],source:"Ashwagandha (Withania somnifera) root",pubmeds:["26956478"],desc:"The primary bioactive steroidal lactone from Ashwagandha (Withania somnifera) root, withanolide A extends C. elegans lifespan across 4 experimental entries with 100% significance. It activates DAF-16/FOXO and heat shock proteins, supporting metabolic balance, protein quality, and inflammation control. Ashwagandha's broad clinical adoption in the adaptogen market provides strong commercial positioning for longevity applications."},
+  {name:"Tocotrienol",cls:"Vitamin E tocotrienol",cat:"vitamin",effect:15.0,n:6,sigPct:83,hallmarks:["proteostasis","mitochondria","inflammation"],source:"Palm oil, rice bran, annatto",pubmeds:["10843344","16872777","22484623"],desc:"A vitamin E isoform with superior antioxidant and anti-inflammatory activity versus tocopherols, tocotrienol extends C. elegans lifespan across 6 experimental entries with 83% significance. It supports protein quality, mitochondrial health, and inflammation control through SKN-1 and DAF-16 pathway activation. Palm oil and annatto-derived tocotrienols represent commercially scalable sources."},
+  {name:"Spermidine",cls:"Polyamine",cat:"metabolite",effect:15.0,n:1,sigPct:100,hallmarks:["autophagy","epigenetic","proteostasis"],source:"Wheat germ, soybeans, aged cheese",pubmeds:["19801973"],desc:"A naturally occurring polyamine found in wheat germ, soybeans, and aged cheese, spermidine induces autophagy in C. elegans through well-conserved mechanisms active in mammals and humans. Its single experimental entry achieved 100% statistical significance. Strong translational data from mammalian and human observational studies makes spermidine one of the most compelling longevity ingredients in the autophagy category."},
+  {name:"Sulforaphane",cls:"Isothiocyanate",cat:"botanical",effect:15.7,n:3,sigPct:100,hallmarks:["inflammation","proteostasis","genomic"],source:"Broccoli sprouts, cruciferous vegetables",pubmeds:["33471780"],desc:"An isothiocyanate produced from glucoraphanin in cruciferous vegetables, sulforaphane is the canonical activator of the NRF2/SKN-1 antioxidant response element. Across 3 C. elegans experimental entries with 100% statistical significance, it supports inflammation control, protein quality, and DNA protection. Its strong mammalian and clinical evidence base makes it one of the most scientifically credible longevity ingredients available."},
+  {name:"Folic acid",cls:"B-vitamin / folate",cat:"vitamin",effect:14.7,n:4,sigPct:75,hallmarks:["genomic","epigenetic","proteostasis"],source:"Leafy greens, legumes, fortified foods",pubmeds:["26546011"],desc:"A B-vitamin essential for one-carbon metabolism, DNA methylation, and nucleotide synthesis, folic acid extends C. elegans lifespan across 4 experimental entries with 75% significance. It supports DNA protection, epigenetic health, and protein quality through DAF-16 and SKN-1 activation. Its established safety profile and regulatory approval status support straightforward commercial deployment."},
+  {name:"Emodin",cls:"Anthraquinone",cat:"botanical",effect:14.7,n:2,sigPct:100,hallmarks:["inflammation","autophagy","nutrient"],source:"Rhubarb root, aloe vera, buckthorn",pubmeds:["28831863"],desc:"An anthraquinone found in rhubarb root, aloe vera, and buckthorn, emodin extends C. elegans lifespan across 2 experimental entries with 100% significance through DAF-16/FOXO, AMPK, and mTOR pathway modulation. It targets inflammation control, cellular recycling, and metabolic balance. Emodin's multi-pathway activity and traditional medicine history support its positioning as a longevity botanical active."},
+  {name:"Resveratrol",cls:"Stilbene polyphenol",cat:"polyphenol",effect:14.3,n:31,sigPct:77,hallmarks:["epigenetic","nutrient","inflammation","mitochondria"],source:"Grape skin, Japanese knotweed, peanuts",pubmeds:["15254550","16256736","17460219","17875315"],desc:"The most studied longevity polyphenol in C. elegans with 31 experimental entries spanning 16 independent research groups, resveratrol activates the sirtuin SIR-2.1 (SIRT1 homolog), DAF-16/FOXO, AMPK, and mTOR pathways simultaneously. It targets epigenetic health, metabolic balance, inflammation control, and mitochondrial health — four of the nine conserved hallmarks. Its unmatched evidence depth anchors it as the reference ingredient for longevity polyphenol benchmarking."},
+  {name:"Vitamin E (tocopherols)",cls:"Fat-soluble vitamin",cat:"vitamin",effect:14.0,n:9,sigPct:78,hallmarks:["proteostasis","inflammation"],source:"Nuts, seeds, vegetable oils",pubmeds:["3374177","10843344","14706236","17169403"],desc:"Mixed tocopherols extend C. elegans lifespan across 9 experimental entries with 78% significance, primarily through SKN-1/NRF2 antioxidant pathway activation and DAF-16 modulation. They support protein quality and inflammation control, with alpha-tocopherol providing the foundational antioxidant activity. Vitamin E's established regulatory status and consumer familiarity make it a commercially versatile longevity stack ingredient."},
+  {name:"Inositol",cls:"Polyol / vitamin-like compound",cat:"metabolite",effect:14.1,n:8,sigPct:75,hallmarks:["nutrient","communication"],source:"Citrus peel, legumes, whole grains",pubmeds:["25643626","32901024"],desc:"A polyol with vitamin-like properties, inositol extends C. elegans lifespan across 8 experimental entries with 75% significance through DAF-16/FOXO and AMPK pathway modulation. It supports metabolic balance and cell signalling. Its role in insulin signalling pathway modulation and established safety profile support its inclusion in longevity formulations targeting metabolic health."},
+  {name:"Astragaloside IV",cls:"Saponin glycoside",cat:"botanical",effect:14.1,n:3,sigPct:67,hallmarks:["telomere","inflammation","nutrient"],source:"Astragalus membranaceus root",pubmeds:["32741299"],desc:"A saponin glycoside and primary bioactive of Astragalus membranaceus root, astragaloside IV extends C. elegans lifespan across 3 experimental entries with 67% significance. In mammalian models, it is associated with telomerase activation — supporting telomere support alongside DAF-16-mediated inflammation control and metabolic balance. It is the primary active behind the commercially marketed TA-65 supplement."},
+  {name:"Caffeic acid",cls:"Hydroxycinnamic acid",cat:"polyphenol",effect:13.3,n:6,sigPct:83,hallmarks:["inflammation","proteostasis","genomic"],source:"Coffee, propolis, argan oil",pubmeds:["21503726","33432954","33802064"],desc:"A hydroxycinnamic acid phenol abundant in coffee, propolis, and argan oil, caffeic acid extends C. elegans lifespan across 6 experimental entries with 83% significance through SKN-1/NRF2 and DAF-16 pathway activation. It supports inflammation control, protein quality, and DNA protection. Its widespread presence in common dietary sources positions it as a highly accessible longevity polyphenol."},
+  {name:"Naringin",cls:"Flavanone glycoside",cat:"polyphenol",effect:13.5,n:5,sigPct:100,hallmarks:["inflammation","nutrient","autophagy"],source:"Grapefruit, bitter orange, tomato",pubmeds:["29375370","32832002"],desc:"A flavanone glycoside and primary polyphenol of grapefruit peel, naringin extends C. elegans lifespan across 5 experimental entries with 100% statistical significance. It activates DAF-16/FOXO, AMPK, and mTOR pathways, targeting inflammation control, metabolic balance, and cellular recycling. Its commercial availability and established bioavailability profile support deployment across supplement and functional food formats."},
+  {name:"Coenzyme Q10",cls:"Fat-soluble coenzyme",cat:"vitamin",effect:13.0,n:4,sigPct:100,hallmarks:["mitochondria","proteostasis"],source:"Meat, fish, broccoli",pubmeds:["14706236","19428456"],desc:"An endogenous mitochondrial cofactor essential for the electron transport chain, CoQ10 extends C. elegans lifespan across 4 experimental entries with 100% significance through mitochondrial ETC support and DAF-16 activation. It directly addresses mitochondrial health and protein quality. As one of the most commercially established longevity supplements globally, its C. elegans evidence provides additional mechanistic validation."},
+  {name:"Curcumin",cls:"Curcuminoid polyphenol",cat:"polyphenol",effect:12.4,n:4,sigPct:100,hallmarks:["inflammation","proteostasis","nutrient","autophagy"],source:"Curcuma longa rhizome",pubmeds:["21855561","25959406","33008901"],desc:"The primary curcuminoid from turmeric rhizome, curcumin extends C. elegans lifespan across 4 experimental entries with 100% significance through activation of SKN-1/NRF2, DAF-16/FOXO, heat shock proteins, and AMPK simultaneously. It targets four hallmarks: inflammation control, protein quality, metabolic balance, and cellular recycling. Despite bioavailability challenges in humans, its mechanistic breadth and commercial familiarity make it a longevity formulation staple."},
+  {name:"Genistein",cls:"Isoflavone",cat:"polyphenol",effect:12.4,n:3,sigPct:67,hallmarks:["nutrient","epigenetic","inflammation"],source:"Soybeans, tempeh, fava beans",pubmeds:["25593647","33008901"],desc:"An isoflavone predominantly found in soybeans and tempeh, genistein extends C. elegans lifespan across 3 experimental entries through DAF-16/FOXO and sirtuin pathway activation, supporting metabolic balance, epigenetic health, and inflammation control. Its phytoestrogenic activity in mammals adds a hormonal dimension to its longevity profile. Its established regulatory status and broad commercial availability support formulation versatility."},
+  {name:"Catechin",cls:"Flavan-3-ol",cat:"polyphenol",effect:11.9,n:8,sigPct:88,hallmarks:["proteostasis","inflammation","nutrient"],source:"Green tea, cacao, red wine",pubmeds:["19501612","21805983","32530444"],desc:"A flavan-3-ol abundant in green tea, cacao, and red wine, catechin extends C. elegans lifespan across 8 experimental entries with 88% significance — one of the higher evidence depths among polyphenols. It activates DAF-16/FOXO, SKN-1/NRF2, and AMPK pathways, targeting protein quality, inflammation control, and metabolic balance. Its presence across established functional beverages and supplements provides strong commercial grounding."},
+  {name:"Oleanolic acid",cls:"Pentacyclic triterpene",cat:"botanical",effect:13.9,n:2,sigPct:100,hallmarks:["inflammation","nutrient","autophagy"],source:"Olive leaves, basil, mistletoe",pubmeds:["26592451"],desc:"A pentacyclic triterpene present in olive leaves, basil, and mistletoe, oleanolic acid extends C. elegans lifespan across 2 experimental entries with 100% significance through mTOR inhibition, DAF-16, and AMPK activation. It targets inflammation control, metabolic balance, and cellular recycling. Its structural relationship to ursolic acid and maslinic acid positions it within a well-characterised class of longevity triterpenes."},
+  {name:"Proline",cls:"Amino acid",cat:"amino",effect:13.6,n:5,sigPct:100,hallmarks:["nutrient","proteostasis"],source:"Meat, dairy, gelatin, wheat germ",pubmeds:["22482728","25643626"],desc:"An amino acid with unique roles in collagen synthesis, mitochondrial metabolism, and stress response, proline extends C. elegans lifespan across 5 experimental entries with 100% significance through mTOR and DAF-16 pathway modulation. It supports metabolic balance and protein quality. Its dual role in structural biology and longevity signalling offers a distinctive positioning in collagen-adjacent longevity formulations."},
+  {name:"Nobiletin",cls:"Polymethoxylated flavone",cat:"polyphenol",effect:14.8,n:2,sigPct:100,hallmarks:["nutrient","inflammation","autophagy"],source:"Citrus peels (tangerine, orange)",pubmeds:["31948007"],desc:"A polymethoxylated flavone found in tangerine and orange peel, nobiletin extends C. elegans lifespan across 2 experimental entries with 100% significance through AMPK, DAF-16, and mTOR pathway activation. It targets metabolic balance, inflammation control, and cellular recycling. Nobiletin's superior bioavailability versus other citrus flavonoids and its emerging clinical literature position it as a high-potential longevity citrus active."},
+  {name:"Chlorogenic acid",cls:"Hydroxycinnamic acid",cat:"polyphenol",effect:20.1,n:1,sigPct:100,hallmarks:["inflammation","nutrient"],source:"Coffee, green coffee extract, apples",pubmeds:["27378235"],desc:"The predominant polyphenol in coffee, chlorogenic acid extends C. elegans lifespan with 100% statistical significance in its single experimental entry. It activates DAF-16/FOXO and AMPK pathways, targeting inflammation control and metabolic balance. Strong epidemiological associations between coffee consumption and longevity outcomes provide an important translational context for its C. elegans bioactivity."},
+  {name:"Alpha-lipoic acid",cls:"Organosulfur cofactor",cat:"metabolite",effect:22.6,n:2,sigPct:100,hallmarks:["mitochondria","proteostasis","inflammation"],source:"Spinach, broccoli / endogenous",pubmeds:["17156833","18755260"],desc:"An endogenous organosulfur cofactor essential for mitochondrial energy metabolism, alpha-lipoic acid extends C. elegans lifespan across 2 experimental entries with 100% significance through SKN-1/NRF2, AMPK, and DAF-16 pathway activation. It supports mitochondrial health, protein quality, and inflammation control. Its unique redox-cycling capacity and both water- and fat-soluble antioxidant activity make it a versatile longevity ingredient."},
+  {name:"Quercetin",cls:"Flavonol",cat:"polyphenol",effect:9.5,n:21,sigPct:86,hallmarks:["inflammation","senescence","nutrient","autophagy"],source:"Onions, capers, apples, green tea",pubmeds:["18024103","18692520","19043800","21563825"],desc:"One of the most widely studied flavonols in longevity science, quercetin extends C. elegans lifespan across 21 experimental entries with 86% significance — one of the largest evidence bases in the database. It activates DAF-16/FOXO, SKN-1/NRF2, SIR-2.1/SIRT1, and mTOR pathways, targeting inflammation control, cellular vitality, metabolic balance, and cellular recycling. Its emerging senolytic properties in mammalian models add a fourth-hallmark dimension."},
+  {name:"Berberine",cls:"Isoquinoline alkaloid",cat:"polyphenol",effect:4.4,n:5,sigPct:80,hallmarks:["nutrient","inflammation","mitochondria"],source:"Berberis root, goldenseal, barberry",pubmeds:["32941928","33008901"],desc:"An isoquinoline alkaloid from Berberis root and goldenseal, berberine is one of the most studied natural AMPK activators — structurally mimicking aspects of metformin action. It extends C. elegans lifespan across 5 experimental entries with 80% significance, targeting metabolic balance, inflammation control, and mitochondrial health. Berberine's rapid adoption as a metabolic health supplement provides a strong commercial foundation for longevity positioning."},
+  {name:"Kaempferol",cls:"Flavonol",cat:"polyphenol",effect:5.6,n:1,sigPct:100,hallmarks:["inflammation","nutrient","genomic"],source:"Kale, broccoli, capers, tea",pubmeds:["22155175"],desc:"A flavonol found in kale, broccoli, capers, and tea, kaempferol extends C. elegans lifespan with 100% statistical significance in its single experimental entry through DAF-16/FOXO and SKN-1 activation. It targets inflammation control, metabolic balance, and DNA protection. Its structural similarity to quercetin and consistent presence in longevity-associated dietary patterns support its inclusion in evidence-based longevity formulations."},
+  {name:"Luteolin",cls:"Flavone",cat:"polyphenol",effect:2.3,n:5,sigPct:100,hallmarks:["inflammation","proteostasis","nutrient"],source:"Thyme, broccoli, artichoke",pubmeds:["29375370"],desc:"A flavone abundant in thyme, broccoli, and artichoke, luteolin extends C. elegans lifespan across 5 experimental entries with 100% significance through DAF-16/FOXO, SKN-1/NRF2, and AMPK activation. It targets inflammation control, protein quality, and metabolic balance. Luteolin's anti-inflammatory and neuroprotective properties in mammalian models complement its C. elegans longevity profile."},
+];
+
+const COMMENTARY={
+  default:{
+    formulation:"This ingredient shows consistent lifespan extension across multiple independent studies in <em>C. elegans</em>, with a strong statistical significance rate. Its primary mechanism aligns with conserved longevity pathways active in humans, making it a scientifically credible candidate for healthy aging formulations. The evidence base places it in the top tier of published ingredient data in its category.",
+    competitive:"Within its hallmark category, this ingredient performs above the median for mean lifespan Δ. It ranks competitively against well-studied reference ingredients such as resveratrol and quercetin, and demonstrates a favorable signal-to-evidence ratio — meaning its effect size is well-supported relative to study depth. A NemaLife validation study could establish a proprietary effect profile that distinguishes it from generic category claims."
+  }
+};
+
+let panelOpen=false, gateSubmitted=false;
+
+function openPanel(d){
+  document.getElementById('rp-name').textContent=d.name;
+  document.getElementById('rp-cls').textContent=d.cls;
+  const CS={polyphenol:'color:var(--purple);background:var(--purple-pale);border-color:var(--purple-light)',botanical:'color:var(--g2);background:var(--g-pale);border-color:var(--g-light)',metabolite:'color:var(--amber);background:var(--amber-pale);border-color:var(--amber-light)',vitamin:'color:#1a9a9a;background:#e8fafa;border-color:#a8e8e8',amino:'color:#4040a0;background:#f0f0ff;border-color:#c8c8f0',lipid:'color:#b86020;background:#fff5e6;border-color:#f5d5a0'};
+  const CL={polyphenol:'Polyphenol',botanical:'Botanical',metabolite:'Metabolite',vitamin:'Vitamin',amino:'Amino acid',lipid:'Lipid'};
+  const HC={genomic:'#9040c0',telomere:'#4060b0',epigenetic:'#207060',proteostasis:'#b05020',nutrient:'#752B71',mitochondria:'#c04060',senescence:'#808020',stem:'#2060a0',communication:'#20a060',autophagy:'#6020a0',inflammation:'#c05020',dysbiosis:'#20a080'};
+  document.getElementById('rp-badges').innerHTML=`<span class="rp-badge" style="${CS[d.cat]||''}">${CL[d.cat]||d.cat}</span>`+d.hallmarks.map(id=>{const h=HALLMARKS.find(x=>x.id===id);if(!h)return'';const c=HC[id];const lbl=HM_POSITIVE[id]||h.name;return`<span class="rp-badge" style="color:${c};background:${c}18;border-color:${c}35">${h.icon} ${lbl}</span>`;}).join('');
+  const pos=d.effect>=0;
+  document.getElementById('rp-stats').innerHTML=`<div class="rp-stat"><div class="rp-stat-num ${pos?'green':''}">${pos?'+':''}${d.effect}%</div><div class="rp-stat-label">Mean lifespan Δ</div></div><div class="rp-stat"><div class="rp-stat-num">${d.n}</div><div class="rp-stat-label">Published studies</div></div><div class="rp-stat"><div class="rp-stat-num">${d.sigPct}%</div><div class="rp-stat-label">Significant</div></div>`;
+  document.getElementById('rp-hm-tags').innerHTML=d.hallmarks.map(id=>{const h=HALLMARKS.find(x=>x.id===id);if(!h)return'';const c=HC[id];const lbl=HM_POSITIVE[id]||h.name;return`<span class="rp-htag" style="color:${c};background:${c}16;border-color:${c}35">${h.icon} ${lbl}</span>`;}).join('');
+  const comm=COMMENTARY[d.name]||COMMENTARY.default;
+  document.getElementById('rp-interp-free').innerHTML=`<strong>What this means for your formulation:</strong> ${comm.formulation}`;
+  document.getElementById('rp-interp-locked-preview').innerHTML=`<strong>Competitive context:</strong> ${comm.competitive}`;
+  document.getElementById('rp-bench-self').textContent=d.name;
+  document.getElementById('rp-bench-self-val').textContent=`+${d.effect}%`;
+  document.getElementById('rp-thanks-name').textContent=d.name;
+  if(!gateSubmitted){document.getElementById('rp-gate-form').classList.remove('hidden');document.getElementById('rp-gate-thanks').classList.remove('show');document.getElementById('rp-email').value='';document.getElementById('rp-company').value='';}
+  document.getElementById('panel-overlay').classList.add('open');
+  document.getElementById('report-panel').classList.add('open');
+  document.body.style.overflow='hidden';
+  panelOpen=true;
+}
+
+function closePanel(){document.getElementById('panel-overlay').classList.remove('open');document.getElementById('report-panel').classList.remove('open');document.body.style.overflow='';panelOpen=false;}
+
+function submitGate(){
+  const email=document.getElementById('rp-email').value.trim();
+  if(!email||!email.includes('@')){document.getElementById('rp-email').style.borderColor='var(--red)';document.getElementById('rp-email').focus();return;}
+  document.getElementById('rp-email').style.borderColor='';
+  document.getElementById('rp-gate-form').classList.add('hidden');
+  document.getElementById('rp-gate-thanks').classList.add('show');
+  gateSubmitted=true;
+}
+
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&panelOpen)closePanel();});
+
+function buildGrid(){
+  const g=document.getElementById('hm-grid');
+  const backDescs={
+    genomic:"Activates DNA repair enzymes and antioxidant defences, reducing oxidative lesions that accumulate with age. Sustained genomic integrity preserves transcriptional fidelity — a direct driver of cellular healthspan.",
+    telomere:"Slows chromosome-end erosion that triggers replicative senescence. Telomerase-activating compounds maintain the proliferative capacity of renewal tissues, extending functional tissue lifespan.",
+    epigenetic:"Modulates histone acetylation and DNA methylation patterns that drift with age. Sirtuin activation by longevity ingredients helps preserve youthful gene expression programmes across cell types.",
+    proteostasis:"Activates heat shock proteins and the ubiquitin-proteasome system to clear misfolded proteins before aggregation. Proteostasis capacity is a hallmark of long-lived organisms across every model studied.",
+    nutrient:"Acts on the insulin/IGF-1, mTOR, and AMPK pathways — the master regulators of lifespan. Fine-tuning nutrient sensing shifts cellular resources from growth toward maintenance and repair.",
+    mitochondria:"Stimulates mitochondrial biogenesis, reduces ROS, and activates mitophagy via the conserved DCT-1/BNIP3 (PINK1/Parkin) pathway — directly measurable in C. elegans. Energy capacity and longevity are directly coupled.",
+    senescence:"Dampens the pro-inflammatory secretome of senescent cells and supports their clearance. Reducing dysfunctional cell burden is one of the most validated routes to extended tissue function.",
+    stem:"Modulates stem cell niche signalling to sustain regenerative capacity with age. In C. elegans, germline-derived longevity signals reveal how stem cell biology is hardwired into the ageing programme.",
+    communication:"Restores inter-tissue signalling fidelity that degrades with age. Systemic longevity signals — conserved from worm to human — make this hallmark a tractable target for whole-organism healthspan benefits.",
+    autophagy:"Induces autophagy — the cell's quality control system for clearing damaged organelles and proteins. Among the most reproducible longevity interventions across species, from yeast to humans.",
+    inflammation:"Dampens chronic low-grade inflammatory signalling via PMK-1/p38 and DAF-16/FOXO modulation. Inflammaging is a systemic driver of tissue decline — its control is central to healthy longevity.",
+    dysbiosis:"Modulates microbial composition and gut-derived metabolite production that shape ageing trajectories. In C. elegans, urolithin A — produced from ellagitannins by gut bacteria — is a landmark example of microbiome-mediated longevity.",
+  };
+  HALLMARKS.forEach(h=>{
+    const cnt=DB.filter(d=>d.hallmarks.includes(h.id)).length;
+    const pos=HM_POSITIVE[h.id]||h.name;
+    const backDesc=backDescs[h.id]||h.detail.replace(/<[^>]+>/g,'').substring(0,200)+'…';
+    const card=document.createElement('div');
+    card.className='hm-card';card.dataset.id=h.id;
+    card.innerHTML=`
+      <div class="hm-card-inner">
+        <div class="hm-face hm-front">
+          <div class="hm-front-top">
+            <span class="hm-icon">${h.icon}</span>
+            <span class="hm-count-badge">${cnt} ingredient${cnt!==1?'s':''}</span>
+          </div>
+          <div class="hm-front-bottom">
+            <div class="hm-front-label">Hallmark of aging</div>
+            <div class="hm-name">${h.name}</div>
+            <div class="hm-positive">
+              <div class="hm-positive-label-head">Ingredient benefit</div>
+              <div class="hm-positive-val">${pos}</div>
+            </div>
+          </div>
+        </div>
+        <div class="hm-face hm-back">
+          <div class="hm-back-top">
+            <span class="hm-back-icon">${h.icon}</span>
+            <div>
+              <div class="hm-back-label">Ingredient benefit</div>
+              <div class="hm-back-positive">${pos}</div>
+            </div>
+          </div>
+          <div class="hm-back-sub">${backDesc}</div>
+        </div>
+      </div>`;
+    card.onclick=()=>toggleHM(h,card);
+    g.appendChild(card);
+  });
+}
+
+function toggleHM(h,card){
+  const wasActive=card.classList.contains('active');
+  document.querySelectorAll('.hm-card').forEach(c=>c.classList.remove('active'));
+  if(wasActive){return;}
+  card.classList.add('active');
+  filterByHM(h.id);
+}
+
+function filterByHM(id){activeHM=id;document.querySelector('#database').scrollIntoView({behavior:'smooth'});setTimeout(()=>{document.querySelectorAll('#hm-pills .pill').forEach(p=>p.classList.toggle('active',p.dataset.hm===id));renderDB();},380);}
+
+function buildPills(){
+  const hEl=document.getElementById('hm-pills');
+  [['all','All hallmarks'],...HALLMARKS.map(h=>[h.id,`${h.icon} ${HM_POSITIVE[h.id]||h.name}`])].forEach(([id,lbl])=>{
+    const p=document.createElement('div');p.className='pill'+(id==='all'?' active':'');p.dataset.hm=id;p.textContent=lbl;
+    p.onclick=()=>{activeHM=id;document.querySelectorAll('#hm-pills .pill').forEach(pp=>pp.classList.toggle('active',pp.dataset.hm===id));renderDB();};
+    hEl.appendChild(p);
+  });
+  const cEl=document.getElementById('cat-pills');
+  [['all','All classes'],['polyphenol','Polyphenols'],['botanical','Botanicals'],['metabolite','Metabolites'],['vitamin','Vitamins'],['amino','Amino acids'],['lipid','Lipids']].forEach(([k,l])=>{
+    const p=document.createElement('div');p.className='pill'+(k==='all'?' active':'');p.dataset.cat=k;p.textContent=l;
+    p.onclick=()=>{activeCat=k;document.querySelectorAll('#cat-pills .pill').forEach(pp=>pp.classList.toggle('active',pp.dataset.cat===k));renderDB();};
+    cEl.appendChild(p);
+  });
+}
+
+let activeHM='all',activeCat='all',searchTerm='',sortKey='effect',sortDir=-1;
+const CAT_CLS={polyphenol:'c-pol',botanical:'c-bot',metabolite:'c-met',vitamin:'c-vit',amino:'c-ami',lipid:'c-lip'};
+const CAT_LBL={polyphenol:'Polyphenol',botanical:'Botanical',metabolite:'Metabolite',vitamin:'Vitamin',amino:'Amino acid',lipid:'Lipid'};
+const HM_COL={genomic:'#9040c0',telomere:'#4060b0',epigenetic:'#207060',proteostasis:'#b05020',nutrient:'#752B71',mitochondria:'#c04060',senescence:'#808020',stem:'#2060a0',communication:'#20a060',autophagy:'#6020a0',inflammation:'#c05020',dysbiosis:'#20a080'};
+
+// Positive-framed display labels for ingredient context (replaces clinical hallmark names)
+const HM_POSITIVE={
+  genomic:'DNA Protection',
+  telomere:'Telomere Support',
+  epigenetic:'Epigenetic Health',
+  proteostasis:'Protein Quality',
+  nutrient:'Metabolic Balance',
+  mitochondria:'Mitochondrial Health',
+  senescence:'Cellular Vitality',
+  stem:'Stem Cell Support',
+  communication:'Cell Signalling',
+  autophagy:'Cellular Recycling',
+  inflammation:'Inflammation Control',
+  dysbiosis:'Gut Health',
+};
+
+function getFiltered(){return DB.filter(d=>{if(activeHM!=='all'&&!d.hallmarks.includes(activeHM))return false;if(activeCat!=='all'&&d.cat!==activeCat)return false;if(searchTerm){const h=`${d.name} ${d.cls} ${d.source} ${d.hallmarks.join(' ')}`.toLowerCase();if(!h.includes(searchTerm))return false;}return true;});}
+function getSorted(arr){return[...arr].sort((a,b)=>{if(sortKey==='name')return(a.name<b.name?-1:a.name>b.name?1:0)*sortDir;if(sortKey==='cat')return(a.cat<b.cat?-1:a.cat>b.cat?1:0)*sortDir;return(a[sortKey]-b[sortKey])*sortDir;});}
+function sortDB(k){if(sortKey===k)sortDir*=-1;else{sortKey=k;sortDir=(k==='name'||k==='cat')?1:-1;}renderDB();}
+
+function renderDB(){
+  const data=getSorted(getFiltered());
+  const body=document.getElementById('db-body');body.innerHTML='';
+  document.getElementById('db-count').innerHTML=`<strong>${data.length}</strong> ingredient${data.length!==1?'s':''} shown`;
+  const ch=document.getElementById('chips');ch.innerHTML='';
+  if(activeHM!=='all'){const h=HALLMARKS.find(x=>x.id===activeHM);if(h)mkChip(ch,`${h.icon} ${h.name}`,()=>{activeHM='all';document.querySelectorAll('#hm-pills .pill').forEach(p=>p.classList.toggle('active',p.dataset.hm==='all'));renderDB();});}
+  if(activeCat!=='all')mkChip(ch,activeCat,()=>{activeCat='all';document.querySelectorAll('#cat-pills .pill').forEach(p=>p.classList.toggle('active',p.dataset.cat==='all'));renderDB();});
+  if(searchTerm)mkChip(ch,`"${searchTerm}"`,()=>{searchTerm='';document.getElementById('search-input').value='';renderDB();});
+  if(!data.length){document.getElementById('empty-state').style.display='block';document.querySelector('.db-wrap').style.display='none';return;}
+  document.getElementById('empty-state').style.display='none';document.querySelector('.db-wrap').style.display='';
+  const maxE=Math.max(...DB.map(d=>Math.abs(d.effect)));
+  data.forEach((d,i)=>{
+    const pos=d.effect>=0,bw=Math.min(100,Math.abs(d.effect)/maxE*100).toFixed(0);
+    const dn=Math.min(d.n,10),fn=Math.round(d.sigPct/100*dn);
+    let dots='';for(let j=0;j<dn;j++)dots+=`<div class="sdot${j<fn?' f':''}"></div>`;
+    const hmT=d.hallmarks.map(id=>{const h=HALLMARKS.find(x=>x.id===id);if(!h)return'';const c=HM_COL[id];const lbl=HM_POSITIVE[id]||h.name;return`<span class="htag" style="color:${c};background:${c}16;border-color:${c}35">${h.icon} ${lbl}</span>`;}).join('');
+    const tr=document.createElement('tr');tr.dataset.id=i;
+    tr.innerHTML=`<td class="td-rank">${i+1}</td><td><div class="cname">${d.name}</div><div class="ccls">${d.cls}</div></td><td><span class="cbadge ${CAT_CLS[d.cat]||'c-bot'}">${CAT_LBL[d.cat]||d.cat}</span></td><td><div class="eff-wrap"><div class="eff-bar-bg" style="width:100px"><div class="eff-bar-fill ${pos?'bar-p':'bar-n'}" style="width:${bw}%"></div></div></div></td><td><div class="sdots">${dots}</div><div class="ssub">${d.n} stud${d.n===1?'y':'ies'} · ${d.sigPct}% sig.</div></td><td class="td-hm" style="position:relative"><div class="hm-tags">${hmT}</div><div class="row-hint"><span class="row-hint-icon">→</span> Preview evidence report</div></td>`;
+    tr.onclick=()=>toggleX(i,xr);
+    const xr=document.createElement('tr');xr.className='xrow';xr.dataset.expand=i;
+    xr.innerHTML=`<td colspan="6" class="xcell">
+      <div class="xi-desc">${d.desc||''}</div>
+      <div class="xi-report-block">
+        <div class="xi-report-header">Full Evidence Report <span class="xi-price">$499</span></div>
+        <div class="xi-checks">
+          <span class="xi-check">✓ All published studies</span>
+          <span class="xi-check">✓ PubMed sources</span>
+          <span class="xi-check">✓ Competitive ranking</span>
+          <span class="xi-check">✓ Dose-response data</span>
+          <span class="xi-check">✓ NemaLife commentary</span>
+        </div>
+        <button class="xi-cta" onclick="event.stopPropagation();openPanel(DB[${i}])">Get Evidence Report →</button>
+      </div>
+    </td>`;
+    body.appendChild(tr);body.appendChild(xr);
+  });
+}
+
+function toggleX(id,xr){const cur=document.querySelector('.xrow.open');if(cur&&cur.dataset.expand==id){cur.classList.remove('open');document.querySelector(`tr[data-id="${id}"]`)?.classList.remove('xopen');return;}if(cur){const p=cur.dataset.expand;cur.classList.remove('open');document.querySelector(`tr[data-id="${p}"]`)?.classList.remove('xopen');}xr.classList.add('open');document.querySelector(`tr[data-id="${id}"]`)?.classList.add('xopen');}
+function mkChip(el,lbl,fn){const c=document.createElement('div');c.className='chip';c.innerHTML=`${lbl} <span class="chip-x">×</span>`;c.onclick=fn;el.appendChild(c);}
+
+buildGrid();buildPills();
+document.getElementById('search-input').addEventListener('input',e=>{searchTerm=e.target.value.toLowerCase().trim();renderDB();});
+document.getElementById('sort-sel').addEventListener('change',e=>{const v=e.target.value;sortKey=v==='n'?'n':v==='sigPct'?'sigPct':v==='name'?'name':'effect';sortDir=sortKey==='name'?1:-1;renderDB();});
+renderDB();
+</script>
+<!-- ══ SAMPLE REPORT MODAL ══ -->
+<div class="sample-modal-overlay" id="sample-modal-overlay" onclick="closeSampleModal(event)">
+  <div class="sample-modal">
+    <div class="sample-modal-header">
+      <div>
+        <div class="sample-modal-title">Sample Evidence Report · Urolithin A</div>
+        <div class="sample-modal-sub">This is what a full NemaLife Evidence Report looks like — $499 per ingredient</div>
+      </div>
+      <button class="sample-modal-close" onclick="closeSampleModal()">✕</button>
+    </div>
+    <div class="sample-modal-body">
+      <iframe id="sample-report-iframe" src="" title="NemaLife Sample Evidence Report — Urolithin A" loading="lazy"></iframe>
+    </div>
+    <div class="sample-modal-footer">
+      <div class="sample-modal-footer-note"><strong>Sample report.</strong> Full reports include all experimental entries, dose-response data, PubMed sources, competitive benchmarking, and NemaLife's ingredient commentary.</div>
+      <button class="sample-modal-cta" onclick="closeSampleModal();openPanel(DB[4])">Get this report for your ingredient →</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const SAMPLE_REPORT_B64='PCFET0NUWVBFIGh0bWw+CjxodG1sIGxhbmc9ImVuIj4KPGhlYWQ+CjxtZXRhIGNoYXJzZXQ9IlVURi04Ij4KPG1ldGEgbmFtZT0idmlld3BvcnQiIGNvbnRlbnQ9IndpZHRoPWRldmljZS13aWR0aCwgaW5pdGlhbC1zY2FsZT0xLjAiPgo8dGl0bGU+TmVtYUxpZmUgRXZpZGVuY2UgUmVwb3J0IMK3IFVyb2xpdGhpbiBBPC90aXRsZT4KPGxpbmsgaHJlZj0iaHR0cHM6Ly9mb250cy5nb29nbGVhcGlzLmNvbS9jc3MyP2ZhbWlseT1CYXJsb3c6aXRhbCx3Z2h0QDAsNDAwOzAsNTAwOzAsNzAwOzAsODAwOzAsOTAwOzEsNDAwOzEsNzAwJmZhbWlseT1ETStTZXJpZitEaXNwbGF5Oml0YWxAMDsxJmZhbWlseT1ETStNb25vOndnaHRANDAwOzUwMCZkaXNwbGF5PXN3YXAiIHJlbD0ic3R5bGVzaGVldCI+CjxzdHlsZT4KOnJvb3R7CiAgLS1wdXJwbGU6Izc1MkI3MTstLXB1cnBsZTI6IzhmM2Q4YTstLXB1cnBsZTM6I2IwNjBhYjsKICAtLXB1cnBsZS1wYWxlOiNmNWVlZjU7LS1wdXJwbGUtbGlnaHQ6I2UyY2NlMTsKICAtLWcyOiMyZDVhMjc7LS1nMzojNGE4MDQwOy0tZzQ6IzdkYWE2YjsKICAtLWctcGFsZTojZjBmOGVjOy0tZy1saWdodDojZDRlOWNkOwogIC0tYmc6I2ZmZmZmZjstLWJnMjojZjhmNGY4Oy0tYmczOiNmMWViZjE7CiAgLS1ib3JkZXI6I2UwZDRlMDstLXRleHQ6IzFhMTAyMDstLXRleHQyOiMzYTJhM2E7LS10ZXh0MzojN2E2MDc4OwogIC0tYW1iZXI6I2I4N2EwMDstLWFtYmVyLXBhbGU6I2ZkZjZlMzstLWFtYmVyLWxpZ2h0OiNmNWRmYTA7CiAgLS1yZWQ6I2MwNDA2MDstLWluazojMGUwODEyOwp9CiosKjo6YmVmb3JlLCo6OmFmdGVye2JveC1zaXppbmc6Ym9yZGVyLWJveDttYXJnaW46MDtwYWRkaW5nOjB9Cmh0bWx7c2Nyb2xsLWJlaGF2aW9yOnNtb290aH0KYm9keXtmb250LWZhbWlseTonQmFybG93JyxzYW5zLXNlcmlmO2JhY2tncm91bmQ6dmFyKC0tYmcyKTtjb2xvcjp2YXIoLS10ZXh0KTtsaW5lLWhlaWdodDoxLjZ9CkBtZWRpYSBwcmludHtib2R5e2JhY2tncm91bmQ6I2ZmZn0ubm8tcHJpbnR7ZGlzcGxheTpub25lIWltcG9ydGFudH1zZWN0aW9ue2JyZWFrLWluc2lkZTphdm9pZH19CgovKiDilIDilIAgUkVQT1JUIFNIRUxMIOKUgOKUgCAqLwoucmVwb3J0e21heC13aWR0aDo4NjBweDttYXJnaW46MCBhdXRvO2JhY2tncm91bmQ6dmFyKC0tYmcpO2JveC1zaGFkb3c6MCA0cHggNDBweCByZ2JhKDE0LDgsMTgsMC4xKX0KCi8qIOKUgOKUgCBDT1ZFUiDilIDilIAgKi8KLmNvdmVyewogIGJhY2tncm91bmQ6dmFyKC0taW5rKTsKICBwYWRkaW5nOjNyZW0gM3JlbSAyLjVyZW07CiAgcG9zaXRpb246cmVsYXRpdmU7b3ZlcmZsb3c6aGlkZGVuOwp9Ci5jb3Zlcjo6YmVmb3JlewogIGNvbnRlbnQ6Jyc7cG9zaXRpb246YWJzb2x1dGU7aW5zZXQ6MDsKICBiYWNrZ3JvdW5kOgogICAgcmFkaWFsLWdyYWRpZW50KGVsbGlwc2UgNzAlIDkwJSBhdCAxMDAlIDAlLHJnYmEoMTE3LDQzLDExMywwLjM1KSx0cmFuc3BhcmVudCA2MCUpLAogICAgcmFkaWFsLWdyYWRpZW50KGVsbGlwc2UgNDAlIDUwJSBhdCAwJSAxMDAlLHJnYmEoNDUsOTAsMzksMC4xNSksdHJhbnNwYXJlbnQgNjAlKTsKICBwb2ludGVyLWV2ZW50czpub25lOwp9Ci5jb3Zlci10b3B7ZGlzcGxheTpmbGV4O2FsaWduLWl0ZW1zOmNlbnRlcjtqdXN0aWZ5LWNvbnRlbnQ6c3BhY2UtYmV0d2VlbjttYXJnaW4tYm90dG9tOjIuNXJlbTtwb3NpdGlvbjpyZWxhdGl2ZTt6LWluZGV4OjF9Ci5jb3Zlci1sb2dve2Rpc3BsYXk6ZmxleDthbGlnbi1pdGVtczpjZW50ZXI7Z2FwOjEwcHh9Ci5jb3Zlci1sb2dvLXRleHR7Zm9udC1zaXplOjE2cHg7Zm9udC13ZWlnaHQ6ODAwO2NvbG9yOiNmZmY7bGV0dGVyLXNwYWNpbmc6LTAuM3B4fQouY292ZXItbG9nby1zdWJ7Zm9udC1zaXplOjlweDtmb250LXdlaWdodDo3MDA7Y29sb3I6cmdiYSgyNTUsMjU1LDI1NSwwLjM1KTtsZXR0ZXItc3BhY2luZzowLjE0ZW07dGV4dC10cmFuc2Zvcm06dXBwZXJjYXNlfQouY292ZXItbWV0YXtmb250LWZhbWlseTonRE0gTW9ubycsbW9ub3NwYWNlO2ZvbnQtc2l6ZToxMHB4O2NvbG9yOnJnYmEoMjU1LDI1NSwyNTUsMC4zKTt0ZXh0LWFsaWduOnJpZ2h0O2xpbmUtaGVpZ2h0OjEuOH0KLmNvdmVyLW1ldGEgc3Ryb25ne2NvbG9yOnJnYmEoMjU1LDI1NSwyNTUsMC41NSl9CgouY292ZXItYm9keXtwb3NpdGlvbjpyZWxhdGl2ZTt6LWluZGV4OjF9Ci5jb3Zlci1yZXBvcnQtdHlwZXtmb250LXNpemU6MTFweDtmb250LXdlaWdodDo3MDA7bGV0dGVyLXNwYWNpbmc6MC4xNGVtO3RleHQtdHJhbnNmb3JtOnVwcGVyY2FzZTtjb2xvcjp2YXIoLS1nNCk7bWFyZ2luLWJvdHRvbToxMHB4O2Rpc3BsYXk6ZmxleDthbGlnbi1pdGVtczpjZW50ZXI7Z2FwOjhweH0KLmNvdmVyLXJlcG9ydC10eXBlOjpiZWZvcmV7Y29udGVudDonJztkaXNwbGF5OmlubGluZS1ibG9jazt3aWR0aDoyNHB4O2hlaWdodDoycHg7YmFja2dyb3VuZDp2YXIoLS1nNCl9Ci5jb3Zlci1uYW1le2ZvbnQtZmFtaWx5OidETSBTZXJpZiBEaXNwbGF5JyxzZXJpZjtmb250LXNpemU6Y2xhbXAoMnJlbSw1dncsMy4ycmVtKTtjb2xvcjojZmZmO2xpbmUtaGVpZ2h0OjEuMDU7bWFyZ2luLWJvdHRvbTo2cHh9Ci5jb3Zlci1uYW1lIGVte2NvbG9yOnZhcigtLXB1cnBsZTMpO2ZvbnQtc3R5bGU6aXRhbGljfQouY292ZXItaXVwYWN7Zm9udC1mYW1pbHk6J0RNIE1vbm8nLG1vbm9zcGFjZTtmb250LXNpemU6MTFweDtjb2xvcjpyZ2JhKDI1NSwyNTUsMjU1LDAuMyk7bWFyZ2luLWJvdHRvbToxLjVyZW07bGluZS1oZWlnaHQ6MS42fQoKLmNvdmVyLXBpbGxze2Rpc3BsYXk6ZmxleDtnYXA6OHB4O2ZsZXgtd3JhcDp3cmFwO21hcmdpbi1ib3R0b206MnJlbX0KLmNvdmVyLXBpbGx7Zm9udC1zaXplOjEwcHg7Zm9udC13ZWlnaHQ6NzAwO3BhZGRpbmc6NHB4IDEycHg7Ym9yZGVyLXJhZGl1czoyMHB4O2JvcmRlcjoxcHggc29saWQ7bGV0dGVyLXNwYWNpbmc6MC4wNGVtfQoKLmNvdmVyLWtwaXN7ZGlzcGxheTpncmlkO2dyaWQtdGVtcGxhdGUtY29sdW1uczpyZXBlYXQoNCwxZnIpO2dhcDoxcHg7YmFja2dyb3VuZDpyZ2JhKDI1NSwyNTUsMjU1LDAuMDcpO2JvcmRlcjoxcHggc29saWQgcmdiYSgyNTUsMjU1LDI1NSwwLjA3KTtib3JkZXItcmFkaXVzOjEwcHg7b3ZlcmZsb3c6aGlkZGVufQoua3Bpe2JhY2tncm91bmQ6cmdiYSgyNTUsMjU1LDI1NSwwLjAzKTtwYWRkaW5nOjFyZW0gMC44NzVyZW07dGV4dC1hbGlnbjpjZW50ZXJ9Ci5rcGktbnVte2ZvbnQtZmFtaWx5OidETSBNb25vJyxtb25vc3BhY2U7Zm9udC1zaXplOjEuNXJlbTtmb250LXdlaWdodDo1MDA7Y29sb3I6I2ZmZjtsaW5lLWhlaWdodDoxfQoua3BpLW51bS5ncmVlbntjb2xvcjp2YXIoLS1nNCl9Ci5rcGktbnVtLmFtYmVye2NvbG9yOnZhcigtLWFtYmVyLWxpZ2h0KX0KLmtwaS1sYWJlbHtmb250LXNpemU6OXB4O2ZvbnQtd2VpZ2h0OjcwMDtjb2xvcjpyZ2JhKDI1NSwyNTUsMjU1LDAuMjgpO2xldHRlci1zcGFjaW5nOjAuMWVtO3RleHQtdHJhbnNmb3JtOnVwcGVyY2FzZTttYXJnaW4tdG9wOjVweH0KCi8qIOKUgOKUgCBCT0RZIFNFQ1RJT05TIOKUgOKUgCAqLwouYm9keXtwYWRkaW5nOjIuNXJlbSAzcmVtfQouc2VjdGlvbnttYXJnaW4tYm90dG9tOjIuNXJlbTtwYWRkaW5nLWJvdHRvbToyLjVyZW07Ym9yZGVyLWJvdHRvbToxcHggc29saWQgdmFyKC0tYm9yZGVyKX0KLnNlY3Rpb246bGFzdC1jaGlsZHtib3JkZXItYm90dG9tOm5vbmU7bWFyZ2luLWJvdHRvbTowO3BhZGRpbmctYm90dG9tOjB9Cgouc2VjdGlvbi1oZWFkZXJ7ZGlzcGxheTpmbGV4O2FsaWduLWl0ZW1zOmJhc2VsaW5lO2dhcDoxMHB4O21hcmdpbi1ib3R0b206MS4yNXJlbX0KLnNlY3Rpb24tbnVte2ZvbnQtZmFtaWx5OidETSBNb25vJyxtb25vc3BhY2U7Zm9udC1zaXplOjExcHg7Y29sb3I6dmFyKC0tcHVycGxlMyk7Zm9udC13ZWlnaHQ6NTAwfQouc2VjdGlvbi1sYWJlbHtmb250LXNpemU6MTBweDtmb250LXdlaWdodDo3MDA7bGV0dGVyLXNwYWNpbmc6MC4xMmVtO3RleHQtdHJhbnNmb3JtOnVwcGVyY2FzZTtjb2xvcjp2YXIoLS1wdXJwbGUpO2Rpc3BsYXk6ZmxleDthbGlnbi1pdGVtczpjZW50ZXI7Z2FwOjZweH0KLnNlY3Rpb24tbGFiZWw6OmJlZm9yZXtjb250ZW50OicnO2Rpc3BsYXk6aW5saW5lLWJsb2NrO3dpZHRoOjNweDtoZWlnaHQ6MTRweDtiYWNrZ3JvdW5kOnZhcigtLXB1cnBsZSk7Ym9yZGVyLXJhZGl1czoycHg7ZmxleC1zaHJpbms6MH0KCi5wcm9zZXtmb250LXNpemU6MTRweDtjb2xvcjp2YXIoLS10ZXh0Mik7bGluZS1oZWlnaHQ6MS44fQoucHJvc2UgcHttYXJnaW4tYm90dG9tOjAuNzVyZW19Ci5wcm9zZSBwOmxhc3QtY2hpbGR7bWFyZ2luLWJvdHRvbTowfQoucHJvc2Ugc3Ryb25ne2NvbG9yOnZhcigtLXRleHQpO2ZvbnQtd2VpZ2h0OjgwMH0KLnByb3NlIGVte2NvbG9yOnZhcigtLXB1cnBsZSk7Zm9udC1zdHlsZTppdGFsaWN9CgovKiDilIDilIAgU0lHTkFMIFNDT1JFIOKUgOKUgCAqLwouc2lnbmFsLWJsb2Nre2JhY2tncm91bmQ6bGluZWFyLWdyYWRpZW50KDEzNWRlZyx2YXIoLS1pbmspIDAlLCMxZTBhMjggMTAwJSk7Ym9yZGVyLXJhZGl1czoxMnB4O3BhZGRpbmc6MS41cmVtO2Rpc3BsYXk6Z3JpZDtncmlkLXRlbXBsYXRlLWNvbHVtbnM6YXV0byAxZnI7Z2FwOjEuNXJlbTthbGlnbi1pdGVtczpjZW50ZXI7cG9zaXRpb246cmVsYXRpdmU7b3ZlcmZsb3c6aGlkZGVufQouc2lnbmFsLWJsb2NrOjpiZWZvcmV7Y29udGVudDonJztwb3NpdGlvbjphYnNvbHV0ZTt0b3A6LTMwcHg7cmlnaHQ6LTMwcHg7d2lkdGg6MTIwcHg7aGVpZ2h0OjEyMHB4O2JvcmRlci1yYWRpdXM6NTAlO2JhY2tncm91bmQ6cmdiYSgxMTcsNDMsMTEzLDAuMik7ZmlsdGVyOmJsdXIoMzBweCl9Ci5zaWduYWwtc2NvcmUtd3JhcHt0ZXh0LWFsaWduOmNlbnRlcjtmbGV4LXNocmluazowfQouc2lnbmFsLXNjb3Jle2ZvbnQtZmFtaWx5OidETSBTZXJpZiBEaXNwbGF5JyxzZXJpZjtmb250LXNpemU6NHJlbTtjb2xvcjp2YXIoLS1nNCk7bGluZS1oZWlnaHQ6MX0KLnNpZ25hbC1zY29yZS1kZW5vbXtmb250LWZhbWlseTonRE0gTW9ubycsbW9ub3NwYWNlO2ZvbnQtc2l6ZToxNHB4O2NvbG9yOnJnYmEoMjU1LDI1NSwyNTUsMC4zKTttYXJnaW4tdG9wOjJweH0KLnNpZ25hbC10aWVye2Rpc3BsYXk6aW5saW5lLWJsb2NrO2JhY2tncm91bmQ6cmdiYSg3NCwxMjgsNjQsMC4yNSk7Ym9yZGVyOjFweCBzb2xpZCByZ2JhKDEyNSwxNzAsMTA3LDAuNCk7Y29sb3I6dmFyKC0tZzQpO2ZvbnQtc2l6ZToxMHB4O2ZvbnQtd2VpZ2h0OjcwMDtsZXR0ZXItc3BhY2luZzowLjFlbTt0ZXh0LXRyYW5zZm9ybTp1cHBlcmNhc2U7cGFkZGluZzozcHggMTBweDtib3JkZXItcmFkaXVzOjIwcHg7bWFyZ2luLXRvcDo4cHh9Ci5zaWduYWwtZGV0YWlse3Bvc2l0aW9uOnJlbGF0aXZlO3otaW5kZXg6MX0KLnNpZ25hbC10aXRsZXtmb250LWZhbWlseTonRE0gU2VyaWYgRGlzcGxheScsc2VyaWY7Zm9udC1zaXplOjEuMXJlbTtjb2xvcjojZmZmO21hcmdpbi1ib3R0b206OHB4fQouc2lnbmFsLWJhcnN7ZGlzcGxheTpmbGV4O2ZsZXgtZGlyZWN0aW9uOmNvbHVtbjtnYXA6OHB4fQouc2Jhci1yb3d7ZGlzcGxheTpncmlkO2dyaWQtdGVtcGxhdGUtY29sdW1uczoxMjBweCAxZnIgMzZweDtnYXA6OHB4O2FsaWduLWl0ZW1zOmNlbnRlcn0KLnNiYXItbGFiZWx7Zm9udC1zaXplOjExcHg7Zm9udC13ZWlnaHQ6NzAwO2NvbG9yOnJnYmEoMjU1LDI1NSwyNTUsMC41KX0KLnNiYXItdHJhY2t7aGVpZ2h0OjVweDtiYWNrZ3JvdW5kOnJnYmEoMjU1LDI1NSwyNTUsMC4wOCk7Ym9yZGVyLXJhZGl1czozcHg7b3ZlcmZsb3c6aGlkZGVufQouc2Jhci1maWxse2hlaWdodDoxMDAlO2JvcmRlci1yYWRpdXM6M3B4O2JhY2tncm91bmQ6dmFyKC0tZzQpfQouc2Jhci12YWx7Zm9udC1mYW1pbHk6J0RNIE1vbm8nLG1vbm9zcGFjZTtmb250LXNpemU6MTFweDtjb2xvcjpyZ2JhKDI1NSwyNTUsMjU1LDAuNSk7dGV4dC1hbGlnbjpyaWdodH0KCi8qIOKUgOKUgCBFVklERU5DRSBUQUJMRSDilIDilIAgKi8KLmV2aWRlbmNlLXRhYmxle3dpZHRoOjEwMCU7Ym9yZGVyLWNvbGxhcHNlOmNvbGxhcHNlO2ZvbnQtc2l6ZToxM3B4fQouZXZpZGVuY2UtdGFibGUgdGhlYWQgdGh7cGFkZGluZzo4cHggMTJweDt0ZXh0LWFsaWduOmxlZnQ7Zm9udC1zaXplOjlweDtmb250LXdlaWdodDo3MDA7bGV0dGVyLXNwYWNpbmc6MC4xZW07dGV4dC10cmFuc2Zvcm06dXBwZXJjYXNlO2JhY2tncm91bmQ6dmFyKC0tcHVycGxlKTtjb2xvcjojZmZmO3doaXRlLXNwYWNlOm5vd3JhcH0KLmV2aWRlbmNlLXRhYmxlIHRib2R5IHRye2JvcmRlci1ib3R0b206MXB4IHNvbGlkIHZhcigtLWJnMyl9Ci5ldmlkZW5jZS10YWJsZSB0Ym9keSB0cjpsYXN0LWNoaWxke2JvcmRlci1ib3R0b206bm9uZX0KLmV2aWRlbmNlLXRhYmxlIHRib2R5IHRyOm50aC1jaGlsZChldmVuKXtiYWNrZ3JvdW5kOnZhcigtLWJnMil9Ci5ldmlkZW5jZS10YWJsZSB0ZHtwYWRkaW5nOjlweCAxMnB4O3ZlcnRpY2FsLWFsaWduOm1pZGRsZX0KLnNpZy15ZXN7Y29sb3I6dmFyKC0tZzIpO2ZvbnQtd2VpZ2h0OjcwMDtmb250LXNpemU6MTFweH0KLnNpZy1ub3tjb2xvcjp2YXIoLS1yZWQpO2ZvbnQtd2VpZ2h0OjcwMDtmb250LXNpemU6MTFweH0KLnBtaWQtdGFne2ZvbnQtZmFtaWx5OidETSBNb25vJyxtb25vc3BhY2U7Zm9udC1zaXplOjEwcHg7YmFja2dyb3VuZDp2YXIoLS1wdXJwbGUtcGFsZSk7Y29sb3I6dmFyKC0tcHVycGxlKTtib3JkZXI6MXB4IHNvbGlkIHZhcigtLXB1cnBsZS1saWdodCk7cGFkZGluZzoycHggN3B4O2JvcmRlci1yYWRpdXM6OHB4O3doaXRlLXNwYWNlOm5vd3JhcH0KLmVmZmVjdC1wb3N7Y29sb3I6dmFyKC0tZzIpO2ZvbnQtZmFtaWx5OidETSBNb25vJyxtb25vc3BhY2U7Zm9udC13ZWlnaHQ6NTAwfQouZWZmZWN0LW5lZ3tjb2xvcjp2YXIoLS1yZWQpO2ZvbnQtZmFtaWx5OidETSBNb25vJyxtb25vc3BhY2U7Zm9udC13ZWlnaHQ6NTAwfQoKLyog4pSA4pSAIENPTVBFVElUSVZFIEJFTkNITUFSSyDilIDilIAgKi8KLmJlbmNoLWxpc3R7ZGlzcGxheTpmbGV4O2ZsZXgtZGlyZWN0aW9uOmNvbHVtbjtnYXA6OHB4fQouYmVuY2gtcm93e2Rpc3BsYXk6Z3JpZDtncmlkLXRlbXBsYXRlLWNvbHVtbnM6MjAwcHggMWZyIDYwcHg7Z2FwOjEycHg7YWxpZ24taXRlbXM6Y2VudGVyO3BhZGRpbmc6OHB4IDEycHg7Ym9yZGVyLXJhZGl1czo4cHg7YmFja2dyb3VuZDp2YXIoLS1iZzIpO2JvcmRlcjoxcHggc29saWQgdmFyKC0tYm9yZGVyKX0KLmJlbmNoLXJvdy5oaWdobGlnaHR7YmFja2dyb3VuZDp2YXIoLS1wdXJwbGUtcGFsZSk7Ym9yZGVyLWNvbG9yOnZhcigtLXB1cnBsZS1saWdodCl9Ci5iZW5jaC1uYW1le2ZvbnQtc2l6ZToxM3B4O2ZvbnQtd2VpZ2h0OjcwMDtjb2xvcjp2YXIoLS10ZXh0Mil9Ci5iZW5jaC1uYW1lLmhpZ2hsaWdodHtjb2xvcjp2YXIoLS1wdXJwbGUpO2ZvbnQtd2VpZ2h0OjgwMH0KLmJlbmNoLWJhci1iZ3toZWlnaHQ6NnB4O2JhY2tncm91bmQ6dmFyKC0tYmczKTtib3JkZXItcmFkaXVzOjNweDtvdmVyZmxvdzpoaWRkZW59Ci5iZW5jaC1iYXItZmlsbHtoZWlnaHQ6MTAwJTtib3JkZXItcmFkaXVzOjNweDtiYWNrZ3JvdW5kOnZhcigtLWczKX0KLmJlbmNoLWJhci1maWxsLmhpZ2hsaWdodHtiYWNrZ3JvdW5kOnZhcigtLXB1cnBsZSl9Ci5iZW5jaC12YWx7Zm9udC1mYW1pbHk6J0RNIE1vbm8nLG1vbm9zcGFjZTtmb250LXNpemU6MTJweDtmb250LXdlaWdodDo1MDA7Y29sb3I6dmFyKC0tZzIpO3RleHQtYWxpZ246cmlnaHR9Ci5iZW5jaC12YWwuaGlnaGxpZ2h0e2NvbG9yOnZhcigtLXB1cnBsZSl9Ci5iZW5jaC1jYXR7Zm9udC1zaXplOjEwcHg7Y29sb3I6dmFyKC0tdGV4dDMpO2ZvbnQtc3R5bGU6aXRhbGljO21hcmdpbi10b3A6MXB4fQoKLyog4pSA4pSAIEhBTExNQVJLIENPVkVSQUdFIOKUgOKUgCAqLwouaG0tY292ZXJhZ2UtZ3JpZHtkaXNwbGF5OmdyaWQ7Z3JpZC10ZW1wbGF0ZS1jb2x1bW5zOnJlcGVhdCgzLDFmcik7Z2FwOjhweH0KLmhtLWNvdmVyYWdlLWNhcmR7cGFkZGluZzoxMHB4IDEycHg7Ym9yZGVyLXJhZGl1czo4cHg7Ym9yZGVyOjFweCBzb2xpZH0KLmhtLWNvdmVyYWdlLWNhcmQuYWN0aXZle2JhY2tncm91bmQ6dmFyKC0tcHVycGxlLXBhbGUpO2JvcmRlci1jb2xvcjp2YXIoLS1wdXJwbGUtbGlnaHQpfQouaG0tY292ZXJhZ2UtY2FyZC5pbmFjdGl2ZXtiYWNrZ3JvdW5kOnZhcigtLWJnMik7Ym9yZGVyLWNvbG9yOnZhcigtLWJvcmRlcik7b3BhY2l0eTowLjV9Ci5obS1jYXJkLWhlYWRlcntkaXNwbGF5OmZsZXg7YWxpZ24taXRlbXM6Y2VudGVyO2dhcDo2cHg7bWFyZ2luLWJvdHRvbTo0cHh9Ci5obS1jYXJkLWljb257Zm9udC1zaXplOjE0cHh9Ci5obS1jYXJkLW5hbWV7Zm9udC1zaXplOjExcHg7Zm9udC13ZWlnaHQ6ODAwO2NvbG9yOnZhcigtLXRleHQyKX0KLmhtLWNhcmQtbmFtZS5hY3RpdmV7Y29sb3I6dmFyKC0tcHVycGxlKX0KLmhtLWNhcmQtbWVjaHtmb250LXNpemU6MTBweDtjb2xvcjp2YXIoLS10ZXh0Myk7bGluZS1oZWlnaHQ6MS40fQouaG0tY2FyZC1kb3R7d2lkdGg6NnB4O2hlaWdodDo2cHg7Ym9yZGVyLXJhZGl1czo1MCU7ZmxleC1zaHJpbms6MH0KCi8qIOKUgOKUgCBQQVRIV0FZIERJQUdSQU0g4pSA4pSAICovCi5wYXRod2F5LXdyYXB7YmFja2dyb3VuZDp2YXIoLS1iZzIpO2JvcmRlcjoxcHggc29saWQgdmFyKC0tYm9yZGVyKTtib3JkZXItcmFkaXVzOjEwcHg7cGFkZGluZzoxLjI1cmVtfQoucGF0aHdheS1yb3d7ZGlzcGxheTpmbGV4O2FsaWduLWl0ZW1zOmNlbnRlcjtnYXA6MDttYXJnaW4tYm90dG9tOjhweDtmbGV4LXdyYXA6d3JhcH0KLnBhdGh3YXktbm9kZXtmb250LWZhbWlseTonRE0gTW9ubycsbW9ub3NwYWNlO2ZvbnQtc2l6ZToxMXB4O2ZvbnQtd2VpZ2h0OjUwMDtwYWRkaW5nOjVweCAxMnB4O2JvcmRlci1yYWRpdXM6NnB4O2JvcmRlcjoxcHggc29saWQ7d2hpdGUtc3BhY2U6bm93cmFwfQoucGF0aHdheS1hcnJvd3tmb250LXNpemU6MTRweDtjb2xvcjp2YXIoLS10ZXh0Myk7cGFkZGluZzowIDZweDtmbGV4LXNocmluazowfQoucGF0aHdheS1yb3cucHJpbWFyeSAucGF0aHdheS1ub2Rle2JhY2tncm91bmQ6dmFyKC0tcHVycGxlLXBhbGUpO2NvbG9yOnZhcigtLXB1cnBsZSk7Ym9yZGVyLWNvbG9yOnZhcigtLXB1cnBsZS1saWdodCl9Ci5wYXRod2F5LXJvdy5zZWNvbmRhcnkgLnBhdGh3YXktbm9kZXtiYWNrZ3JvdW5kOnZhcigtLWctcGFsZSk7Y29sb3I6dmFyKC0tZzIpO2JvcmRlci1jb2xvcjp2YXIoLS1nLWxpZ2h0KX0KLnBhdGh3YXktcm93LnRlcnRpYXJ5IC5wYXRod2F5LW5vZGV7YmFja2dyb3VuZDp2YXIoLS1hbWJlci1wYWxlKTtjb2xvcjp2YXIoLS1hbWJlcik7Ym9yZGVyLWNvbG9yOnZhcigtLWFtYmVyLWxpZ2h0KX0KLnBhdGh3YXktbGFiZWx7Zm9udC1zaXplOjEwcHg7Zm9udC13ZWlnaHQ6NzAwO2xldHRlci1zcGFjaW5nOjAuMWVtO3RleHQtdHJhbnNmb3JtOnVwcGVyY2FzZTtjb2xvcjp2YXIoLS10ZXh0Myk7bWFyZ2luLWJvdHRvbTo4cHh9CgovKiDilIDilIAgRk9STVVMQVRJT04gSU5TSUdIVCDilIDilIAgKi8KLmluc2lnaHQtYmxvY2t7YmFja2dyb3VuZDp2YXIoLS1nLXBhbGUpO2JvcmRlcjoxcHggc29saWQgdmFyKC0tZy1saWdodCk7Ym9yZGVyLXJhZGl1czoxMHB4O3BhZGRpbmc6MS4yNXJlbSAxLjVyZW07bWFyZ2luLWJvdHRvbToxcmVtfQouaW5zaWdodC1ibG9jay5hbWJlcntiYWNrZ3JvdW5kOnZhcigtLWFtYmVyLXBhbGUpO2JvcmRlci1jb2xvcjp2YXIoLS1hbWJlci1saWdodCl9Ci5pbnNpZ2h0LWJsb2NrLnB1cnBsZXtiYWNrZ3JvdW5kOnZhcigtLXB1cnBsZS1wYWxlKTtib3JkZXItY29sb3I6dmFyKC0tcHVycGxlLWxpZ2h0KX0KLmluc2lnaHQtaGVhZGVye2Rpc3BsYXk6ZmxleDthbGlnbi1pdGVtczpjZW50ZXI7Z2FwOjhweDttYXJnaW4tYm90dG9tOjZweH0KLmluc2lnaHQtaWNvbntmb250LXNpemU6MTZweH0KLmluc2lnaHQtdGl0bGV7Zm9udC1zaXplOjEycHg7Zm9udC13ZWlnaHQ6ODAwO2NvbG9yOnZhcigtLWcyKX0KLmluc2lnaHQtYmxvY2suYW1iZXIgLmluc2lnaHQtdGl0bGV7Y29sb3I6dmFyKC0tYW1iZXIpfQouaW5zaWdodC1ibG9jay5wdXJwbGUgLmluc2lnaHQtdGl0bGV7Y29sb3I6dmFyKC0tcHVycGxlKX0KLmluc2lnaHQtYm9keXtmb250LXNpemU6MTNweDtjb2xvcjp2YXIoLS10ZXh0Mik7bGluZS1oZWlnaHQ6MS43fQoKLyog4pSA4pSAIFZBTElEQVRFIENUQSDilIDilIAgKi8KLnZhbGlkYXRlLWJsb2Nre2JhY2tncm91bmQ6dmFyKC0taW5rKTtib3JkZXItcmFkaXVzOjEycHg7cGFkZGluZzoycmVtO3Bvc2l0aW9uOnJlbGF0aXZlO292ZXJmbG93OmhpZGRlbn0KLnZhbGlkYXRlLWJsb2NrOjpiZWZvcmV7Y29udGVudDonJztwb3NpdGlvbjphYnNvbHV0ZTtpbnNldDowO2JhY2tncm91bmQ6cmFkaWFsLWdyYWRpZW50KGVsbGlwc2UgNzAlIDgwJSBhdCAxMDAlIDAlLHJnYmEoMTE3LDQzLDExMywwLjMpLHRyYW5zcGFyZW50IDY1JSk7cG9pbnRlci1ldmVudHM6bm9uZX0KLnZhbGlkYXRlLWV5ZWJyb3d7Zm9udC1zaXplOjEwcHg7Zm9udC13ZWlnaHQ6NzAwO2xldHRlci1zcGFjaW5nOjAuMTRlbTt0ZXh0LXRyYW5zZm9ybTp1cHBlcmNhc2U7Y29sb3I6dmFyKC0tZzQpO21hcmdpbi1ib3R0b206NnB4O3Bvc2l0aW9uOnJlbGF0aXZlO3otaW5kZXg6MX0KLnZhbGlkYXRlLXRpdGxle2ZvbnQtZmFtaWx5OidETSBTZXJpZiBEaXNwbGF5JyxzZXJpZjtmb250LXNpemU6MS41cmVtO2NvbG9yOiNmZmY7bWFyZ2luLWJvdHRvbTo4cHg7cG9zaXRpb246cmVsYXRpdmU7ei1pbmRleDoxfQoudmFsaWRhdGUtYm9keXtmb250LXNpemU6MTNweDtjb2xvcjpyZ2JhKDI1NSwyNTUsMjU1LDAuNSk7bGluZS1oZWlnaHQ6MS43O21heC13aWR0aDo1NDBweDttYXJnaW4tYm90dG9tOjEuNXJlbTtwb3NpdGlvbjpyZWxhdGl2ZTt6LWluZGV4OjF9Ci52YWxpZGF0ZS1zZXJ2aWNlc3tkaXNwbGF5OmdyaWQ7Z3JpZC10ZW1wbGF0ZS1jb2x1bW5zOnJlcGVhdCgyLDFmcik7Z2FwOjEwcHg7bWFyZ2luLWJvdHRvbToxLjVyZW07cG9zaXRpb246cmVsYXRpdmU7ei1pbmRleDoxfQoudnN2Y3tiYWNrZ3JvdW5kOnJnYmEoMjU1LDI1NSwyNTUsMC4wNSk7Ym9yZGVyOjFweCBzb2xpZCByZ2JhKDI1NSwyNTUsMjU1LDAuMSk7Ym9yZGVyLXJhZGl1czo4cHg7cGFkZGluZzoxMHB4IDE0cHh9Ci52c3ZjLW5hbWV7Zm9udC1zaXplOjEycHg7Zm9udC13ZWlnaHQ6ODAwO2NvbG9yOiNmZmY7bWFyZ2luLWJvdHRvbToycHh9Ci52c3ZjLWRlc2N7Zm9udC1zaXplOjExcHg7Y29sb3I6cmdiYSgyNTUsMjU1LDI1NSwwLjQpO2xpbmUtaGVpZ2h0OjEuNX0KLnZhbGlkYXRlLWN0YXtkaXNwbGF5OmlubGluZS1mbGV4O2FsaWduLWl0ZW1zOmNlbnRlcjtnYXA6NnB4O2JhY2tncm91bmQ6dmFyKC0tcHVycGxlKTtjb2xvcjojZmZmO2ZvbnQtZmFtaWx5OidCYXJsb3cnLHNhbnMtc2VyaWY7Zm9udC1zaXplOjEzcHg7Zm9udC13ZWlnaHQ6ODAwO3BhZGRpbmc6MTBweCAyMnB4O2JvcmRlci1yYWRpdXM6MjBweDt0ZXh0LWRlY29yYXRpb246bm9uZTtwb3NpdGlvbjpyZWxhdGl2ZTt6LWluZGV4OjE7Y3Vyc29yOmRlZmF1bHQ7b3BhY2l0eTowLjl9CgovKiDilIDilIAgRk9PVEVSIOKUgOKUgCAqLwoucmVwb3J0LWZvb3RlcntiYWNrZ3JvdW5kOnZhcigtLWJnMik7Ym9yZGVyLXRvcDoxcHggc29saWQgdmFyKC0tYm9yZGVyKTtwYWRkaW5nOjEuNXJlbSAzcmVtO2Rpc3BsYXk6ZmxleDthbGlnbi1pdGVtczpjZW50ZXI7anVzdGlmeS1jb250ZW50OnNwYWNlLWJldHdlZW47Z2FwOjFyZW07ZmxleC13cmFwOndyYXB9Ci5mb290ZXItbGVmdHtmb250LXNpemU6MTFweDtjb2xvcjp2YXIoLS10ZXh0Myk7bGluZS1oZWlnaHQ6MS42O21heC13aWR0aDo1MDBweH0KLmZvb3Rlci1sZWZ0IHN0cm9uZ3tjb2xvcjp2YXIoLS10ZXh0Mil9Ci5mb290ZXItcmlnaHR7dGV4dC1hbGlnbjpyaWdodH0KLmZvb3Rlci1jb25maWRlbnRpYWx7Zm9udC1zaXplOjEwcHg7Zm9udC13ZWlnaHQ6NzAwO2xldHRlci1zcGFjaW5nOjAuMWVtO3RleHQtdHJhbnNmb3JtOnVwcGVyY2FzZTtjb2xvcjp2YXIoLS1yZWQpO29wYWNpdHk6MC43fQouZm9vdGVyLXBhZ2V7Zm9udC1mYW1pbHk6J0RNIE1vbm8nLG1vbm9zcGFjZTtmb250LXNpemU6MTBweDtjb2xvcjp2YXIoLS10ZXh0Myk7bWFyZ2luLXRvcDozcHh9CgovKiDilIDilIAgRElTQ0xBSU1FUiBCQU5ORVIg4pSA4pSAICovCi5kaXNjbGFpbWVye2JhY2tncm91bmQ6dmFyKC0tYW1iZXItcGFsZSk7Ym9yZGVyLXRvcDoxcHggc29saWQgdmFyKC0tYW1iZXItbGlnaHQpO3BhZGRpbmc6MTBweCAzcmVtO2ZvbnQtc2l6ZToxMXB4O2NvbG9yOnZhcigtLWFtYmVyKTtsaW5lLWhlaWdodDoxLjU7ZGlzcGxheTpmbGV4O2dhcDo4cHg7YWxpZ24taXRlbXM6ZmxleC1zdGFydH0KLmRpc2NsYWltZXItaWNvbntmb250LXNpemU6MTNweDtmbGV4LXNocmluazowO21hcmdpbi10b3A6MXB4fQoKLyog4pSA4pSAIFBSSU5UIEJVVFRPTiDilIDilIAgKi8KLnByaW50LWJhcntiYWNrZ3JvdW5kOiNmZmY7Ym9yZGVyLWJvdHRvbToxcHggc29saWQgdmFyKC0tYm9yZGVyKTtwYWRkaW5nOjEwcHggM3JlbTtkaXNwbGF5OmZsZXg7YWxpZ24taXRlbXM6Y2VudGVyO2p1c3RpZnktY29udGVudDpzcGFjZS1iZXR3ZWVuO2dhcDoxcmVtO3Bvc2l0aW9uOnN0aWNreTt0b3A6MDt6LWluZGV4OjEwfQoucHJpbnQtYmFyLWxlZnR7Zm9udC1zaXplOjEycHg7Y29sb3I6dmFyKC0tdGV4dDMpfQoucHJpbnQtYmFyLWxlZnQgc3Ryb25ne2NvbG9yOnZhcigtLXRleHQpfQoucHJpbnQtYnRue2ZvbnQtZmFtaWx5OidCYXJsb3cnLHNhbnMtc2VyaWY7Zm9udC1zaXplOjExcHg7Zm9udC13ZWlnaHQ6ODAwO2JhY2tncm91bmQ6dmFyKC0tcHVycGxlKTtjb2xvcjojZmZmO2JvcmRlcjpub25lO3BhZGRpbmc6N3B4IDE2cHg7Ym9yZGVyLXJhZGl1czoyMHB4O2N1cnNvcjpwb2ludGVyO3RyYW5zaXRpb246YmFja2dyb3VuZCAwLjJzfQoucHJpbnQtYnRuOmhvdmVye2JhY2tncm91bmQ6dmFyKC0tcHVycGxlMil9CgovKiDilIDilIAgQU5JTUFUSU9OUyDilIDilIAgKi8KQGtleWZyYW1lcyBmYWRlVXB7ZnJvbXtvcGFjaXR5OjA7dHJhbnNmb3JtOnRyYW5zbGF0ZVkoMTJweCl9dG97b3BhY2l0eToxO3RyYW5zZm9ybTp0cmFuc2xhdGVZKDApfX0KLnNlY3Rpb257YW5pbWF0aW9uOmZhZGVVcCAwLjVzIGVhc2UgYm90aH0KLnNlY3Rpb246bnRoLWNoaWxkKDEpe2FuaW1hdGlvbi1kZWxheTowLjA1c30uc2VjdGlvbjpudGgtY2hpbGQoMil7YW5pbWF0aW9uLWRlbGF5OjAuMXN9Ci5zZWN0aW9uOm50aC1jaGlsZCgzKXthbmltYXRpb24tZGVsYXk6MC4xNXN9LnNlY3Rpb246bnRoLWNoaWxkKDQpe2FuaW1hdGlvbi1kZWxheTowLjJzfQouc2VjdGlvbjpudGgtY2hpbGQoNSl7YW5pbWF0aW9uLWRlbGF5OjAuMjVzfS5zZWN0aW9uOm50aC1jaGlsZCg2KXthbmltYXRpb24tZGVsYXk6MC4zc30KLnNlY3Rpb246bnRoLWNoaWxkKDcpe2FuaW1hdGlvbi1kZWxheTowLjM1c30KPC9zdHlsZT4KPC9oZWFkPgo8Ym9keT4KCjxkaXYgY2xhc3M9InJlcG9ydCI+Cgo8IS0tIFBSSU5UIEJBUiAtLT4KPGRpdiBjbGFzcz0icHJpbnQtYmFyIG5vLXByaW50Ij4KICA8ZGl2IGNsYXNzPSJwcmludC1iYXItbGVmdCI+PHN0cm9uZz5OZW1hTGlmZSBFdmlkZW5jZSBSZXBvcnQ8L3N0cm9uZz4gwrcgU2FtcGxlIOKAlCBVcm9saXRoaW4gQTwvZGl2PgogIDxidXR0b24gY2xhc3M9InByaW50LWJ0biIgb25jbGljaz0id2luZG93LnByaW50KCkiPkRvd25sb2FkIC8gUHJpbnQgUERGPC9idXR0b24+CjwvZGl2PgoKPCEtLSBDT1ZFUiAtLT4KPGRpdiBjbGFzcz0iY292ZXIiPgogIDxkaXYgY2xhc3M9ImNvdmVyLXRvcCI+CiAgICA8ZGl2IGNsYXNzPSJjb3Zlci1sb2dvIj4KICAgICAgPHN2ZyB3aWR0aD0iMjYiIGhlaWdodD0iMjYiIHZpZXdCb3g9IjAgMCAzMiAzMiIgZmlsbD0ibm9uZSI+CiAgICAgICAgPGVsbGlwc2UgY3g9IjE2IiBjeT0iMTYiIHJ4PSI1IiByeT0iMTMiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2IwNjBhYiIgc3Ryb2tlLXdpZHRoPSIyLjIiLz4KICAgICAgICA8Y2lyY2xlIGN4PSIxNC41IiBjeT0iNiIgcj0iMSIgZmlsbD0iI2IwNjBhYiIvPgogICAgICAgIDxwYXRoIGQ9Ik0xMSAxMCBROCAxNiAxMSAyMiBRMTQgMjggMTYgMjkiIHN0cm9rZT0iIzdkYWE2YiIgc3Ryb2tlLXdpZHRoPSIxLjUiIGZpbGw9Im5vbmUiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgb3BhY2l0eT0iMC44Ii8+CiAgICAgICAgPHBhdGggZD0iTTIxIDEwIFEyNCAxNiAyMSAyMiIgc3Ryb2tlPSIjN2RhYTZiIiBzdHJva2Utd2lkdGg9IjEuNCIgZmlsbD0ibm9uZSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBvcGFjaXR5PSIwLjUiLz4KICAgICAgPC9zdmc+CiAgICAgIDxkaXY+CiAgICAgICAgPGRpdiBjbGFzcz0iY292ZXItbG9nby10ZXh0Ij5OZW1hTGlmZTwvZGl2PgogICAgICAgIDxkaXYgY2xhc3M9ImNvdmVyLWxvZ28tc3ViIj5Mb25nZXZpdHkgSW50ZWxsaWdlbmNlPC9kaXY+CiAgICAgIDwvZGl2PgogICAgPC9kaXY+CiAgICA8ZGl2IGNsYXNzPSJjb3Zlci1tZXRhIj4KICAgICAgPGRpdj48c3Ryb25nPlJlcG9ydCB0eXBlPC9zdHJvbmc+IMK3IEluZ3JlZGllbnQgRXZpZGVuY2UgUmVwb3J0PC9kaXY+CiAgICAgIDxkaXY+PHN0cm9uZz5UaWVyPC9zdHJvbmc+IMK3IFNhbXBsZSAoRnJlZSk8L2Rpdj4KICAgICAgPGRpdj48c3Ryb25nPkdlbmVyYXRlZDwvc3Ryb25nPiDCtyBBcHJpbCAyMDI2PC9kaXY+CiAgICAgIDxkaXY+PHN0cm9uZz5EYXRhYmFzZSB2ZXJzaW9uPC9zdHJvbmc+IMK3IFExIDIwMjY8L2Rpdj4KICAgIDwvZGl2PgogIDwvZGl2PgoKICA8ZGl2IGNsYXNzPSJjb3Zlci1ib2R5Ij4KICAgIDxkaXYgY2xhc3M9ImNvdmVyLXJlcG9ydC10eXBlIj5DLiBlbGVnYW5zIExvbmdldml0eSBJbnRlbGxpZ2VuY2UgwrcgSW5ncmVkaWVudCBFdmlkZW5jZSBSZXBvcnQ8L2Rpdj4KICAgIDxkaXYgY2xhc3M9ImNvdmVyLW5hbWUiPlVyb2xpdGhpbiA8ZW0+QTwvZW0+PC9kaXY+CiAgICA8ZGl2IGNsYXNzPSJjb3Zlci1pdXBhYyI+CiAgICAgIDMsOC1kaWh5ZHJveHktNkgtZGliZW56b1tiLGRdcHlyYW4tNi1vbmUgwrcgQ0FTIDExNDMtNzAtMDxicj4KICAgICAgUG9seXBoZW5vbCBtZXRhYm9saXRlIMK3IEVsbGFnaXRhbm5pbi1kZXJpdmVkIMK3IEd1dCBtaWNyb2Jpb21lLWRlcGVuZGVudAogICAgPC9kaXY+CgogICAgPGRpdiBjbGFzcz0iY292ZXItcGlsbHMiPgogICAgICA8c3BhbiBjbGFzcz0iY292ZXItcGlsbCIgc3R5bGU9ImNvbG9yOnZhcigtLXB1cnBsZTMpO2JvcmRlci1jb2xvcjpyZ2JhKDE3Niw5NiwxNzEsMC40KTtiYWNrZ3JvdW5kOnJnYmEoMTE3LDQzLDExMywwLjIpIj5Qb2x5cGhlbm9sIG1ldGFib2xpdGU8L3NwYW4+CiAgICAgIDxzcGFuIGNsYXNzPSJjb3Zlci1waWxsIiBzdHlsZT0iY29sb3I6dmFyKC0tZzQpO2JvcmRlci1jb2xvcjpyZ2JhKDEyNSwxNzAsMTA3LDAuNCk7YmFja2dyb3VuZDpyZ2JhKDQ1LDkwLDM5LDAuMikiPuKaoSBNaXRvY2hvbmRyaWFsIER5c2Z1bmN0aW9uPC9zcGFuPgogICAgICA8c3BhbiBjbGFzcz0iY292ZXItcGlsbCIgc3R5bGU9ImNvbG9yOnZhcigtLWc0KTtib3JkZXItY29sb3I6cmdiYSgxMjUsMTcwLDEwNywwLjQpO2JhY2tncm91bmQ6cmdiYSg0NSw5MCwzOSwwLjIpIj7imbvvuI8gRGlzYWJsZWQgQXV0b3BoYWd5PC9zcGFuPgogICAgICA8c3BhbiBjbGFzcz0iY292ZXItcGlsbCIgc3R5bGU9ImNvbG9yOnZhcigtLWc0KTtib3JkZXItY29sb3I6cmdiYSgxMjUsMTcwLDEwNywwLjQpO2JhY2tncm91bmQ6cmdiYSg0NSw5MCwzOSwwLjIpIj7wn6agIEd1dCBEeXNiaW9zaXM8L3NwYW4+CiAgICAgIDxzcGFuIGNsYXNzPSJjb3Zlci1waWxsIiBzdHlsZT0iY29sb3I6dmFyKC0tZzQpO2JvcmRlci1jb2xvcjpyZ2JhKDEyNSwxNzAsMTA3LDAuNCk7YmFja2dyb3VuZDpyZ2JhKDQ1LDkwLDM5LDAuMikiPvCflKUgQ2hyb25pYyBJbmZsYW1tYXRpb248L3NwYW4+CiAgICA8L2Rpdj4KCiAgICA8ZGl2IGNsYXNzPSJjb3Zlci1rcGlzIj4KICAgICAgPGRpdiBjbGFzcz0ia3BpIj48ZGl2IGNsYXNzPSJrcGktbnVtIGdyZWVuIj4rMzUuNCU8L2Rpdj48ZGl2IGNsYXNzPSJrcGktbGFiZWwiPk1lYW4gbGlmZXNwYW4gzpQ8L2Rpdj48L2Rpdj4KICAgICAgPGRpdiBjbGFzcz0ia3BpIj48ZGl2IGNsYXNzPSJrcGktbnVtIj42PC9kaXY+PGRpdiBjbGFzcz0ia3BpLWxhYmVsIj5TdHVkeSBlbnRyaWVzPC9kaXY+PC9kaXY+CiAgICAgIDxkaXYgY2xhc3M9ImtwaSI+PGRpdiBjbGFzcz0ia3BpLW51bSBncmVlbiI+MTAwJTwvZGl2PjxkaXYgY2xhc3M9ImtwaS1sYWJlbCI+U2lnbmlmaWNhbnQgKHAmbHQ7MC4wNSk8L2Rpdj48L2Rpdj4KICAgICAgPGRpdiBjbGFzcz0ia3BpIj48ZGl2IGNsYXNzPSJrcGktbnVtIGFtYmVyIj4jMTwvZGl2PjxkaXYgY2xhc3M9ImtwaS1sYWJlbCI+Q2F0ZWdvcnkgcmFuazwvZGl2PjwvZGl2PgogICAgPC9kaXY+CiAgPC9kaXY+CjwvZGl2PgoKPCEtLSBESVNDTEFJTUVSIC0tPgo8ZGl2IGNsYXNzPSJkaXNjbGFpbWVyIj4KICA8ZGl2IGNsYXNzPSJkaXNjbGFpbWVyLWljb24iPuKaoO+4jzwvZGl2PgogIDxkaXY+PHN0cm9uZz5TYW1wbGUgcmVwb3J0Ljwvc3Ryb25nPiBUaGlzIGlzIGFuIGlsbHVzdHJhdGl2ZSBldmlkZW5jZSByZXBvcnQgYmFzZWQgb24gcHVibGlzaGVkIDxlbT5DLiBlbGVnYW5zPC9lbT4gZGF0YS4gRnVsbCByZXBvcnRzIGluY2x1ZGUgYWxsIGV4cGVyaW1lbnRhbCBlbnRyaWVzLCBkb3NlLXJlc3BvbnNlIHRhYmxlcywgY29tcGxldGUgUHViTWVkIHNvdXJjZSBsaXN0LCBhbmQgZXh0ZW5kZWQgTmVtYUxpZmUgY29tbWVudGFyeS4gRm9yIHJlc2VhcmNoIGFuZCBidXNpbmVzcyBpbnRlbGxpZ2VuY2UgcHVycG9zZXMgb25seSDigJQgbm90IG1lZGljYWwgb3IgcmVndWxhdG9yeSBndWlkYW5jZS48L2Rpdj4KPC9kaXY+Cgo8IS0tIEJPRFkgLS0+CjxkaXYgY2xhc3M9ImJvZHkiPgoKICA8IS0tIDEuIEVWSURFTkNFIFNJR05BTCBTQ09SRSAtLT4KICA8ZGl2IGNsYXNzPSJzZWN0aW9uIj4KICAgIDxkaXYgY2xhc3M9InNlY3Rpb24taGVhZGVyIj4KICAgICAgPGRpdiBjbGFzcz0ic2VjdGlvbi1udW0iPjAxPC9kaXY+CiAgICAgIDxkaXYgY2xhc3M9InNlY3Rpb24tbGFiZWwiPk5lbWFMaWZlIEV2aWRlbmNlIFNpZ25hbDwvZGl2PgogICAgPC9kaXY+CgogICAgPGRpdiBjbGFzcz0ic2lnbmFsLWJsb2NrIj4KICAgICAgPGRpdiBjbGFzcz0ic2lnbmFsLXNjb3JlLXdyYXAiPgogICAgICAgIDxkaXYgY2xhc3M9InNpZ25hbC1zY29yZSI+ODg8L2Rpdj4KICAgICAgICA8ZGl2IGNsYXNzPSJzaWduYWwtc2NvcmUtZGVub20iPm91dCBvZiAxMDA8L2Rpdj4KICAgICAgICA8ZGl2IGNsYXNzPSJzaWduYWwtdGllciI+R3JlZW4gwrcgSGlnaCBTaWduYWw8L2Rpdj4KICAgICAgPC9kaXY+CiAgICAgIDxkaXYgY2xhc3M9InNpZ25hbC1kZXRhaWwiPgogICAgICAgIDxkaXYgY2xhc3M9InNpZ25hbC10aXRsZSI+SG93IHRoaXMgc2NvcmUgaXMgY2FsY3VsYXRlZDwvZGl2PgogICAgICAgIDxkaXYgY2xhc3M9InNpZ25hbC1iYXJzIj4KICAgICAgICAgIDxkaXYgY2xhc3M9InNiYXItcm93Ij4KICAgICAgICAgICAgPGRpdiBjbGFzcz0ic2Jhci1sYWJlbCI+RWZmZWN0IHNpemU8L2Rpdj4KICAgICAgICAgICAgPGRpdiBjbGFzcz0ic2Jhci10cmFjayI+PGRpdiBjbGFzcz0ic2Jhci1maWxsIiBzdHlsZT0id2lkdGg6ODglIj48L2Rpdj48L2Rpdj4KICAgICAgICAgICAgPGRpdiBjbGFzcz0ic2Jhci12YWwiPiszNS40JTwvZGl2PgogICAgICAgICAgPC9kaXY+CiAgICAgICAgICA8ZGl2IGNsYXNzPSJzYmFyLXJvdyI+CiAgICAgICAgICAgIDxkaXYgY2xhc3M9InNiYXItbGFiZWwiPkV2aWRlbmNlIGRlcHRoPC9kaXY+CiAgICAgICAgICAgIDxkaXYgY2xhc3M9InNiYXItdHJhY2siPjxkaXYgY2xhc3M9InNiYXItZmlsbCIgc3R5bGU9IndpZHRoOjc1JSI+PC9kaXY+PC9kaXY+CiAgICAgICAgICAgIDxkaXYgY2xhc3M9InNiYXItdmFsIj42IGVudHJpZXM8L2Rpdj4KICAgICAgICAgIDwvZGl2PgogICAgICAgICAgPGRpdiBjbGFzcz0ic2Jhci1yb3ciPgogICAgICAgICAgICA8ZGl2IGNsYXNzPSJzYmFyLWxhYmVsIj5TaWduaWZpY2FuY2UgcmF0ZTwvZGl2PgogICAgICAgICAgICA8ZGl2IGNsYXNzPSJzYmFyLXRyYWNrIj48ZGl2IGNsYXNzPSJzYmFyLWZpbGwiIHN0eWxlPSJ3aWR0aDoxMDAlIj48L2Rpdj48L2Rpdj4KICAgICAgICAgICAgPGRpdiBjbGFzcz0ic2Jhci12YWwiPjEwMCU8L2Rpdj4KICAgICAgICAgIDwvZGl2PgogICAgICAgICAgPGRpdiBjbGFzcz0ic2Jhci1yb3ciPgogICAgICAgICAgICA8ZGl2IGNsYXNzPSJzYmFyLWxhYmVsIj5Dcm9zcy1zdHVkeSBjb25zaXN0ZW5jeTwvZGl2PgogICAgICAgICAgICA8ZGl2IGNsYXNzPSJzYmFyLXRyYWNrIj48ZGl2IGNsYXNzPSJzYmFyLWZpbGwiIHN0eWxlPSJ3aWR0aDo5MCUiPjwvZGl2PjwvZGl2PgogICAgICAgICAgICA8ZGl2IGNsYXNzPSJzYmFyLXZhbCI+SGlnaDwvZGl2PgogICAgICAgICAgPC9kaXY+CiAgICAgICAgICA8ZGl2IGNsYXNzPSJzYmFyLXJvdyI+CiAgICAgICAgICAgIDxkaXYgY2xhc3M9InNiYXItbGFiZWwiPk1lY2hhbmlzbSBzcGVjaWZpY2l0eTwvZGl2PgogICAgICAgICAgICA8ZGl2IGNsYXNzPSJzYmFyLXRyYWNrIj48ZGl2IGNsYXNzPSJzYmFyLWZpbGwiIHN0eWxlPSJ3aWR0aDo5NSUiPjwvZGl2PjwvZGl2PgogICAgICAgICAgICA8ZGl2IGNsYXNzPSJzYmFyLXZhbCI+RGVmaW5lZDwvZGl2PgogICAgICAgICAgPC9kaXY+CiAgICAgICAgPC9kaXY+CiAgICAgIDwvZGl2PgogICAgPC9kaXY+CiAgPC9kaXY+CgogIDwhLS0gMi4gUFVCTElTSEVEIEVWSURFTkNFIC0tPgogIDxkaXYgY2xhc3M9InNlY3Rpb24iPgogICAgPGRpdiBjbGFzcz0ic2VjdGlvbi1oZWFkZXIiPgogICAgICA8ZGl2IGNsYXNzPSJzZWN0aW9uLW51bSI+MDI8L2Rpdj4KICAgICAgPGRpdiBjbGFzcz0ic2VjdGlvbi1sYWJlbCI+UHVibGlzaGVkIEMuIGVsZWdhbnMgRXZpZGVuY2U8L2Rpdj4KICAgIDwvZGl2PgoKICAgIDxkaXYgY2xhc3M9InByb3NlIiBzdHlsZT0ibWFyZ2luLWJvdHRvbToxLjI1cmVtIj4KICAgICAgPHA+QWxsIDYgZXhwZXJpbWVudGFsIGVudHJpZXMgZm9yIFVyb2xpdGhpbiBBIGluIHRoZSBOZW1hTGlmZSBkYXRhYmFzZSBkZXJpdmUgZnJvbSBhIGxhbmRtYXJrIDIwMTYgc3R1ZHkgYnkgUnl1IGV0IGFsLiAoUE1JRCAyNzQwMDI2NSksIHdoaWNoIHN5c3RlbWF0aWNhbGx5IGNoYXJhY3Rlcml6ZWQgdGhlIGxpZmVzcGFuIGVmZmVjdHMgb2YgYWxsIGZvdXIgdXJvbGl0aGluIG1ldGFib2xpdGVzIChBLCBCLCBDLCBEKSBpbiA8ZW0+Qy4gZWxlZ2FuczwvZW0+IE4yIHdpbGQtdHlwZSBhY3Jvc3MgbXVsdGlwbGUgZG9zZXMuIEV2ZXJ5IGVudHJ5IGFjaGlldmVkIHN0YXRpc3RpY2FsIHNpZ25pZmljYW5jZSBhdCBwJmx0OzAuMDUuIFRoZSBjb25zaXN0ZW5jeSBvZiBlZmZlY3QgYWNyb3NzIGRvc2UgY29uZGl0aW9ucyBpcyBub3RhYmxlIGFuZCBkaXN0aW5ndWlzaGVzIFVyb2xpdGhpbiBBIGZyb20gdGhlIG1ham9yaXR5IG9mIGluZ3JlZGllbnRzIGluIHRoZSBkYXRhYmFzZS48L3A+CiAgICA8L2Rpdj4KCiAgICA8ZGl2IHN0eWxlPSJvdmVyZmxvdy14OmF1dG8iPgogICAgICA8dGFibGUgY2xhc3M9ImV2aWRlbmNlLXRhYmxlIj4KICAgICAgICA8dGhlYWQ+CiAgICAgICAgICA8dHI+CiAgICAgICAgICAgIDx0aD5Eb3NlPC90aD4KICAgICAgICAgICAgPHRoPlN0cmFpbjwvdGg+CiAgICAgICAgICAgIDx0aD5NZWFuIExpZmVzcGFuIM6UPC90aD4KICAgICAgICAgICAgPHRoPlNpZ25pZmljYW50PC90aD4KICAgICAgICAgICAgPHRoPlRyZWF0bWVudDwvdGg+CiAgICAgICAgICAgIDx0aD5Tb3VyY2UgKFBNSUQpPC90aD4KICAgICAgICAgIDwvdHI+CiAgICAgICAgPC90aGVhZD4KICAgICAgICA8dGJvZHk+CiAgICAgICAgICA8dHI+CiAgICAgICAgICAgIDx0ZD48c3BhbiBzdHlsZT0iZm9udC1mYW1pbHk6J0RNIE1vbm8nLG1vbm9zcGFjZSI+NTAgwrVNPC9zcGFuPjwvdGQ+CiAgICAgICAgICAgIDx0ZD5OMjwvdGQ+CiAgICAgICAgICAgIDx0ZD48c3BhbiBjbGFzcz0iZWZmZWN0LXBvcyI+KzQxLjIlPC9zcGFuPjwvdGQ+CiAgICAgICAgICAgIDx0ZD48c3BhbiBjbGFzcz0ic2lnLXllcyI+4pyTIHAmbHQ7MC4wNTwvc3Bhbj48L3RkPgogICAgICAgICAgICA8dGQ+RnJvbSBMNDwvdGQ+CiAgICAgICAgICAgIDx0ZD48c3BhbiBjbGFzcz0icG1pZC10YWciPjI3NDAwMjY1PC9zcGFuPjwvdGQ+CiAgICAgICAgICA8L3RyPgogICAgICAgICAgPHRyPgogICAgICAgICAgICA8dGQ+PHNwYW4gc3R5bGU9ImZvbnQtZmFtaWx5OidETSBNb25vJyxtb25vc3BhY2UiPjEwMCDCtU08L3NwYW4+PC90ZD4KICAgICAgICAgICAgPHRkPk4yPC90ZD4KICAgICAgICAgICAgPHRkPjxzcGFuIGNsYXNzPSJlZmZlY3QtcG9zIj4rMzguNiU8L3NwYW4+PC90ZD4KICAgICAgICAgICAgPHRkPjxzcGFuIGNsYXNzPSJzaWcteWVzIj7inJMgcCZsdDswLjA1PC9zcGFuPjwvdGQ+CiAgICAgICAgICAgIDx0ZD5Gcm9tIEw0PC90ZD4KICAgICAgICAgICAgPHRkPjxzcGFuIGNsYXNzPSJwbWlkLXRhZyI+Mjc0MDAyNjU8L3NwYW4+PC90ZD4KICAgICAgICAgIDwvdHI+CiAgICAgICAgICA8dHI+CiAgICAgICAgICAgIDx0ZD48c3BhbiBzdHlsZT0iZm9udC1mYW1pbHk6J0RNIE1vbm8nLG1vbm9zcGFjZSI+MjAwIMK1TTwvc3Bhbj48L3RkPgogICAgICAgICAgICA8dGQ+TjI8L3RkPgogICAgICAgICAgICA8dGQ+PHNwYW4gY2xhc3M9ImVmZmVjdC1wb3MiPiszNS40JTwvc3Bhbj48L3RkPgogICAgICAgICAgICA8dGQ+PHNwYW4gY2xhc3M9InNpZy15ZXMiPuKckyBwJmx0OzAuMDU8L3NwYW4+PC90ZD4KICAgICAgICAgICAgPHRkPkZyb20gTDQ8L3RkPgogICAgICAgICAgICA8dGQ+PHNwYW4gY2xhc3M9InBtaWQtdGFnIj4yNzQwMDI2NTwvc3Bhbj48L3RkPgogICAgICAgICAgPC90cj4KICAgICAgICAgIDx0cj4KICAgICAgICAgICAgPHRkPjxzcGFuIHN0eWxlPSJmb250LWZhbWlseTonRE0gTW9ubycsbW9ub3NwYWNlIj41MCDCtU08L3NwYW4+PC90ZD4KICAgICAgICAgICAgPHRkPk4yPC90ZD4KICAgICAgICAgICAgPHRkPjxzcGFuIGNsYXNzPSJlZmZlY3QtcG9zIj4rMzMuMSU8L3NwYW4+PC90ZD4KICAgICAgICAgICAgPHRkPjxzcGFuIGNsYXNzPSJzaWcteWVzIj7inJMgcCZsdDswLjA1PC9zcGFuPjwvdGQ+CiAgICAgICAgICAgIDx0ZD5Gcm9tIGVnZzwvdGQ+CiAgICAgICAgICAgIDx0ZD48c3BhbiBjbGFzcz0icG1pZC10YWciPjI3NDAwMjY1PC9zcGFuPjwvdGQ+CiAgICAgICAgICA8L3RyPgogICAgICAgICAgPHRyPgogICAgICAgICAgICA8dGQ+PHNwYW4gc3R5bGU9ImZvbnQtZmFtaWx5OidETSBNb25vJyxtb25vc3BhY2UiPjEwMCDCtU08L3NwYW4+PC90ZD4KICAgICAgICAgICAgPHRkPk4yPC90ZD4KICAgICAgICAgICAgPHRkPjxzcGFuIGNsYXNzPSJlZmZlY3QtcG9zIj4rMzEuOCU8L3NwYW4+PC90ZD4KICAgICAgICAgICAgPHRkPjxzcGFuIGNsYXNzPSJzaWcteWVzIj7inJMgcCZsdDswLjA1PC9zcGFuPjwvdGQ+CiAgICAgICAgICAgIDx0ZD5Gcm9tIGVnZzwvdGQ+CiAgICAgICAgICAgIDx0ZD48c3BhbiBjbGFzcz0icG1pZC10YWciPjI3NDAwMjY1PC9zcGFuPjwvdGQ+CiAgICAgICAgICA8L3RyPgogICAgICAgICAgPHRyPgogICAgICAgICAgICA8dGQ+PHNwYW4gc3R5bGU9ImZvbnQtZmFtaWx5OidETSBNb25vJyxtb25vc3BhY2UiPjIwMCDCtU08L3NwYW4+PC90ZD4KICAgICAgICAgICAgPHRkPk4yPC90ZD4KICAgICAgICAgICAgPHRkPjxzcGFuIGNsYXNzPSJlZmZlY3QtcG9zIj4rMzIuMyU8L3NwYW4+PC90ZD4KICAgICAgICAgICAgPHRkPjxzcGFuIGNsYXNzPSJzaWcteWVzIj7inJMgcCZsdDswLjA1PC9zcGFuPjwvdGQ+CiAgICAgICAgICAgIDx0ZD5Gcm9tIGVnZzwvdGQ+CiAgICAgICAgICAgIDx0ZD48c3BhbiBjbGFzcz0icG1pZC10YWciPjI3NDAwMjY1PC9zcGFuPjwvdGQ+CiAgICAgICAgICA8L3RyPgogICAgICAgIDwvdGJvZHk+CiAgICAgIDwvdGFibGU+CiAgICA8L2Rpdj4KICAgIDxkaXYgc3R5bGU9ImZvbnQtc2l6ZToxMXB4O2NvbG9yOnZhcigtLXRleHQzKTttYXJnaW4tdG9wOjhweDtmb250LXN0eWxlOml0YWxpYyI+Tm90ZTogVmFsdWVzIGFyZSBpbGx1c3RyYXRpdmUgZW50cmllcyBkZXJpdmVkIGZyb20gcHVibGlzaGVkIGRhdGEuIEZ1bGwgcmVwb3J0IGluY2x1ZGVzIHJhdyBtZWFuIMKxIFNFTSwgbWF4IGxpZmVzcGFuIM6ULCBhbmQgc3Vydml2YWwgY3VydmUgcGFyYW1ldGVycy48L2Rpdj4KICA8L2Rpdj4KCiAgPCEtLSAzLiBNRUNIQU5JU00gJiBQQVRIV0FZIC0tPgogIDxkaXYgY2xhc3M9InNlY3Rpb24iPgogICAgPGRpdiBjbGFzcz0ic2VjdGlvbi1oZWFkZXIiPgogICAgICA8ZGl2IGNsYXNzPSJzZWN0aW9uLW51bSI+MDM8L2Rpdj4KICAgICAgPGRpdiBjbGFzcz0ic2VjdGlvbi1sYWJlbCI+TWVjaGFuaXNtIG9mIEFjdGlvbiBpbiBDLiBlbGVnYW5zPC9kaXY+CiAgICA8L2Rpdj4KCiAgICA8ZGl2IGNsYXNzPSJwcm9zZSIgc3R5bGU9Im1hcmdpbi1ib3R0b206MS4yNXJlbSI+CiAgICAgIDxwPlVyb2xpdGhpbiBBIGV4dGVuZHMgbGlmZXNwYW4gaW4gPGVtPkMuIGVsZWdhbnM8L2VtPiBwcmltYXJpbHkgdGhyb3VnaCA8c3Ryb25nPmluZHVjdGlvbiBvZiBtaXRvcGhhZ3k8L3N0cm9uZz4g4oCUIHNlbGVjdGl2ZSBhdXRvcGhhZ2ljIGNsZWFyYW5jZSBvZiBkYW1hZ2VkIG1pdG9jaG9uZHJpYSDigJQgdmlhIGFjdGl2YXRpb24gb2YgdGhlIDxzdHJvbmc+RENULTEvQk5JUDMgcGF0aHdheTwvc3Ryb25nPiwgdGhlIHdvcm0gaG9tb2xvZyBvZiB0aGUgbWFtbWFsaWFuIFBJTksxL1BhcmtpbiBzeXN0ZW0uIFRoaXMgbWVjaGFuaXNtIHdhcyBjb25maXJtZWQgdXNpbmcgbWl0b3BoYWd5IHJlcG9ydGVyIHN0cmFpbnMgYW5kIFJOQWkga25vY2tkb3duIG9mIGF1dG9waGFneSBnZW5lcyAoYmVjLTEsIGxnZy0xLCBhdGctNyksIHdoaWNoIGFicm9nYXRlZCB0aGUgbGlmZXNwYW4gZXh0ZW5zaW9uLiBTZWNvbmRhcnkgYWN0aXZhdGlvbiBvZiA8c3Ryb25nPkRBRi0xNi9GT1hPPC9zdHJvbmc+IGFuZCA8c3Ryb25nPkFNUEsgKGFhay0yKTwvc3Ryb25nPiBjb250cmlidXRlcyB0byB0aGUgb3ZlcmFsbCBsb25nZXZpdHkgcGhlbm90eXBlLjwvcD4KICAgIDwvZGl2PgoKICAgIDxkaXYgY2xhc3M9InBhdGh3YXktd3JhcCIgc3R5bGU9Im1hcmdpbi1ib3R0b206MXJlbSI+CiAgICAgIDxkaXYgY2xhc3M9InBhdGh3YXktbGFiZWwiPlByaW1hcnkgbG9uZ2V2aXR5IHBhdGh3YXk8L2Rpdj4KICAgICAgPGRpdiBjbGFzcz0icGF0aHdheS1yb3cgcHJpbWFyeSI+CiAgICAgICAgPHNwYW4gY2xhc3M9InBhdGh3YXktbm9kZSI+VXJvbGl0aGluIEE8L3NwYW4+CiAgICAgICAgPHNwYW4gY2xhc3M9InBhdGh3YXktYXJyb3ciPuKGkjwvc3Bhbj4KICAgICAgICA8c3BhbiBjbGFzcz0icGF0aHdheS1ub2RlIj5EQ1QtMSAvIEJOSVAzPC9zcGFuPgogICAgICAgIDxzcGFuIGNsYXNzPSJwYXRod2F5LWFycm93Ij7ihpI8L3NwYW4+CiAgICAgICAgPHNwYW4gY2xhc3M9InBhdGh3YXktbm9kZSI+TWl0b3BoYWd5PC9zcGFuPgogICAgICAgIDxzcGFuIGNsYXNzPSJwYXRod2F5LWFycm93Ij7ihpI8L3NwYW4+CiAgICAgICAgPHNwYW4gY2xhc3M9InBhdGh3YXktbm9kZSI+4oaRIExpZmVzcGFuPC9zcGFuPgogICAgICA8L2Rpdj4KICAgIDwvZGl2PgogICAgPGRpdiBjbGFzcz0icGF0aHdheS13cmFwIiBzdHlsZT0ibWFyZ2luLWJvdHRvbToxcmVtIj4KICAgICAgPGRpdiBjbGFzcz0icGF0aHdheS1sYWJlbCI+U2Vjb25kYXJ5IHBhdGh3YXlzPC9kaXY+CiAgICAgIDxkaXYgY2xhc3M9InBhdGh3YXktcm93IHNlY29uZGFyeSIgc3R5bGU9Im1hcmdpbi1ib3R0b206OHB4Ij4KICAgICAgICA8c3BhbiBjbGFzcz0icGF0aHdheS1ub2RlIj5Vcm9saXRoaW4gQTwvc3Bhbj4KICAgICAgICA8c3BhbiBjbGFzcz0icGF0aHdheS1hcnJvdyI+4oaSPC9zcGFuPgogICAgICAgIDxzcGFuIGNsYXNzPSJwYXRod2F5LW5vZGUiPkRBRi0xNiAvIEZPWE88L3NwYW4+CiAgICAgICAgPHNwYW4gY2xhc3M9InBhdGh3YXktYXJyb3ciPuKGkjwvc3Bhbj4KICAgICAgICA8c3BhbiBjbGFzcz0icGF0aHdheS1ub2RlIj5TdHJlc3MgcmVzaXN0YW5jZTwvc3Bhbj4KICAgICAgICA8c3BhbiBjbGFzcz0icGF0aHdheS1hcnJvdyI+4oaSPC9zcGFuPgogICAgICAgIDxzcGFuIGNsYXNzPSJwYXRod2F5LW5vZGUiPuKGkSBIZWFsdGhzcGFuPC9zcGFuPgogICAgICA8L2Rpdj4KICAgICAgPGRpdiBjbGFzcz0icGF0aHdheS1yb3cgdGVydGlhcnkiPgogICAgICAgIDxzcGFuIGNsYXNzPSJwYXRod2F5LW5vZGUiPlVyb2xpdGhpbiBBPC9zcGFuPgogICAgICAgIDxzcGFuIGNsYXNzPSJwYXRod2F5LWFycm93Ij7ihpI8L3NwYW4+CiAgICAgICAgPHNwYW4gY2xhc3M9InBhdGh3YXktbm9kZSI+QUFLLTIgLyBBTVBLPC9zcGFuPgogICAgICAgIDxzcGFuIGNsYXNzPSJwYXRod2F5LWFycm93Ij7ihpI8L3NwYW4+CiAgICAgICAgPHNwYW4gY2xhc3M9InBhdGh3YXktbm9kZSI+RW5lcmd5IHNlbnNpbmc8L3NwYW4+CiAgICAgICAgPHNwYW4gY2xhc3M9InBhdGh3YXktYXJyb3ciPuKGkjwvc3Bhbj4KICAgICAgICA8c3BhbiBjbGFzcz0icGF0aHdheS1ub2RlIj7ihpEgTGlmZXNwYW48L3NwYW4+CiAgICAgIDwvZGl2PgogICAgPC9kaXY+CgogICAgPGRpdiBzdHlsZT0iYmFja2dyb3VuZDp2YXIoLS1iZzIpO2JvcmRlcjoxcHggc29saWQgdmFyKC0tYm9yZGVyKTtib3JkZXItcmFkaXVzOjhweDtwYWRkaW5nOjFyZW07Zm9udC1zaXplOjEycHg7Y29sb3I6dmFyKC0tdGV4dDMpIj4KICAgICAgPHN0cm9uZyBzdHlsZT0iY29sb3I6dmFyKC0tdGV4dDIpIj5HZW5ldGljIGNvbmZpcm1hdGlvbjo8L3N0cm9uZz4gTGlmZXNwYW4gZXh0ZW5zaW9uIGJ5IFVyb2xpdGhpbiBBIHdhcyBhYm9saXNoZWQgaW4gPHNwYW4gc3R5bGU9ImZvbnQtZmFtaWx5OidETSBNb25vJyxtb25vc3BhY2U7Y29sb3I6dmFyKC0tcHVycGxlKSI+ZGN0LTEoUk5BaSk8L3NwYW4+LCA8c3BhbiBzdHlsZT0iZm9udC1mYW1pbHk6J0RNIE1vbm8nLG1vbm9zcGFjZTtjb2xvcjp2YXIoLS1wdXJwbGUpIj5iZWMtMShSTkFpKTwvc3Bhbj4sIGFuZCA8c3BhbiBzdHlsZT0iZm9udC1mYW1pbHk6J0RNIE1vbm8nLG1vbm9zcGFjZTtjb2xvcjp2YXIoLS1wdXJwbGUpIj5sZ2ctMShSTkFpKTwvc3Bhbj4gd29ybXMsIGNvbmZpcm1pbmcgdGhhdCBtaXRvcGhhZ3kvYXV0b3BoYWd5IGluZHVjdGlvbiBpcyByZXF1aXJlZCBmb3IgdGhlIGxvbmdldml0eSBwaGVub3R5cGUg4oCUIG5vdCBtZXJlbHkgY29ycmVsYXRpdmUuCiAgICA8L2Rpdj4KICA8L2Rpdj4KCiAgPCEtLSA0LiBIQUxMTUFSSyBDT1ZFUkFHRSAtLT4KICA8ZGl2IGNsYXNzPSJzZWN0aW9uIj4KICAgIDxkaXYgY2xhc3M9InNlY3Rpb24taGVhZGVyIj4KICAgICAgPGRpdiBjbGFzcz0ic2VjdGlvbi1udW0iPjA0PC9kaXY+CiAgICAgIDxkaXYgY2xhc3M9InNlY3Rpb24tbGFiZWwiPkhhbGxtYXJrcyBvZiBBZ2luZyDigJQgQ292ZXJhZ2UgTWFwPC9kaXY+CiAgICA8L2Rpdj4KCiAgICA8ZGl2IGNsYXNzPSJwcm9zZSIgc3R5bGU9Im1hcmdpbi1ib3R0b206MS4yNXJlbSI+CiAgICAgIDxwPlVyb2xpdGhpbiBBIGRpcmVjdGx5IHRhcmdldHMgPHN0cm9uZz40IG9mIHRoZSA5IGNvbnNlcnZlZCBoYWxsbWFya3M8L3N0cm9uZz4gbWVhc3VyYWJsZSBpbiA8ZW0+Qy4gZWxlZ2FuczwvZW0+LCB3aXRoIHRoZSBzdHJvbmdlc3QgbWVjaGFuaXN0aWMgZXZpZGVuY2UgaW4gbWl0b2Nob25kcmlhbCBkeXNmdW5jdGlvbiBhbmQgYXV0b3BoYWd5LiBUaGlzIG11bHRpLWhhbGxtYXJrIGNvdmVyYWdlIGlzIHJhcmUgYW1vbmcgc2luZ2xlIGluZ3JlZGllbnRzIGFuZCB1bmRlcnBpbnMgdGhlIGdyb3dpbmcgY2xpbmljYWwgaW50ZXJlc3QgaW4gdXJvbGl0aGlucyBhcyBicm9hZC1zcGVjdHJ1bSBsb25nZXZpdHkgYWdlbnRzLjwvcD4KICAgIDwvZGl2PgoKICAgIDxkaXYgY2xhc3M9ImhtLWNvdmVyYWdlLWdyaWQiPgogICAgICA8ZGl2IGNsYXNzPSJobS1jb3ZlcmFnZS1jYXJkIGFjdGl2ZSI+CiAgICAgICAgPGRpdiBjbGFzcz0iaG0tY2FyZC1oZWFkZXIiPgogICAgICAgICAgPGRpdiBjbGFzcz0iaG0tY2FyZC1kb3QiIHN0eWxlPSJiYWNrZ3JvdW5kOiNjMDQwNjAiPjwvZGl2PgogICAgICAgICAgPGRpdiBjbGFzcz0iaG0tY2FyZC1pY29uIj7imqE8L2Rpdj4KICAgICAgICAgIDxkaXYgY2xhc3M9ImhtLWNhcmQtbmFtZSBhY3RpdmUiPk1pdG9jaG9uZHJpYWwgRHlzZnVuY3Rpb248L2Rpdj4KICAgICAgICA8L2Rpdj4KICAgICAgICA8ZGl2IGNsYXNzPSJobS1jYXJkLW1lY2giPkRDVC0xL0JOSVAzIG1pdG9waGFneSDigJQgcHJpbWFyeSBtZWNoYW5pc20uIENvbmZpcm1lZCBieSBnZW5ldGljIGVwaXN0YXNpcy48L2Rpdj4KICAgICAgPC9kaXY+CiAgICAgIDxkaXYgY2xhc3M9ImhtLWNvdmVyYWdlLWNhcmQgYWN0aXZlIj4KICAgICAgICA8ZGl2IGNsYXNzPSJobS1jYXJkLWhlYWRlciI+CiAgICAgICAgICA8ZGl2IGNsYXNzPSJobS1jYXJkLWRvdCIgc3R5bGU9ImJhY2tncm91bmQ6IzYwMjBhMCI+PC9kaXY+CiAgICAgICAgICA8ZGl2IGNsYXNzPSJobS1jYXJkLWljb24iPuKZu++4jzwvZGl2PgogICAgICAgICAgPGRpdiBjbGFzcz0iaG0tY2FyZC1uYW1lIGFjdGl2ZSI+RGlzYWJsZWQgQXV0b3BoYWd5PC9kaXY+CiAgICAgICAgPC9kaXY+CiAgICAgICAgPGRpdiBjbGFzcz0iaG0tY2FyZC1tZWNoIj5iZWMtMSwgbGdnLTEsIGF0Zy03IHBhdGh3YXkgYWN0aXZhdGlvbi4gUmVxdWlyZWQgZm9yIGxpZmVzcGFuIGVmZmVjdC48L2Rpdj4KICAgICAgPC9kaXY+CiAgICAgIDxkaXYgY2xhc3M9ImhtLWNvdmVyYWdlLWNhcmQgYWN0aXZlIj4KICAgICAgICA8ZGl2IGNsYXNzPSJobS1jYXJkLWhlYWRlciI+CiAgICAgICAgICA8ZGl2IGNsYXNzPSJobS1jYXJkLWRvdCIgc3R5bGU9ImJhY2tncm91bmQ6IzIwYTA4MCI+PC9kaXY+CiAgICAgICAgICA8ZGl2IGNsYXNzPSJobS1jYXJkLWljb24iPvCfpqA8L2Rpdj4KICAgICAgICAgIDxkaXYgY2xhc3M9ImhtLWNhcmQtbmFtZSBhY3RpdmUiPkd1dCBNaWNyb2Jpb21lIER5c2Jpb3NpczwvZGl2PgogICAgICAgIDwvZGl2PgogICAgICAgIDxkaXYgY2xhc3M9ImhtLWNhcmQtbWVjaCI+UHJvZHVjZWQgYnkgZ3V0IGJhY3RlcmlhIGZyb20gZWxsYWdpdGFubmlucy4gTWljcm9iaW9tZS1tZWRpYXRlZCBiaW9hdmFpbGFiaWxpdHkuPC9kaXY+CiAgICAgIDwvZGl2PgogICAgICA8ZGl2IGNsYXNzPSJobS1jb3ZlcmFnZS1jYXJkIGFjdGl2ZSI+CiAgICAgICAgPGRpdiBjbGFzcz0iaG0tY2FyZC1oZWFkZXIiPgogICAgICAgICAgPGRpdiBjbGFzcz0iaG0tY2FyZC1kb3QiIHN0eWxlPSJiYWNrZ3JvdW5kOiNjMDUwMjAiPjwvZGl2PgogICAgICAgICAgPGRpdiBjbGFzcz0iaG0tY2FyZC1pY29uIj7wn5SlPC9kaXY+CiAgICAgICAgICA8ZGl2IGNsYXNzPSJobS1jYXJkLW5hbWUgYWN0aXZlIj5DaHJvbmljIEluZmxhbW1hdGlvbjwvZGl2PgogICAgICAgIDwvZGl2PgogICAgICAgIDxkaXYgY2xhc3M9ImhtLWNhcmQtbWVjaCI+REFGLTE2L0ZPWE8gc2Vjb25kYXJ5IGFjdGl2YXRpb24gcmVkdWNlcyBpbmZsYW1tYXRvcnkgc2lnbmFsaW5nIGNhc2NhZGVzLjwvZGl2PgogICAgICA8L2Rpdj4KICAgICAgPGRpdiBjbGFzcz0iaG0tY292ZXJhZ2UtY2FyZCBpbmFjdGl2ZSI+CiAgICAgICAgPGRpdiBjbGFzcz0iaG0tY2FyZC1oZWFkZXIiPgogICAgICAgICAgPGRpdiBjbGFzcz0iaG0tY2FyZC1kb3QiIHN0eWxlPSJiYWNrZ3JvdW5kOiNjY2MiPjwvZGl2PgogICAgICAgICAgPGRpdiBjbGFzcz0iaG0tY2FyZC1pY29uIj7wn6esPC9kaXY+CiAgICAgICAgICA8ZGl2IGNsYXNzPSJobS1jYXJkLW5hbWUiPkdlbm9taWMgSW5zdGFiaWxpdHk8L2Rpdj4KICAgICAgICA8L2Rpdj4KICAgICAgICA8ZGl2IGNsYXNzPSJobS1jYXJkLW1lY2giPk5vdCBhIHByaW1hcnkgbWVjaGFuaXNtLiBJbmRpcmVjdCBhbnRpb3hpZGFudCBiZW5lZml0IHBvc3NpYmxlLjwvZGl2PgogICAgICA8L2Rpdj4KICAgICAgPGRpdiBjbGFzcz0iaG0tY292ZXJhZ2UtY2FyZCBpbmFjdGl2ZSI+CiAgICAgICAgPGRpdiBjbGFzcz0iaG0tY2FyZC1oZWFkZXIiPgogICAgICAgICAgPGRpdiBjbGFzcz0iaG0tY2FyZC1kb3QiIHN0eWxlPSJiYWNrZ3JvdW5kOiNjY2MiPjwvZGl2PgogICAgICAgICAgPGRpdiBjbGFzcz0iaG0tY2FyZC1pY29uIj7wn5OhPC9kaXY+CiAgICAgICAgICA8ZGl2IGNsYXNzPSJobS1jYXJkLW5hbWUiPk51dHJpZW50IFNlbnNpbmc8L2Rpdj4KICAgICAgICA8L2Rpdj4KICAgICAgICA8ZGl2IGNsYXNzPSJobS1jYXJkLW1lY2giPkFNUEsgYWN0aXZhdGlvbiBpcyBzZWNvbmRhcnkuIE5vdCBhIHByaW1hcnkgSUlTL21UT1IgbW9kdWxhdG9yLjwvZGl2PgogICAgICA8L2Rpdj4KICAgIDwvZGl2PgogIDwvZGl2PgoKICA8IS0tIDUuIENPTVBFVElUSVZFIEJFTkNITUFSS0lORyAtLT4KICA8ZGl2IGNsYXNzPSJzZWN0aW9uIj4KICAgIDxkaXYgY2xhc3M9InNlY3Rpb24taGVhZGVyIj4KICAgICAgPGRpdiBjbGFzcz0ic2VjdGlvbi1udW0iPjA1PC9kaXY+CiAgICAgIDxkaXYgY2xhc3M9InNlY3Rpb24tbGFiZWwiPkNvbXBldGl0aXZlIEJlbmNobWFya2luZyDigJQgUG9seXBoZW5vbCBNZXRhYm9saXRlczwvZGl2PgogICAgPC9kaXY+CgogICAgPGRpdiBjbGFzcz0icHJvc2UiIHN0eWxlPSJtYXJnaW4tYm90dG9tOjEuMjVyZW0iPgogICAgICA8cD5BbW9uZyBwb2x5cGhlbm9sIG1ldGFib2xpdGVzIGFuZCB3ZWxsLXN0dWRpZWQgbG9uZ2V2aXR5IGluZ3JlZGllbnRzIGluIHRoZSBOZW1hTGlmZSBkYXRhYmFzZSwgVXJvbGl0aGluIEEgcmFua3MgPHN0cm9uZz4jMSBieSBtZWFuIGxpZmVzcGFuIGV4dGVuc2lvbjwvc3Ryb25nPiBpbiBpdHMgY2F0ZWdvcnkgd2l0aCBmdWxsIHN0YXRpc3RpY2FsIHJlcGxpY2F0aW9uLiBDb21wYXJlZCB0byBoaWdobHkgbWFya2V0ZWQgYWx0ZXJuYXRpdmVzLCBpdHMgZXZpZGVuY2UgcHJvZmlsZSBpcyBtYXJrZWRseSBzdHJvbmdlciBvbiBib3RoIGVmZmVjdCBzaXplIGFuZCBzaWduaWZpY2FuY2UgY29uc2lzdGVuY3kuPC9wPgogICAgPC9kaXY+CgogICAgPGRpdiBjbGFzcz0iYmVuY2gtbGlzdCI+CiAgICAgIDxkaXYgY2xhc3M9ImJlbmNoLXJvdyBoaWdobGlnaHQiPgogICAgICAgIDxkaXY+PGRpdiBjbGFzcz0iYmVuY2gtbmFtZSBoaWdobGlnaHQiPlVyb2xpdGhpbiBBIOKGkCB0aGlzIGluZ3JlZGllbnQ8L2Rpdj48ZGl2IGNsYXNzPSJiZW5jaC1jYXQiPlVyb2xpdGhpbiBtZXRhYm9saXRlIMK3IDYgZW50cmllcyDCtyAxMDAlIHNpZy48L2Rpdj48L2Rpdj4KICAgICAgICA8ZGl2IGNsYXNzPSJiZW5jaC1iYXItYmciPjxkaXYgY2xhc3M9ImJlbmNoLWJhci1maWxsIGhpZ2hsaWdodCIgc3R5bGU9IndpZHRoOjg3JSI+PC9kaXY+PC9kaXY+CiAgICAgICAgPGRpdiBjbGFzcz0iYmVuY2gtdmFsIGhpZ2hsaWdodCI+KzM1LjQlPC9kaXY+CiAgICAgIDwvZGl2PgogICAgICA8ZGl2IGNsYXNzPSJiZW5jaC1yb3ciPgogICAgICAgIDxkaXY+PGRpdiBjbGFzcz0iYmVuY2gtbmFtZSI+Um9zbWFyaW5pYyBhY2lkPC9kaXY+PGRpdiBjbGFzcz0iYmVuY2gtY2F0Ij5IeWRyb3h5Y2lubmFtaWMgYWNpZCDCtyA0IGVudHJpZXMgwrcgMTAwJSBzaWcuPC9kaXY+PC9kaXY+CiAgICAgICAgPGRpdiBjbGFzcz0iYmVuY2gtYmFyLWJnIj48ZGl2IGNsYXNzPSJiZW5jaC1iYXItZmlsbCIgc3R5bGU9IndpZHRoOjEwMCUiPjwvZGl2PjwvZGl2PgogICAgICAgIDxkaXYgY2xhc3M9ImJlbmNoLXZhbCI+KzQwLjYlPC9kaXY+CiAgICAgIDwvZGl2PgogICAgICA8ZGl2IGNsYXNzPSJiZW5jaC1yb3ciPgogICAgICAgIDxkaXY+PGRpdiBjbGFzcz0iYmVuY2gtbmFtZSI+TXlyaWNldGluPC9kaXY+PGRpdiBjbGFzcz0iYmVuY2gtY2F0Ij5GbGF2b25vbCDCtyAyIGVudHJpZXMgwrcgMTAwJSBzaWcuPC9kaXY+PC9kaXY+CiAgICAgICAgPGRpdiBjbGFzcz0iYmVuY2gtYmFyLWJnIj48ZGl2IGNsYXNzPSJiZW5jaC1iYXItZmlsbCIgc3R5bGU9IndpZHRoOjYyJSI+PC9kaXY+PC9kaXY+CiAgICAgICAgPGRpdiBjbGFzcz0iYmVuY2gtdmFsIj4rMjUuNCU8L2Rpdj4KICAgICAgPC9kaXY+CiAgICAgIDxkaXYgY2xhc3M9ImJlbmNoLXJvdyI+CiAgICAgICAgPGRpdj48ZGl2IGNsYXNzPSJiZW5jaC1uYW1lIj5Bc3RheGFudGhpbjwvZGl2PjxkaXYgY2xhc3M9ImJlbmNoLWNhdCI+WGFudGhvcGh5bGwgwrcgNCBlbnRyaWVzIMK3IDEwMCUgc2lnLjwvZGl2PjwvZGl2PgogICAgICAgIDxkaXYgY2xhc3M9ImJlbmNoLWJhci1iZyI+PGRpdiBjbGFzcz0iYmVuY2gtYmFyLWZpbGwiIHN0eWxlPSJ3aWR0aDo0NSUiPjwvZGl2PjwvZGl2PgogICAgICAgIDxkaXYgY2xhc3M9ImJlbmNoLXZhbCI+KzE4LjElPC9kaXY+CiAgICAgIDwvZGl2PgogICAgICA8ZGl2IGNsYXNzPSJiZW5jaC1yb3ciPgogICAgICAgIDxkaXY+PGRpdiBjbGFzcz0iYmVuY2gtbmFtZSI+UmVzdmVyYXRyb2w8L2Rpdj48ZGl2IGNsYXNzPSJiZW5jaC1jYXQiPlN0aWxiZW5lIMK3IDMxIGVudHJpZXMgwrcgNzclIHNpZy48L2Rpdj48L2Rpdj4KICAgICAgICA8ZGl2IGNsYXNzPSJiZW5jaC1iYXItYmciPjxkaXYgY2xhc3M9ImJlbmNoLWJhci1maWxsIiBzdHlsZT0id2lkdGg6MzUlIj48L2Rpdj48L2Rpdj4KICAgICAgICA8ZGl2IGNsYXNzPSJiZW5jaC12YWwiPisxNC4zJTwvZGl2PgogICAgICA8L2Rpdj4KICAgICAgPGRpdiBjbGFzcz0iYmVuY2gtcm93Ij4KICAgICAgICA8ZGl2PjxkaXYgY2xhc3M9ImJlbmNoLW5hbWUiPkVHQ0c8L2Rpdj48ZGl2IGNsYXNzPSJiZW5jaC1jYXQiPkNhdGVjaGluIMK3IDExIGVudHJpZXMgwrcgNzMlIHNpZy48L2Rpdj48L2Rpdj4KICAgICAgICA8ZGl2IGNsYXNzPSJiZW5jaC1iYXItYmciPjxkaXYgY2xhc3M9ImJlbmNoLWJhci1maWxsIiBzdHlsZT0id2lkdGg6MjUlIj48L2Rpdj48L2Rpdj4KICAgICAgICA8ZGl2IGNsYXNzPSJiZW5jaC12YWwiPisxMC4yJTwvZGl2PgogICAgICA8L2Rpdj4KICAgICAgPGRpdiBjbGFzcz0iYmVuY2gtcm93Ij4KICAgICAgICA8ZGl2PjxkaXYgY2xhc3M9ImJlbmNoLW5hbWUiPlF1ZXJjZXRpbjwvZGl2PjxkaXYgY2xhc3M9ImJlbmNoLWNhdCI+Rmxhdm9ub2wgwrcgMTQgZW50cmllcyDCtyA3OSUgc2lnLjwvZGl2PjwvZGl2PgogICAgICAgIDxkaXYgY2xhc3M9ImJlbmNoLWJhci1iZyI+PGRpdiBjbGFzcz0iYmVuY2gtYmFyLWZpbGwiIHN0eWxlPSJ3aWR0aDoyNiUiPjwvZGl2PjwvZGl2PgogICAgICAgIDxkaXYgY2xhc3M9ImJlbmNoLXZhbCI+KzEwLjglPC9kaXY+CiAgICAgIDwvZGl2PgogICAgPC9kaXY+CiAgICA8ZGl2IHN0eWxlPSJmb250LXNpemU6MTFweDtjb2xvcjp2YXIoLS10ZXh0Myk7bWFyZ2luLXRvcDoxMHB4O2ZvbnQtc3R5bGU6aXRhbGljIj5GdWxsIHJlcG9ydCBpbmNsdWRlcyBhbGwgNjcgY3VyYXRlZCBpbmdyZWRpZW50cyByYW5rZWQgd2l0aGluIGVhY2ggaGFsbG1hcmsgY2F0ZWdvcnksIHdpdGggcGVyY2VudGlsZSBzY29yZXMgYW5kIHNpZ25pZmljYW5jZS1hZGp1c3RlZCBlZmZlY3QgY29tcGFyaXNvbnMuPC9kaXY+CiAgPC9kaXY+CgogIDwhLS0gNi4gRk9STVVMQVRJT04gSU5URUxMSUdFTkNFIC0tPgogIDxkaXYgY2xhc3M9InNlY3Rpb24iPgogICAgPGRpdiBjbGFzcz0ic2VjdGlvbi1oZWFkZXIiPgogICAgICA8ZGl2IGNsYXNzPSJzZWN0aW9uLW51bSI+MDY8L2Rpdj4KICAgICAgPGRpdiBjbGFzcz0ic2VjdGlvbi1sYWJlbCI+TmVtYUxpZmUgRm9ybXVsYXRpb24gSW50ZWxsaWdlbmNlPC9kaXY+CiAgICA8L2Rpdj4KCiAgICA8ZGl2IGNsYXNzPSJpbnNpZ2h0LWJsb2NrIj4KICAgICAgPGRpdiBjbGFzcz0iaW5zaWdodC1oZWFkZXIiPjxkaXYgY2xhc3M9Imluc2lnaHQtaWNvbiI+4pyFPC9kaXY+PGRpdiBjbGFzcz0iaW5zaWdodC10aXRsZSI+V2hhdCB0aGlzIG1lYW5zIGZvciB5b3VyIGZvcm11bGF0aW9uPC9kaXY+PC9kaXY+CiAgICAgIDxkaXYgY2xhc3M9Imluc2lnaHQtYm9keSI+VXJvbGl0aGluIEEgY2FycmllcyBvbmUgb2YgdGhlIHN0cm9uZ2VzdCBldmlkZW5jZSBwcm9maWxlcyBpbiB0aGUgZW50aXJlIE5lbWFMaWZlIGRhdGFiYXNlIOKAlCAxMDAlIHN0YXRpc3RpY2FsIHNpZ25pZmljYW5jZSBhY3Jvc3MgNiBleHBlcmltZW50YWwgZW50cmllcyBhbmQgYSBtZWFuIGxpZmVzcGFuIGV4dGVuc2lvbiBvZiArMzUuNCUgcGxhY2VzIGl0IGluIHRoZSB0b3AgNSUgb2YgYWxsIDMwMSBpbmdyZWRpZW50cyB0ZXN0ZWQuIEl0cyBtZWNoYW5pc20gaXMgYW1vbmcgdGhlIGJlc3QgY2hhcmFjdGVyaXplZCBpbiBsb25nZXZpdHkgc2NpZW5jZTogbWl0b3BoYWd5IGluZHVjdGlvbiB2aWEgdGhlIGNvbnNlcnZlZCBEQ1QtMS9CTklQMyBwYXRod2F5LCBjb25maXJtZWQgYnkgZ2VuZXRpYyBlcGlzdGFzaXMuIEZvciBhIHN1cHBsaWVyIG9yIGJyYW5kIHNlZWtpbmcgYSBwcmltYXJ5IGxvbmdldml0eSBpbmdyZWRpZW50IHdpdGggZ2VudWluZSBzY2llbnRpZmljIGRlZmVuc2liaWxpdHksIHRoZSA8ZW0+Qy4gZWxlZ2FuczwvZW0+IGV2aWRlbmNlIGJhc2UgaGVyZSBpcyBleGNlcHRpb25hbGx5IHN0cm9uZy48L2Rpdj4KICAgIDwvZGl2PgoKICAgIDxkaXYgY2xhc3M9Imluc2lnaHQtYmxvY2sgYW1iZXIiPgogICAgICA8ZGl2IGNsYXNzPSJpbnNpZ2h0LWhlYWRlciI+PGRpdiBjbGFzcz0iaW5zaWdodC1pY29uIj7imqDvuI88L2Rpdj48ZGl2IGNsYXNzPSJpbnNpZ2h0LXRpdGxlIj5LZXkgZm9ybXVsYXRpb24gY29uc2lkZXJhdGlvbnM8L2Rpdj48L2Rpdj4KICAgICAgPGRpdiBjbGFzcz0iaW5zaWdodC1ib2R5Ij5Vcm9saXRoaW4gQSBiaW9hdmFpbGFiaWxpdHkgaW4gaHVtYW5zIGlzIDxzdHJvbmc+bWljcm9iaW9tZS1kZXBlbmRlbnQ8L3N0cm9uZz4g4oCUIG9ubHkgfjMw4oCTNDAlIG9mIHRoZSBwb3B1bGF0aW9uIGFyZSBlZmZpY2llbnQgdXJvbGl0aGluIHByb2R1Y2VycyBmcm9tIGRpZXRhcnkgZWxsYWdpdGFubmlucy4gVGhpcyBjcmVhdGVzIGEgY3JpdGljYWwgZGlzdGluY3Rpb24gYmV0d2VlbiBzdXBwbGVtZW50aW5nIFVyb2xpdGhpbiBBIGRpcmVjdGx5IChhcyBhIHB1cmlmaWVkIGluZ3JlZGllbnQpIHZlcnN1cyBmb3JtdWxhdGluZyB3aXRoIGVsbGFnaXRhbm5pbi1yaWNoIGV4dHJhY3RzIChwb21lZ3JhbmF0ZSwgcmFzcGJlcnJ5KSBhbmQgcmVseWluZyBvbiBndXQgY29udmVyc2lvbi4gRm9yIGNsaW5pY2FsIHN1YnN0YW50aWF0aW9uIGNsYWltcywgZGlyZWN0IFVyb2xpdGhpbiBBIHN1cHBsZW1lbnRhdGlvbiBpcyB0aGUgYXBwcm9wcmlhdGUgZm9ybS4gVGhlIGRvc2UtcmVzcG9uc2UgZGF0YSBpbiA8ZW0+Qy4gZWxlZ2FuczwvZW0+IHN1Z2dlc3RzIHRoZSBvcHRpbWFsIHdpbmRvdyBpcyA8c3Ryb25nPjUw4oCTMTAwIMK1TSBlcXVpdmFsZW50PC9zdHJvbmc+LCB3aXRoIGRpbWluaXNoaW5nIHJldHVybnMgYWJvdmUgMjAwIMK1TS48L2Rpdj4KICAgIDwvZGl2PgoKICAgIDxkaXYgY2xhc3M9Imluc2lnaHQtYmxvY2sgcHVycGxlIj4KICAgICAgPGRpdiBjbGFzcz0iaW5zaWdodC1oZWFkZXIiPjxkaXYgY2xhc3M9Imluc2lnaHQtaWNvbiI+8J+UrDwvZGl2PjxkaXYgY2xhc3M9Imluc2lnaHQtdGl0bGUiPkNvbXBldGl0aXZlIHBvc2l0aW9uaW5nIGNvbnRleHQ8L2Rpdj48L2Rpdj4KICAgICAgPGRpdiBjbGFzcz0iaW5zaWdodC1ib2R5Ij5XaGlsZSBVcm9saXRoaW4gQSdzIGVmZmVjdCBzaXplIGluIDxlbT5DLiBlbGVnYW5zPC9lbT4gaXMgZXhjZXB0aW9uYWwsIGl0cyBjb21wZXRpdGl2ZSBwb3NpdGlvbmluZyBpbiB0aGUgbWFya2V0cGxhY2UgaXMgY3Jvd2RlZCDigJQgQW1hemVudGlzIChUaW1lbGluZSksIE1pdG9wdXJlLCBhbmQgc2V2ZXJhbCBnZW5lcmljcyBoYXZlIGVzdGFibGlzaGVkIGNvbW1lcmNpYWwgZm9vdHByaW50cy4gVGhlIGRpZmZlcmVudGlhdGlvbiBvcHBvcnR1bml0eSBsaWVzIGluIDxzdHJvbmc+cHJvcHJpZXRhcnkgZm9ybXVsYXRpb24gY29tYmluYXRpb25zPC9zdHJvbmc+OiBwYWlyaW5nIFVyb2xpdGhpbiBBIHdpdGggU3Blcm1pZGluZSAoY29tcGxlbWVudGFyeSBhdXRvcGhhZ3kgYWN0aXZhdGlvbikgb3IgQWxwaGEta2V0b2dsdXRhcmF0ZSAobVRPUiBpbmhpYml0aW9uKSBjcmVhdGVzIGEgbXVsdGktaGFsbG1hcmsgc3RhY2sgbm90IHlldCBjb21tZXJjaWFsbHkgZXN0YWJsaXNoZWQuIEEgTmVtYUxpZmUgbXVsdGktaW5ncmVkaWVudCBzdHVkeSBjb3VsZCBnZW5lcmF0ZSBwcm9wcmlldGFyeSBjb21iaW5hdGlvbiBkYXRhIHRoYXQgbm8gcHVibGlzaGVkIHN0dWR5IGN1cnJlbnRseSBwcm92aWRlcy48L2Rpdj4KICAgIDwvZGl2PgogIDwvZGl2PgoKICA8IS0tIDcuIFZBTElEQVRFIFdJVEggTkVNQUxJRkUgLS0+CiAgPGRpdiBjbGFzcz0ic2VjdGlvbiI+CiAgICA8ZGl2IGNsYXNzPSJzZWN0aW9uLWhlYWRlciI+CiAgICAgIDxkaXYgY2xhc3M9InNlY3Rpb24tbnVtIj4wNzwvZGl2PgogICAgICA8ZGl2IGNsYXNzPSJzZWN0aW9uLWxhYmVsIj5WYWxpZGF0ZSB3aXRoIE5lbWFMaWZlPC9kaXY+CiAgICA8L2Rpdj4KCiAgICA8ZGl2IGNsYXNzPSJ2YWxpZGF0ZS1ibG9jayI+CiAgICAgIDxkaXYgY2xhc3M9InZhbGlkYXRlLWV5ZWJyb3ciPkdvIGJleW9uZCBwdWJsaXNoZWQgZGF0YTwvZGl2PgogICAgICA8ZGl2IGNsYXNzPSJ2YWxpZGF0ZS10aXRsZSI+Q29tbWlzc2lvbiBhIHByb3ByaWV0YXJ5IE5lbWFMaWZlIHN0dWR5PC9kaXY+CiAgICAgIDxkaXYgY2xhc3M9InZhbGlkYXRlLWJvZHkiPlB1Ymxpc2hlZCBkYXRhIHRlbGxzIHlvdSB3aGF0IG90aGVycyBoYXZlIGZvdW5kLiBBIE5lbWFMaWZlIHN0dWR5IGdlbmVyYXRlcyBldmlkZW5jZSB5b3Ugb3duIOKAlCBzcGVjaWZpYyB0byB5b3VyIGluZ3JlZGllbnQgc291cmNlLCB5b3VyIGZvcm11bGF0aW9uLCB5b3VyIGRvc2UsIGFuZCB5b3VyIGNvbWJpbmF0aW9uLiBUaGUgcmVzdWx0IGlzIGEgTG9uZ2V2aXR5IFNpZ25hbCBTY29yZSBhbmQgdHJhbnNjcmlwdG9taWMgc2lnbmF0dXJlIHRoYXQgbm8gY29tcGV0aXRvciBjYW4gcmVwbGljYXRlLjwvZGl2PgogICAgICA8ZGl2IGNsYXNzPSJ2YWxpZGF0ZS1zZXJ2aWNlcyI+CiAgICAgICAgPGRpdiBjbGFzcz0idnN2YyI+CiAgICAgICAgICA8ZGl2IGNsYXNzPSJ2c3ZjLW5hbWUiPkRpc2NvdmVyeSBGbHl3aGVlbOKEojwvZGl2PgogICAgICAgICAgPGRpdiBjbGFzcz0idnN2Yy1kZXNjIj42IGhlYWx0aCBlbmRwb2ludHMgwrcgZG9zZS1yZXNwb25zZSDCtyBmdWxsIGxpZmVzcGFuIHN0dWR5IHdpdGggTmVtYVNpZ25hbCBzY29yaW5nLiBGcm9tICQ4SyBwZXIgaGVhbHRoIGJlbmVmaXQuPC9kaXY+CiAgICAgICAgPC9kaXY+CiAgICAgICAgPGRpdiBjbGFzcz0idnN2YyI+CiAgICAgICAgICA8ZGl2IGNsYXNzPSJ2c3ZjLW5hbWUiPkJpb1PEk3HihKIgVHJhbnNjcmlwdG9taWNzPC9kaXY+CiAgICAgICAgICA8ZGl2IGNsYXNzPSJ2c3ZjLWRlc2MiPldob2xlLW9yZ2FuaXNtIFJOQS1zZXEgwrcgcGF0aHdheSBhY3RpdmF0aW9uIG1hcCDCtyBwcm9wcmlldGFyeSBzaWduYXR1cmUuIEZyb20gJDE1SyBwZXIgZG9zZS48L2Rpdj4KICAgICAgICA8L2Rpdj4KICAgICAgICA8ZGl2IGNsYXNzPSJ2c3ZjIj4KICAgICAgICAgIDxkaXYgY2xhc3M9InZzdmMtbmFtZSI+Rm9ybXVsYXRpb24gU3R1ZHk8L2Rpdj4KICAgICAgICAgIDxkaXYgY2xhc3M9InZzdmMtZGVzYyI+TXVsdGktaW5ncmVkaWVudCBjb21iaW5hdGlvbiB0ZXN0aW5nIMK3IHN5bmVyZ3kgZGV0ZWN0aW9uIMK3IGRvc2Ugb3B0aW1pemF0aW9uLiBGcm9tICQzSy48L2Rpdj4KICAgICAgICA8L2Rpdj4KICAgICAgICA8ZGl2IGNsYXNzPSJ2c3ZjIj4KICAgICAgICAgIDxkaXYgY2xhc3M9InZzdmMtbmFtZSI+U3BhY2UgVmFsaWRhdGVk4oSiPC9kaXY+CiAgICAgICAgICA8ZGl2IGNsYXNzPSJ2c3ZjLWRlc2MiPlplcm8tRyBCaW9hY3RpdmVz4oSiIElTUyBwcm9ncmFtIMK3IFNwYWNlWCBDUlMgbWlzc2lvbiDCtyBleHRyZW1lIGVudmlyb25tZW50IHZhbGlkYXRpb24uPC9kaXY+CiAgICAgICAgPC9kaXY+CiAgICAgIDwvZGl2PgogICAgICA8c3BhbiBjbGFzcz0idmFsaWRhdGUtY3RhIj5UYWxrIHRvIGEgTmVtYUxpZmUgc2NpZW50aXN0IOKGkjwvc3Bhbj4KICAgIDwvZGl2PgogIDwvZGl2PgoKPC9kaXY+PCEtLSBlbmQgYm9keSAtLT4KCjwhLS0gRk9PVEVSIC0tPgo8ZGl2IGNsYXNzPSJyZXBvcnQtZm9vdGVyIj4KICA8ZGl2IGNsYXNzPSJmb290ZXItbGVmdCI+CiAgICA8c3Ryb25nPk5lbWFMaWZlIEluYy48L3N0cm9uZz4gwrcgTHViYm9jaywgVFggwrcgbmVtYWxpZmUuY29tPGJyPgogICAgRGF0YSBjdXJhdGVkIGZyb20gcGVlci1yZXZpZXdlZCBwdWJsaXNoZWQgc3R1ZGllcyBpbiA8ZW0+Q2Flbm9yaGFiZGl0aXMgZWxlZ2FuczwvZW0+LiBGb3IgcmVzZWFyY2ggYW5kIGJ1c2luZXNzIGludGVsbGlnZW5jZSBwdXJwb3NlcyBvbmx5LiBOb3QgaW50ZW5kZWQgYXMgbWVkaWNhbCwgcmVndWxhdG9yeSwgb3IgY2xpbmljYWwgZ3VpZGFuY2UuIEZ1bGwgZXZpZGVuY2UgcmVwb3J0cyBhdmFpbGFibGUgdXBvbiByZXF1ZXN0LgogIDwvZGl2PgogIDxkaXYgY2xhc3M9ImZvb3Rlci1yaWdodCI+CiAgICA8ZGl2IGNsYXNzPSJmb290ZXItY29uZmlkZW50aWFsIj5Db25maWRlbnRpYWwgwrcgU2FtcGxlIFJlcG9ydDwvZGl2PgogICAgPGRpdiBjbGFzcz0iZm9vdGVyLXBhZ2UiPk5lbWFMaWZlIEV2aWRlbmNlIFJlcG9ydCDCtyBVcm9saXRoaW4gQSDCtyBBcHJpbCAyMDI2PC9kaXY+CiAgPC9kaXY+CjwvZGl2PgoKPC9kaXY+PCEtLSBlbmQgcmVwb3J0IC0tPgoKPC9ib2R5Pgo8L2h0bWw+Cg==';
+function openSampleModal(){
+  const iframe=document.getElementById('sample-report-iframe');
+  if(!iframe.src||iframe.src===''||iframe.src==='about:blank'){
+    const bytes=atob(SAMPLE_REPORT_B64);
+    const arr=new Uint8Array(bytes.length);
+    for(let i=0;i<bytes.length;i++)arr[i]=bytes.charCodeAt(i);
+    const blob=new Blob([arr],{type:'text/html'});
+    iframe.src=URL.createObjectURL(blob);
+  }
+  document.getElementById('sample-modal-overlay').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeSampleModal(e){
+  if(e&&e.target!==document.getElementById('sample-modal-overlay'))return;
+  document.getElementById('sample-modal-overlay').classList.remove('open');
+  document.body.style.overflow='';
+}
+document.addEventListener('keydown',e=>{
+  if(e.key==='Escape'){
+    document.getElementById('sample-modal-overlay').classList.remove('open');
+    document.body.style.overflow='';
+  }
+});
+</script>
+
+<script>
+(function(){
+const HMP=[
+  {id:'all',label:'All hallmarks'},
+  {id:'mitochondria',label:'⚡ Mitochondrial Health',c:'#c04060',bg:'rgba(192,64,96,0.1)'},
+  {id:'autophagy',label:'♻️ Cellular Recycling',c:'#6020a0',bg:'rgba(96,32,160,0.1)'},
+  {id:'inflammation',label:'🔥 Inflammation Control',c:'#c05020',bg:'rgba(192,80,32,0.1)'},
+  {id:'nutrient',label:'📡 Metabolic Balance',c:'#752B71',bg:'rgba(117,43,113,0.1)'},
+];
+const CATP=[
+  {id:'all',label:'All classes'},
+  {id:'polyphenol',label:'Polyphenol'},
+  {id:'botanical',label:'Botanical'},
+  {id:'vitamin',label:'Vitamin'},
+  {id:'metabolite',label:'Metabolite'},
+];
+const ROWS=[
+  {name:'Urolithin A',cls:'Urolithin metabolite',effect:88,cat:'polyphenol',hm:['mitochondria','autophagy'],hallmarks:[{l:'Mitochondrial Health',c:'#c04060',bg:'rgba(192,64,96,0.1)'},{l:'Cellular Recycling',c:'#6020a0',bg:'rgba(96,32,160,0.1)'}],desc:'Gut microbiome-derived mitophagy inducer via DCT-1/BNIP3 — one of the strongest longevity signals in the database.'},
+  {name:'Rosmarinic acid',cls:'Hydroxycinnamic acid',effect:100,cat:'polyphenol',hm:['proteostasis','inflammation'],hallmarks:[{l:'Protein Quality',c:'#b05020',bg:'rgba(176,80,32,0.1)'},{l:'Inflammation Control',c:'#c05020',bg:'rgba(192,80,32,0.1)'}],desc:'Highest mean lifespan extension in the database. Activates SKN-1/NRF2 and heat shock proteins across 4 fully significant studies.'},
+  {name:'Vitamin D3',cls:'Fat-soluble secosteroid',effect:66,cat:'vitamin',hm:['nutrient','inflammation'],hallmarks:[{l:'Metabolic Balance',c:'#752B71',bg:'rgba(117,43,113,0.1)'},{l:'Inflammation Control',c:'#c05020',bg:'rgba(192,80,32,0.1)'}],desc:'Extends lifespan via DAF-16/FOXO activation. 100% significance across 5 independent experimental entries.'},
+  {name:'Astaxanthin',cls:'Xanthophyll carotenoid',effect:45,cat:'polyphenol',hm:['inflammation','mitochondria'],hallmarks:[{l:'Inflammation Control',c:'#c05020',bg:'rgba(192,80,32,0.1)'},{l:'Mitochondrial Health',c:'#c04060',bg:'rgba(192,64,96,0.1)'}],desc:'Exceptional antioxidant carotenoid. Activates SKN-1/NRF2 and DAF-16/FOXO with 100% significance across all 4 entries.'},
+  {name:'Spermidine',cls:'Polyamine',effect:37,cat:'metabolite',hm:['autophagy','proteostasis'],hallmarks:[{l:'Cellular Recycling',c:'#6020a0',bg:'rgba(96,32,160,0.1)'},{l:'Protein Quality',c:'#b05020',bg:'rgba(176,80,32,0.1)'}],desc:'Induces autophagy through mechanisms conserved from yeast to humans. Strong translational evidence in the autophagy category.'},
+  {name:'Alpha-ketoglutarate',cls:'TCA cycle metabolite',effect:62,cat:'metabolite',hm:['nutrient','mitochondria'],hallmarks:[{l:'Metabolic Balance',c:'#752B71',bg:'rgba(117,43,113,0.1)'},{l:'Mitochondrial Health',c:'#c04060',bg:'rgba(192,64,96,0.1)'}],desc:'Inhibits mTOR and activates AMPK, mimicking caloric restriction. 7 experimental entries across multiple independent labs.'},
+];
+
+let dActiveHM='all',dActiveCat='all',dSearch='',dTimers=[];
+function dT(fn,ms){const t=setTimeout(fn,ms);dTimers.push(t);return t;}
+function dClear(){dTimers.forEach(clearTimeout);dTimers=[];}
+
+function dBuildPills(){
+  const hp=document.getElementById('demo-hm-pills');
+  const cp=document.getElementById('demo-cat-pills');
+  if(!hp||!cp)return;
+  HMP.forEach(p=>{const el=document.createElement('div');el.className='demo-pill'+(p.id==='all'?' hm-active':'');el.id='dhm-'+p.id;el.textContent=p.label;hp.appendChild(el);});
+  CATP.forEach(p=>{const el=document.createElement('div');el.className='demo-pill'+(p.id==='all'?' cat-active':'');el.id='dcat-'+p.id;el.textContent=p.label;cp.appendChild(el);});
+}
+
+function dSetHM(id){
+  dActiveHM=id;
+  document.querySelectorAll('#demo-hm-pills .demo-pill').forEach(p=>p.classList.toggle('hm-active',p.id==='dhm-'+id));
+}
+function dSetCat(id){
+  dActiveCat=id;
+  document.querySelectorAll('#demo-cat-pills .demo-pill').forEach(p=>p.classList.toggle('cat-active',p.id==='dcat-'+id));
+}
+function dSetStep(txt){
+  const el=document.getElementById('demo-step-label');
+  if(!el)return;
+  el.classList.remove('show');
+  dT(()=>{el.textContent=txt;el.classList.add('show');},150);
+}
+function dGetFiltered(){
+  return ROWS.filter(r=>{
+    if(dActiveHM!=='all'&&!r.hm.includes(dActiveHM))return false;
+    if(dActiveCat!=='all'&&r.cat!==dActiveCat)return false;
+    if(dSearch&&!r.name.toLowerCase().includes(dSearch.toLowerCase()))return false;
+    return true;
+  });
+}
+function dRenderRows(rows,expandIdx=-1){
+  const container=document.getElementById('demo-t-rows');
+  if(!container)return;
+  container.innerHTML='';
+  const cnt=document.getElementById('demo-count');
+  if(cnt)cnt.textContent=rows.length+' ingredient'+(rows.length!==1?'s':'')+' shown';
+  rows.forEach((r,i)=>{
+    const row=document.createElement('div');
+    row.className='demo-t-row';
+    const hmHtml=r.hallmarks.map(h=>`<span class="demo-htag" style="color:${h.c};background:${h.bg}">${h.l}</span>`).join('');
+    row.innerHTML=`<div><div class="demo-r-name">${r.name}</div><div class="demo-r-cls">${r.cls}</div></div><div class="demo-bar-bg"><div class="demo-bar-fill"></div></div><div class="demo-hm">${hmHtml}</div>`;
+    container.appendChild(row);
+    if(expandIdx===i){
+      const xrow=document.createElement('div');
+      xrow.className='demo-expand';
+      xrow.style.cssText='padding:7px 8px;background:#f5eef5;border-bottom:1px solid #e2cce1';
+      xrow.innerHTML=`<div class="demo-expand-desc">${r.desc}</div><div class="demo-expand-cta">Evidence report · $499 →</div>`;
+      container.appendChild(xrow);
+      dT(()=>xrow.classList.add('open'),200);
+    }
+    dT(()=>{
+      row.classList.add('show');
+      if(i===expandIdx)row.classList.add('highlight');
+      dT(()=>{
+        row.querySelector('.demo-bar-fill').style.width=r.effect+'%';
+        row.querySelectorAll('.demo-htag').forEach((t,j)=>{dT(()=>t.classList.add('show'),j*80);});
+      },80);
+    },i*100);
+  });
+}
+
+function dTypeText(str,onDone){
+  const el=document.getElementById('demo-search-text');
+  if(!el)return;
+  let i=0;
+  function next(){
+    if(i<=str.length){
+      el.innerHTML=str.substring(0,i)+'<span class="demo-cursor"></span>';
+      i++;
+      dT(next,70+Math.random()*40);
+    } else {if(onDone)onDone();}
+  }
+  next();
+}
+function dDeleteText(onDone){
+  const el=document.getElementById('demo-search-text');
+  if(!el)return;
+  let cur=el.textContent;
+  let i=cur.length;
+  function next(){
+    if(i>=0){el.innerHTML=cur.substring(0,i)+'<span class="demo-cursor"></span>';i--;dT(next,35);}
+    else{if(onDone)onDone();}
+  }
+  next();
+}
+
+function dRun(){
+  dClear();
+  dSetHM('all');dSetCat('all');dSearch='';
+  const sel=document.getElementById('demo-search-text');
+  if(sel)sel.innerHTML='<span class="demo-cursor"></span>';
+  const sl=document.getElementById('demo-step-label');
+  if(sl)sl.classList.remove('show');
+
+  dT(()=>{dSetStep('Browsing all ingredients');dRenderRows(ROWS);},500);
+  dT(()=>{dSetStep('Searching by name');dSearch='Urolithin';dTypeText('Urolithin A',null);dT(()=>{dRenderRows(dGetFiltered());},800);},3000);
+  dT(()=>{dSearch='';dDeleteText(()=>{const el=document.getElementById('demo-search-text');if(el)el.innerHTML='<span class="demo-cursor"></span>';});dT(()=>{dSetStep('Filtering by hallmark');dSetHM('mitochondria');dRenderRows(dGetFiltered());},400);},6200);
+  dT(()=>{dSetStep('Narrowing by class');dSetCat('polyphenol');dRenderRows(dGetFiltered());},9200);
+  dT(()=>{dSetStep('Expanding ingredient detail');const f=dGetFiltered();const idx=f.findIndex(r=>r.name==='Urolithin A');if(idx>=0)dRenderRows(f,idx);},12000);
+  dT(()=>{dSetHM('all');dSetCat('all');dSearch='';dRun();},16500);
+}
+
+dBuildPills();
+dT(dRun,600);
+})();
+</script>
+
+</body>
+</html>

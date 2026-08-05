@@ -33,11 +33,18 @@
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  html { scroll-behavior: smooth; }
+  html {
+    scroll-behavior: smooth;
+    /* never produce a second (horizontal or vertical) scrollbar inside the Wix iframe */
+    overflow-x: hidden;
+    width: 100%;
+  }
   /* keep the sticky nav from covering the top of a jumped-to section */
   section[id] { scroll-margin-top: 90px; }
 
   body {
+    overflow-x: hidden;
+    width: 100%;
     font-family: 'Barlow', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     font-weight: 400;
     color: var(--text2);
@@ -1479,6 +1486,56 @@
       node.classList.add('active');
     }
   }, false);
+})();
+
+/* Height reporting — removes the second (inner) scrollbar on Wix.
+   The embed iframe has a fixed height set in the editor; when the content is taller,
+   the iframe scrolls internally and you get a scrollbar inside a scrollbar.
+   This publishes the real content height to the parent page so the iframe can be
+   resized to fit. Harmless when nobody is listening.
+   To consume it, add this Velo code to the Wix page (see the notes for this file):
+     $w.onReady(() => {
+       $w('#html1').onMessage((event) => {
+         if (event.data && event.data.type === 'nemalife:height') {
+           $w('#html1').height = event.data.height;
+         }
+       });
+     });
+*/
+(function () {
+  var last = 0;
+
+  function contentHeight() {
+    var d = document;
+    return Math.max(
+      d.body.scrollHeight, d.body.offsetHeight,
+      d.documentElement.scrollHeight, d.documentElement.offsetHeight
+    );
+  }
+
+  function report() {
+    var h = contentHeight();
+    if (Math.abs(h - last) < 2) return;
+    last = h;
+    try {
+      window.parent.postMessage({ type: 'nemalife:height', height: h }, '*');
+    } catch (err) { /* no parent, or blocked — nothing to do */ }
+  }
+
+  window.addEventListener('load', report);
+  window.addEventListener('resize', report);
+  document.addEventListener('DOMContentLoaded', report);
+
+  /* fonts and images settle after load — re-measure for a few seconds */
+  if (window.ResizeObserver) {
+    new ResizeObserver(report).observe(document.documentElement);
+  } else {
+    var ticks = 0;
+    var timer = setInterval(function () {
+      report();
+      if (++ticks > 20) clearInterval(timer);
+    }, 500);
+  }
 })();
 </script>
 

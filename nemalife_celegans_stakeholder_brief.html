@@ -1,0 +1,1440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>The Model You Haven’t Met — C. elegans for Ethical R&D | NemaLife</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,400;0,700;0,800;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    /* Brand purples */
+    --purple: #752B71;
+    --purple2: #8F3D8A;
+    --purple3: #B060AB;
+    --purple-light: #E2CCE1;
+    --purple-pale: #F5EEF5;
+    /* Biology accents */
+    --g2: #2D5A27;
+    --g3: #4A8040;
+    --g4: #7DAA6B;
+    /* Backgrounds */
+    --bg: #FFFFFF;
+    --bg2: #F8F4F8;
+    --bg3: #F1EBF1;
+    --border: #E0D4E0;
+    /* Text */
+    --text: #1A1020;
+    --text2: #3A2A3A;
+    --text3: #7A6078;
+    /* Hero gradient */
+    --hero-gradient: linear-gradient(150deg, #fff 0%, #f5eef5 55%, #f0f8ec 100%);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Barlow', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-weight: 400;
+    color: var(--text2);
+    background: var(--bg);
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+  .intro-story-body a,
+  .lede a,
+  .R-body a,
+  .reg-quote a,
+  .faq-a a,
+  .footnote a,
+  .close-lede a,
+  .pathway-desc a,
+  .ethics-body a {
+    color: var(--purple);
+    text-decoration: none;
+    font-weight: 700;
+    border-bottom: 1px solid var(--purple-light);
+    transition: border-color 0.2s;
+  }
+  .intro-story-body a:hover,
+  .lede a:hover,
+  .R-body a:hover,
+  .reg-quote a:hover,
+  .faq-a a:hover,
+  .footnote a:hover,
+  .close-lede a:hover,
+  .pathway-desc a:hover,
+  .ethics-body a:hover { border-bottom-color: var(--purple); }
+
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 40px;
+  }
+
+  /* ===== NAVIGATION ===== */
+  nav.topbar {
+    background: var(--bg);
+    padding: 18px 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+  }
+  .logo-mark {
+    width: 32px; height: 32px;
+    position: relative;
+    flex-shrink: 0;
+  }
+  .logo-mark svg { width: 100%; height: 100%; }
+  .logo-text {
+    font-weight: 800;
+    font-size: 22px;
+    color: var(--purple);
+    letter-spacing: -0.01em;
+  }
+  .logo-text .life { color: var(--g3); }
+  .nav-links {
+    display: flex;
+    gap: 36px;
+    align-items: center;
+  }
+  .nav-link {
+    font-weight: 700;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--text2);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .nav-link:hover { color: var(--purple); }
+  .nav-link.active {
+    color: var(--purple);
+    border-bottom: 2px solid var(--purple);
+    padding-bottom: 4px;
+  }
+
+  /* ===== EYEBROWS ===== */
+  .eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 12px;
+  }
+  .eyebrow::before {
+    content: '';
+    width: 24px;
+    height: 2px;
+    background: var(--purple);
+    flex-shrink: 0;
+  }
+  .eyebrow-text {
+    font-weight: 700;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--purple);
+  }
+  .eyebrow.green::before { background: var(--g3); }
+  .eyebrow.green .eyebrow-text { color: var(--g2); }
+
+  /* ===== HERO ===== */
+  .hero {
+    background: var(--hero-gradient);
+    padding: 96px 0 88px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    gap: 56px;
+    align-items: start;
+  }
+  .hero-text { display: flex; flex-direction: column; }
+
+  .hero-card-fda {
+    margin-top: 40px;
+    padding: 36px 40px;
+  }
+  .hero-card-fda .hero-card-quote {
+    font-size: 21px;
+    line-height: 1.45;
+  }
+  .hero h1 {
+    font-weight: 800;
+    font-size: clamp(40px, 5.2vw, 64px);
+    line-height: 1.05;
+    color: var(--text);
+    letter-spacing: -0.02em;
+    margin-bottom: 24px;
+  }
+  .hero h1 .accent { color: var(--purple); }
+  .hero-lede {
+    font-size: 19px;
+    line-height: 1.55;
+    color: var(--text2);
+    max-width: 580px;
+    margin-bottom: 32px;
+  }
+  .hero-lede strong { font-weight: 700; color: var(--text); }
+
+  .hero-cta-row {
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+  }
+  .btn-primary {
+    background: var(--purple);
+    color: #fff;
+    font-family: 'Barlow', sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    letter-spacing: 0.02em;
+    padding: 14px 28px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    box-shadow: 0 1px 2px rgba(117,43,113,0.12);
+    transition: background 0.2s, box-shadow 0.2s;
+  }
+  .btn-primary:hover {
+    background: var(--purple2);
+    box-shadow: 0 4px 10px rgba(117,43,113,0.18);
+  }
+  .btn-secondary {
+    background: #fff;
+    color: var(--purple);
+    border: 1.5px solid var(--purple);
+    font-family: 'Barlow', sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    letter-spacing: 0.02em;
+    padding: 12.5px 26.5px;
+    border-radius: 6px;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    transition: background 0.2s;
+  }
+  .btn-secondary:hover { background: var(--purple-pale); }
+
+  /* Hero side card */
+  .hero-card {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-top: 3px solid var(--purple);
+    border-radius: 8px;
+    padding: 32px;
+    box-shadow: 0 1px 3px rgba(26,16,32,0.06);
+  }
+  .hero-side-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .hero-card.compact {
+    padding: 24px 28px;
+  }
+  .hero-card-eyebrow {
+    font-weight: 700;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--purple);
+    margin-bottom: 16px;
+  }
+  .hero-card-quote {
+    font-weight: 400;
+    font-style: italic;
+    font-size: 18px;
+    line-height: 1.5;
+    color: var(--text);
+    margin-bottom: 20px;
+  }
+  .hero-card-quote em { font-style: normal; }
+  .hero-card-attr {
+    font-weight: 700;
+    font-size: 12px;
+    color: var(--text3);
+    letter-spacing: 0.04em;
+  }
+  .hero-card-attr .name { color: var(--text); display: block; margin-bottom: 2px; font-size: 13px; }
+
+  /* Ethical-innovation punch list card */
+  .ei-title {
+    font-weight: 800;
+    font-size: 18px;
+    color: var(--text);
+    letter-spacing: -0.005em;
+    margin-bottom: 4px;
+  }
+  .ei-sub {
+    font-size: 13px;
+    color: var(--text3);
+    line-height: 1.45;
+    margin-bottom: 18px;
+  }
+  .ei-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .ei-list li {
+    display: grid;
+    grid-template-columns: 18px 1fr;
+    gap: 10px;
+    align-items: baseline;
+    font-size: 13.5px;
+    line-height: 1.5;
+    color: var(--text2);
+  }
+  .ei-list li::before {
+    content: '✓';
+    color: var(--g2);
+    font-weight: 700;
+    font-size: 13px;
+    line-height: 1;
+    transform: translateY(1px);
+  }
+  .ei-list li strong {
+    font-weight: 700;
+    color: var(--text);
+    display: block;
+    margin-bottom: 1px;
+  }
+  .ei-list li .desc {
+    color: var(--text3);
+    font-size: 12.5px;
+  }
+
+  /* ===== SECTION COMMONS ===== */
+  section { padding: 88px 0; }
+  section.alt { background: var(--bg2); }
+  .section-head {
+    max-width: 760px;
+    margin-bottom: 56px;
+  }
+  .section-head h2 {
+    font-weight: 800;
+    font-size: clamp(32px, 4vw, 48px);
+    line-height: 1.1;
+    color: var(--text);
+    letter-spacing: -0.015em;
+    margin-bottom: 20px;
+  }
+  .section-head .lede {
+    font-size: 18px;
+    line-height: 1.55;
+    color: var(--text2);
+  }
+  .section-head .lede + .lede { margin-top: 16px; }
+  .section-head .lede strong { font-weight: 700; color: var(--text); }
+
+  /* ===== INTRO STORY ===== */
+  .intro-story {
+    max-width: 880px;
+  }
+  .intro-story-body p {
+    font-size: 18px;
+    line-height: 1.7;
+    color: var(--text2);
+    margin-bottom: 22px;
+  }
+  .intro-story-body p strong { color: var(--text); font-weight: 700; }
+
+  /* ===== PATHWAYS / SCIENCE ===== */
+  .nobel-banner {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-top: 3px solid var(--g3);
+    border-radius: 8px;
+    padding: 32px 36px;
+    box-shadow: 0 1px 3px rgba(26,16,32,0.06);
+    margin-bottom: 48px;
+  }
+  .nobel-header {
+    display: flex;
+    align-items: baseline;
+    gap: 20px;
+    flex-wrap: wrap;
+    padding-bottom: 20px;
+    margin-bottom: 24px;
+    border-bottom: 1px solid var(--border);
+  }
+  .nobel-eyebrow {
+    font-weight: 700;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--g2);
+    white-space: nowrap;
+  }
+  .nobel-title {
+    font-weight: 800;
+    font-size: 22px;
+    color: var(--text);
+    letter-spacing: -0.005em;
+    line-height: 1.25;
+  }
+  .nobel-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+  }
+  .nobel-item {
+    padding: 0 24px;
+    border-right: 1px solid var(--border);
+    position: relative;
+  }
+  .nobel-item:first-child { padding-left: 0; }
+  .nobel-item:last-child { border-right: none; padding-right: 0; }
+  .nobel-year {
+    font-weight: 800;
+    font-size: 32px;
+    line-height: 1;
+    color: var(--purple);
+    letter-spacing: -0.02em;
+    margin-bottom: 12px;
+  }
+  .nobel-discovery {
+    font-weight: 800;
+    font-size: 16px;
+    color: var(--text);
+    line-height: 1.25;
+    letter-spacing: -0.005em;
+    margin-bottom: 10px;
+  }
+  .nobel-laureates {
+    font-weight: 700;
+    font-size: 13px;
+    color: var(--text2);
+    line-height: 1.4;
+    margin-bottom: 6px;
+  }
+  .nobel-field {
+    font-weight: 700;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text3);
+  }
+  .nobel-footnote {
+    margin-top: 20px;
+    padding-top: 16px;
+    border-top: 1px solid var(--border);
+    font-size: 12px;
+    line-height: 1.5;
+    color: var(--text3);
+  }
+  .nobel-footnote em { font-style: italic; }
+
+  .pathway-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+  .pathway-card {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-top: 3px solid var(--purple);
+    border-radius: 8px;
+    padding: 24px;
+    box-shadow: 0 1px 3px rgba(26,16,32,0.06);
+    transition: box-shadow 0.2s;
+  }
+  .pathway-card:hover { box-shadow: 0 6px 16px rgba(117,43,113,0.12); }
+  .pathway-card.green { border-top-color: var(--g3); }
+  .pathway-tag {
+    display: inline-block;
+    font-weight: 700;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--purple);
+    background: var(--purple-pale);
+    padding: 4px 10px;
+    border-radius: 4px;
+    margin-bottom: 14px;
+  }
+  .pathway-card.green .pathway-tag {
+    color: var(--g2);
+    background: #f0f8ec;
+  }
+  .pathway-name {
+    font-weight: 800;
+    font-size: 20px;
+    color: var(--text);
+    margin-bottom: 10px;
+    letter-spacing: -0.005em;
+  }
+  .pathway-name em { font-style: italic; font-weight: 400; }
+  .pathway-desc {
+    font-size: 14px;
+    line-height: 1.55;
+    color: var(--text2);
+  }
+
+  .science-callout {
+    margin-top: 40px;
+    background: var(--purple-pale);
+    border-left: 3px solid var(--purple);
+    padding: 28px 32px;
+    border-radius: 0 6px 6px 0;
+  }
+  .science-callout p {
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--text);
+    font-style: italic;
+  }
+  .science-callout strong { font-weight: 700; font-style: normal; color: var(--purple); }
+
+  /* ===== ETHICAL / CO2 ===== */
+  .ethics-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    margin-bottom: 40px;
+  }
+  .ethics-card {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-top: 3px solid var(--g3);
+    border-radius: 8px;
+    padding: 28px 24px;
+    box-shadow: 0 1px 3px rgba(26,16,32,0.06);
+  }
+  .ethics-figure {
+    font-weight: 800;
+    font-size: 56px;
+    line-height: 1;
+    color: var(--g2);
+    letter-spacing: -0.025em;
+    margin-bottom: 6px;
+  }
+  .ethics-figure sup {
+    font-size: 22px;
+    vertical-align: top;
+    color: var(--g3);
+    margin-left: 2px;
+  }
+  .ethics-figure .unit {
+    font-size: 22px;
+    color: var(--text3);
+    font-weight: 700;
+    margin-left: 4px;
+  }
+  .ethics-title {
+    font-weight: 800;
+    font-size: 18px;
+    color: var(--text);
+    margin: 14px 0 10px;
+    letter-spacing: -0.005em;
+  }
+  .ethics-body {
+    font-size: 14px;
+    line-height: 1.55;
+    color: var(--text2);
+  }
+
+  /* 3Rs panel */
+  .threeRs {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-top: 3px solid var(--purple);
+    border-radius: 8px;
+    padding: 40px 36px;
+    box-shadow: 0 1px 3px rgba(26,16,32,0.06);
+  }
+  .threeRs-heading {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-bottom: 28px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--border);
+  }
+  .threeRs-heading h3 {
+    font-weight: 800;
+    font-size: 24px;
+    color: var(--text);
+    letter-spacing: -0.01em;
+  }
+  .threeRs-heading .tag {
+    font-weight: 700;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--g2);
+  }
+  .Rs {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+  .R-item .R-num {
+    font-weight: 800;
+    font-size: 14px;
+    color: var(--purple);
+    margin-bottom: 6px;
+    letter-spacing: 0.06em;
+  }
+  .R-item .R-name {
+    font-weight: 800;
+    font-size: 22px;
+    color: var(--text);
+    margin-bottom: 10px;
+    letter-spacing: -0.01em;
+  }
+  .R-item .R-name em { font-style: italic; color: var(--purple); font-weight: 400; }
+  .R-item .R-body {
+    font-size: 14px;
+    line-height: 1.55;
+    color: var(--text2);
+  }
+
+  /* ===== REGULATORY ===== */
+  .reg-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 32px;
+  }
+  .reg-card {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-top: 3px solid var(--purple);
+    border-radius: 8px;
+    padding: 32px;
+    box-shadow: 0 1px 3px rgba(26,16,32,0.06);
+  }
+  .reg-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 16px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--border);
+  }
+  .reg-card-title {
+    font-weight: 800;
+    font-size: 18px;
+    color: var(--text);
+    letter-spacing: -0.005em;
+  }
+  .reg-card-tag {
+    font-weight: 700;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--purple);
+  }
+  .reg-card-tag.green { color: var(--g2); }
+  .reg-quote {
+    font-size: 16px;
+    line-height: 1.55;
+    color: var(--text2);
+    font-style: italic;
+    margin-bottom: 16px;
+    padding-left: 16px;
+    border-left: 2px solid var(--purple-light);
+  }
+  .reg-quote strong { font-weight: 700; font-style: normal; color: var(--text); }
+  .reg-source {
+    font-weight: 700;
+    font-size: 12px;
+    color: var(--text3);
+    letter-spacing: 0.04em;
+  }
+  .reg-implication {
+    font-size: 15px;
+    line-height: 1.55;
+    color: var(--text);
+    background: var(--bg2);
+    padding: 14px 16px;
+    border-radius: 6px;
+    margin-top: 12px;
+  }
+  .reg-implication strong { color: var(--purple); font-weight: 700; }
+
+  /* FDA spotlight */
+  .fda-spotlight {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-top: 3px solid var(--purple);
+    border-radius: 8px;
+    padding: 40px;
+    box-shadow: 0 1px 3px rgba(26,16,32,0.06);
+  }
+  .fda-spotlight-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin-bottom: 24px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--border);
+  }
+  .fda-spotlight-title {
+    font-weight: 800;
+    font-size: 26px;
+    color: var(--text);
+    letter-spacing: -0.01em;
+    max-width: 680px;
+    line-height: 1.2;
+  }
+  .fda-spotlight-meta {
+    font-weight: 700;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--purple);
+  }
+  .fda-quotes {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 28px;
+    margin-bottom: 28px;
+  }
+  .fda-quote-block {
+    background: var(--purple-pale);
+    padding: 22px 24px;
+    border-radius: 6px;
+    border-left: 3px solid var(--purple);
+  }
+  .fda-quote-text {
+    font-style: italic;
+    font-size: 16px;
+    line-height: 1.55;
+    color: var(--text);
+    margin-bottom: 14px;
+  }
+  .fda-quote-attr {
+    font-weight: 700;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--purple);
+  }
+  .fda-quote-attr .role { color: var(--text3); font-weight: 400; }
+
+  .nam-list-title {
+    font-weight: 700;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text3);
+    margin-bottom: 14px;
+  }
+  .nam-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .nam-chip {
+    font-weight: 700;
+    font-size: 12px;
+    padding: 8px 14px;
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    color: var(--text2);
+  }
+  .nam-chip.highlight {
+    background: var(--purple);
+    border-color: var(--purple);
+    color: #fff;
+  }
+  .nam-chip em { font-style: italic; }
+
+  .fda-disclaimer {
+    margin-top: 24px;
+    padding: 14px 18px;
+    background: var(--bg2);
+    border-radius: 6px;
+    font-size: 13px;
+    line-height: 1.55;
+    color: var(--text3);
+  }
+  .fda-disclaimer strong { font-weight: 700; color: var(--text2); }
+
+  /* ===== ADOPTION TABLE ===== */
+  .adoption-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(26,16,32,0.06);
+  }
+  .adoption-table thead th {
+    background: var(--purple);
+    color: #fff;
+    font-weight: 700;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    padding: 14px 16px;
+    text-align: left;
+  }
+  .adoption-table tbody tr {
+    border-bottom: 1px solid var(--border);
+  }
+  .adoption-table tbody tr:nth-child(even) { background: var(--bg2); }
+  .adoption-table tbody tr:last-child { border-bottom: none; }
+  .adoption-table tbody td {
+    padding: 18px 16px;
+    font-size: 14px;
+    color: var(--text2);
+    vertical-align: top;
+  }
+  .adoption-table tbody td:first-child {
+    font-weight: 800;
+    color: var(--text);
+    font-size: 16px;
+  }
+  .adoption-table tbody td a {
+    color: var(--purple);
+    text-decoration: none;
+    font-weight: 700;
+    border-bottom: 1px solid var(--purple-light);
+    transition: border-color 0.2s;
+  }
+  .adoption-table tbody td a:hover { border-bottom-color: var(--purple); }
+
+  /* ===== FAQ / MISCONCEPTIONS ===== */
+  .faq-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .faq-item {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-top: 3px solid var(--purple);
+    border-radius: 8px;
+    padding: 28px 32px;
+    box-shadow: 0 1px 3px rgba(26,16,32,0.06);
+  }
+  .faq-q {
+    font-weight: 800;
+    font-size: 19px;
+    color: var(--text);
+    letter-spacing: -0.005em;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+  }
+  .faq-q-num {
+    font-weight: 800;
+    font-size: 14px;
+    color: var(--purple);
+    flex-shrink: 0;
+  }
+  .faq-a {
+    font-size: 15px;
+    line-height: 1.65;
+    color: var(--text2);
+    padding-left: 28px;
+  }
+  .faq-a strong { font-weight: 700; color: var(--text); }
+  .faq-a em { font-style: italic; }
+
+  /* ===== CLOSE / CTA ===== */
+  .close {
+    background: var(--hero-gradient);
+    padding: 96px 0;
+  }
+  .close-card {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-top: 3px solid var(--purple);
+    border-radius: 8px;
+    padding: 56px;
+    box-shadow: 0 1px 3px rgba(26,16,32,0.06);
+  }
+  .close-grid {
+    display: grid;
+    grid-template-columns: 1.3fr 1fr;
+    gap: 56px;
+    align-items: center;
+  }
+  .close h2 {
+    font-weight: 800;
+    font-size: clamp(32px, 4vw, 44px);
+    line-height: 1.1;
+    color: var(--text);
+    letter-spacing: -0.02em;
+    margin-bottom: 20px;
+  }
+  .close h2 .accent { color: var(--purple); }
+  .close-lede {
+    font-size: 17px;
+    line-height: 1.6;
+    color: var(--text2);
+    margin-bottom: 24px;
+  }
+  .close-lede strong { font-weight: 700; color: var(--text); }
+  .close-actions {
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+  }
+  .close-aside {
+    border-left: 1px solid var(--border);
+    padding-left: 40px;
+  }
+  .close-aside-title {
+    font-weight: 700;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--purple);
+    margin-bottom: 16px;
+  }
+  .close-list {
+    list-style: none;
+  }
+  .close-list li {
+    padding: 12px 0;
+    border-top: 1px solid var(--border);
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--text2);
+    display: flex;
+    gap: 10px;
+    align-items: baseline;
+  }
+  .close-list li::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    background: var(--purple);
+    border-radius: 50%;
+    flex-shrink: 0;
+    transform: translateY(-2px);
+  }
+  .close-list li strong { color: var(--text); font-weight: 700; }
+
+  /* ===== FOOTNOTES & FOOTER ===== */
+  .footnotes {
+    background: var(--bg2);
+    padding: 48px 0 56px;
+    border-top: 1px solid var(--border);
+  }
+  .footnotes-title {
+    font-weight: 700;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--purple);
+    margin-bottom: 20px;
+  }
+  .footnote {
+    font-size: 12px;
+    line-height: 1.6;
+    color: var(--text3);
+    margin-bottom: 10px;
+    padding-left: 24px;
+    position: relative;
+  }
+  .footnote-num {
+    position: absolute;
+    left: 0;
+    font-weight: 700;
+    color: var(--purple);
+  }
+  .footnote strong { color: var(--text2); font-weight: 700; }
+
+  footer.site-footer {
+    background: var(--bg3);
+    padding: 32px 0;
+    border-top: 1px solid var(--border);
+  }
+  .footer-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+    font-weight: 700;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--text3);
+  }
+  .footer-contact { color: var(--text2); }
+
+  /* ===== RESPONSIVE ===== */
+  @media (max-width: 900px) {
+    .container { padding: 0 24px; }
+    .hero { padding: 56px 0 48px; }
+    section { padding: 56px 0; }
+    .hero-grid,
+    .reg-grid,
+    .fda-quotes,
+    .close-grid {
+      grid-template-columns: 1fr;
+      gap: 32px;
+    }
+    .hero-card-fda { padding: 28px; margin-top: 24px; }
+    .hero-card-fda .hero-card-quote { font-size: 18px; }
+    .pathway-grid, .ethics-grid, .Rs {
+      grid-template-columns: 1fr;
+    }
+    .nobel-banner { padding: 24px; }
+    .nobel-grid { grid-template-columns: 1fr 1fr; gap: 24px 16px; }
+    .nobel-item {
+      padding: 0 0 20px;
+      border-right: none;
+      border-bottom: 1px solid var(--border);
+    }
+    .nobel-item:nth-last-child(-n+2) { border-bottom: none; padding-bottom: 0; }
+    .nobel-year { font-size: 26px; }
+    .close-aside {
+      border-left: none;
+      padding-left: 0;
+      border-top: 1px solid var(--border);
+      padding-top: 32px;
+    }
+    .close-card { padding: 32px; }
+    .nav-links { display: none; }
+    .adoption-table { font-size: 12px; }
+    .adoption-table thead th,
+    .adoption-table tbody td { padding: 10px 12px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- =================== NAVIGATION =================== -->
+<nav class="topbar">
+  <div class="container nav-inner">
+    <a class="logo" href="#">
+      <span class="logo-mark">
+        <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <circle cx="16" cy="16" r="14" fill="none" stroke="#4A8040" stroke-width="3"/>
+          <path d="M11 11 Q16 14 16 16 Q16 18 21 21" fill="none" stroke="#752B71" stroke-width="3" stroke-linecap="round"/>
+        </svg>
+      </span>
+      <span class="logo-text">nema<span class="life">life</span></span>
+    </a>
+    <div class="nav-links">
+      <a class="nav-link active" href="#">Science</a>
+      <a class="nav-link" href="#regulatory">Regulatory</a>
+      <a class="nav-link" href="#adoption">Adoption</a>
+      <a class="nav-link" href="#contact">Contact</a>
+    </div>
+  </div>
+</nav>
+
+<!-- =================== HERO =================== -->
+<section class="hero">
+  <div class="container hero-grid">
+    <div class="hero-text">
+      <div class="eyebrow"><span class="eyebrow-text">An introduction for R&amp;D and regulatory teams</span></div>
+      <h1>The non-animal model your <span class="accent">policy already allows.</span></h1>
+      <p class="hero-lede">Many R&amp;D and regulatory groups operate under a no-animal-testing policy — and assume that closes the door on <em>in vivo</em> research entirely. It doesn’t. <strong><em>Caenorhabditis elegans</em></strong> is an invertebrate multicellular organism: regulatorily exempt from vertebrate animal-testing definitions, biologically conserved with humans across the pathways that matter, and explicitly cited by FDA as an example of a New Approach Methodology.</p>
+      <div class="hero-cta-row">
+        <a class="btn-primary" href="#regulatory">See the regulatory case</a>
+        <a class="btn-secondary" href="#contact">Talk to our team</a>
+      </div>
+
+      <aside class="hero-card hero-card-fda">
+        <div class="hero-card-eyebrow">FDA · March 18, 2026</div>
+        <p class="hero-card-quote">“Examples of NAMs include… studies using ‘phylogenetically lower’ animals such as zebrafish or <em>C. elegans</em>.”</p>
+        <div class="hero-card-attr">
+          <span class="name">U.S. Food &amp; Drug Administration</span>
+          <a href="https://www.fda.gov/regulatory-information/search-fda-guidance-documents/general-considerations-use-new-approach-methodologies-drug-development" target="_blank" rel="noopener" style="color:var(--purple); text-decoration:none; border-bottom:1px solid var(--purple-light);">News Release — Draft Guidance on NAMs</a>
+        </div>
+      </aside>
+    </div>
+    <div class="hero-side-stack">
+      <aside class="hero-card compact" aria-labelledby="ei-title">
+        <div class="hero-card-eyebrow">For regulatory &amp; R&amp;D teams</div>
+        <h3 class="ei-title" id="ei-title">Ethical innovation with <em>C. elegans</em></h3>
+        <p class="ei-sub">What you need to know at a glance — six reasons this model fits modern research policy.</p>
+        <ul class="ei-list">
+          <li><span><strong>No IACUC protocol required</strong><span class="desc">Institutional Animal Care &amp; Use Committee oversight applies to vertebrates only — invertebrate work proceeds without it.</span></span></li>
+          <li><span><strong>PHS &amp; EU exempt</strong><span class="desc">Outside the scope of U.S. Public Health Service Policy and EU Directive 2010/63/EU.</span></span></li>
+          <li><span><strong>FDA NAM cited</strong><span class="desc">New Approach Methodology explicitly named in FDA’s March 2026 draft guidance.</span></span></li>
+          <li><span><strong>3Rs aligned</strong><span class="desc">Replaces vertebrate use, reduces downstream animal numbers, refines hypothesis quality.</span></span></li>
+          <li><span><strong>Non-sentient organism</strong><span class="desc">Scientific consensus does not attribute pain perception or sentience to nematodes.</span></span></li>
+          <li><span><strong>ESG &amp; sustainability fit</strong><span class="desc">Environmental, Social &amp; Governance footprint dramatically lower than vertebrate vivarium operations.</span></span></li>
+        </ul>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<!-- =================== INTRO STORY =================== -->
+<section>
+  <div class="container">
+    <div class="section-head">
+      <div class="eyebrow"><span class="eyebrow-text">Why this matters now</span></div>
+      <h2>A policy gap, quietly closing.</h2>
+      <p class="lede">For years, companies with no-animal-testing commitments have had to choose between <em>in vitro</em> assays alone or skipping whole-organism biology altogether. That trade-off no longer holds. A scientifically validated, ethically defensible, <em>in vivo</em> option exists in a model that sits outside vertebrate-animal regulation — and the policy environment is now moving toward it, not away from it.</p>
+    </div>
+
+    <div class="intro-story">
+      <div class="intro-story-body">
+        <p>What’s changed recently is not the science. <strong>What’s changed is regulatory recognition.</strong> The <a href="https://www.fda.gov/regulatory-information/search-fda-guidance-documents/general-considerations-use-new-approach-methodologies-drug-development" target="_blank" rel="noopener">FDA’s March 2026 draft guidance</a> on New Approach Methodologies (NAMs) explicitly names <em>C. elegans</em> as an example of a non-animal modality for drug development. The <a href="https://www.whitehouse.gov/wp-content/uploads/2025/09/The-MAHA-Strategy-WH.pdf" target="_blank" rel="noopener">MAHA Strategy Report</a> recommends reducing reliance on animal studies that often fail to replicate complex human conditions. And under both <a href="https://olaw.nih.gov/policies-laws/phs-policy.htm" target="_blank" rel="noopener">U.S. PHS Policy</a> and <a href="https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32010L0063" target="_blank" rel="noopener">EU Directive 2010/63/EU</a>, <em>C. elegans</em> sits outside the definition of “animal” entirely.</p>
+        <p>For R&amp;D and regulatory leaders, the implication is direct: <strong>a meaningful slice of work currently blocked by no-animal-testing policy is achievable in a model your policy already permits.</strong></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =================== SCIENCE / PATHWAYS =================== -->
+<section class="alt" id="science">
+  <div class="container">
+    <div class="section-head">
+      <div class="eyebrow green"><span class="eyebrow-text">The scientific case</span></div>
+      <h2>Conserved biology — across the six health benefits that matter to the ingredient industry.</h2>
+      <p class="lede"><em>C. elegans</em> is a microscopic, free-living nematode — a multicellular invertebrate roughly 1 mm long, with a fully mapped 959-cell anatomy and a sequenced genome that shares deep homology with humans.<sup>1</sup> It has been a foundational model in biology for more than five decades and is the basis of four Nobel Prizes.</p>
+      <p class="lede">The reason <em>C. elegans</em> generates human-relevant data isn’t that it resembles a human. It’s that the molecular machinery of aging, metabolism, stress response, cognition, gut biology, and muscle function is evolutionarily ancient — and largely <strong>conserved</strong> between nematodes and humans. NemaLife’s <a href="https://www.nemalifeinc.com/platform" target="_blank" rel="noopener"><strong>Discovery Flywheel</strong></a>™ profiles every bioactive across these six benefit areas concurrently, generating an Efficacy Matrix from a single screen.</p>
+    </div>
+
+    <div class="nobel-banner" aria-label="Nobel Prizes awarded for C. elegans research">
+      <div class="nobel-header">
+        <div class="nobel-eyebrow">Four Nobel Prizes</div>
+        <div class="nobel-title">Awarded for discoveries made in <em>C. elegans</em></div>
+      </div>
+      <div class="nobel-grid">
+        <div class="nobel-item">
+          <div class="nobel-year">2002</div>
+          <div class="nobel-discovery">Programmed cell death</div>
+          <div class="nobel-laureates">Brenner · Horvitz · Sulston</div>
+          <div class="nobel-field">Physiology or Medicine</div>
+        </div>
+        <div class="nobel-item">
+          <div class="nobel-year">2006</div>
+          <div class="nobel-discovery">RNA interference</div>
+          <div class="nobel-laureates">Fire · Mello</div>
+          <div class="nobel-field">Physiology or Medicine</div>
+        </div>
+        <div class="nobel-item">
+          <div class="nobel-year">2008</div>
+          <div class="nobel-discovery">Green fluorescent protein</div>
+          <div class="nobel-laureates">Chalfie<sup style="font-size:9px;">*</sup></div>
+          <div class="nobel-field">Chemistry</div>
+        </div>
+        <div class="nobel-item">
+          <div class="nobel-year">2024</div>
+          <div class="nobel-discovery">microRNA</div>
+          <div class="nobel-laureates">Ambros · Ruvkun</div>
+          <div class="nobel-field">Physiology or Medicine</div>
+        </div>
+      </div>
+      <div class="nobel-footnote"><sup>*</sup>Shared with Shimomura and Tsien for related fluorescent-protein work. Chalfie’s contribution applied GFP in <em>C. elegans</em>, establishing it as a universal biological marker.</div>
+    </div>
+
+    <div class="pathway-grid">
+      <div class="pathway-card">
+        <span class="pathway-tag">Longevity</span>
+        <h3 class="pathway-name">Lifespan &amp; healthspan</h3>
+        <p class="pathway-desc">The <em>daf-2/daf-16</em> insulin/IGF-1 axis — the canonical longevity pathway — is directly orthologous to human <em>INSR/FOXO</em> biology. mTOR, AMPK, and sirtuin modulators first identified in <em>C. elegans</em> have repeatedly translated to mammalian systems.</p>
+      </div>
+      <div class="pathway-card">
+        <span class="pathway-tag">Metabolic health</span>
+        <h3 class="pathway-name">Energy &amp; nutrient signaling</h3>
+        <p class="pathway-desc">Conserved insulin signaling, lipid storage in intestinal cells, and AMPK/mTOR nutrient-sensing circuits make <em>C. elegans</em> a tractable readout for metabolic bioactives — including phytochemicals, polyphenols, and lipid-modulating ingredients.</p>
+      </div>
+      <div class="pathway-card">
+        <span class="pathway-tag">Stress resilience</span>
+        <h3 class="pathway-name">Oxidative &amp; proteostatic stress</h3>
+        <p class="pathway-desc">Conserved heat-shock response, unfolded-protein response, and antioxidant pathways (Nrf2 / <em>skn-1</em>) enable defined-challenge readouts of cellular resilience — directly relevant to adaptogenic and antioxidant ingredient claims.</p>
+      </div>
+      <div class="pathway-card green">
+        <span class="pathway-tag">Cognitive health</span>
+        <h3 class="pathway-name">Neurons &amp; behavior</h3>
+        <p class="pathway-desc">A fully mapped 302-neuron connectome supports neuroactive ingredient screening, learning and memory assays, and conserved neurotransmitter biology — dopamine, serotonin, GABA, and acetylcholine signaling all operate in <em>C. elegans</em>.</p>
+      </div>
+      <div class="pathway-card green">
+        <span class="pathway-tag">Gut health</span>
+        <h3 class="pathway-name">Host–microbe interaction</h3>
+        <p class="pathway-desc">A defined intestinal lumen and tractable microbiota make <em>C. elegans</em> a useful early screen for probiotic, postbiotic, and prebiotic candidates — with readouts on barrier function, pathogen resistance, and microbiome-mediated host phenotypes.</p>
+      </div>
+      <div class="pathway-card green">
+        <span class="pathway-tag">Muscle performance</span>
+        <h3 class="pathway-name">Sarcomere &amp; motility</h3>
+        <p class="pathway-desc">Body-wall muscle uses sarcomeric architecture conserved with vertebrate skeletal muscle. Locomotion, swim performance, and muscle-mass readouts provide phenotypic endpoints for muscle-supporting bioactives across age.</p>
+      </div>
+    </div>
+
+    <div class="science-callout">
+      <p><strong>The Discovery Flywheel</strong>™ — NemaLife’s AI-powered organism-on-chip platform — screens bioactives concurrently across all six benefit areas, producing an Efficacy Matrix that classifies each ingredient as positive, negative, or neutral for each benefit. The output supports new-claim discovery, portfolio expansion, side-stream mining, and synergistic combination design.</p>
+    </div>
+  </div>
+</section>
+
+
+<!-- =================== ETHICAL INNOVATION =================== -->
+<section id="ethics">
+  <div class="container">
+    <div class="section-head">
+      <div class="eyebrow green"><span class="eyebrow-text">Ethical &amp; sustainability advantages</span></div>
+      <h2>An <em>in vivo</em> answer that aligns with the policy you already have.</h2>
+      <p class="lede">For organizations with cruelty-free, no-animal-testing, or sustainability commitments, <em>C. elegans</em> work delivers whole-organism data while remaining consistent with those commitments. The advantages are not only ethical — they’re operational and environmental.</p>
+    </div>
+
+    <div class="ethics-grid">
+      <div class="ethics-card">
+        <div class="ethics-figure">~95<span class="unit">%</span></div>
+        <h3 class="ethics-title">Lower energy footprint</h3>
+        <p class="ethics-body">Compared to rodent vivarium operations, <em>C. elegans</em> husbandry consumes a fraction of the climate-controlled floor space, HVAC load, water, and consumables — translating to substantially reduced CO<sub>2</sub>e per study.<sup>2</sup></p>
+      </div>
+      <div class="ethics-card">
+        <div class="ethics-figure">21<span class="unit">days</span></div>
+        <h3 class="ethics-title">Full lifespan in three weeks</h3>
+        <p class="ethics-body">A complete healthspan and longevity study fits inside a single sprint. The energy, materials, and human hours saved per program compound over a portfolio.</p>
+      </div>
+      <div class="ethics-card">
+        <div class="ethics-figure">100s</div>
+        <h3 class="ethics-title">Hundreds per condition</h3>
+        <p class="ethics-body">Studies routinely run with hundreds of individuals per condition — improving statistical confidence at low cost, without scaling resource consumption proportionally.</p>
+      </div>
+    </div>
+
+    <div class="threeRs">
+      <div class="threeRs-heading">
+        <h3>Alignment with the <em>3Rs principle</em></h3>
+        <span class="tag">Replace · Reduce · Refine</span>
+      </div>
+      <p style="font-size:16px; line-height:1.65; color:var(--text2); margin-bottom:28px; padding-bottom:24px; border-bottom:1px solid var(--border);">The 3Rs framework was introduced in <strong style="color:var(--text); font-weight:700;">1959</strong> by zoologist W.M.S. Russell and microbiologist R.L. Burch in <a href="https://caat.jhsph.edu/principles/the-principles-of-humane-experimental-technique" target="_blank" rel="noopener"><em>The Principles of Humane Experimental Technique</em></a>. Its founding principle is straightforward: wherever a scientific objective can be achieved without using a regulated animal — or with fewer animals, or with less harm — researchers are ethically obliged to take that path. The framework is now embedded in U.S. and EU research regulation and underpins most institutional animal-care policies. For decades, the gap was practical, not philosophical: <strong style="color:var(--text); font-weight:700;">“Replace” had no broad, scientifically credible <em>in vivo</em> option</strong> for whole-organism biology. <em>C. elegans</em> is one of the models that now closes that gap.</p>
+      <div class="Rs">
+        <div class="R-item">
+          <div class="R-num">01</div>
+          <h4 class="R-name"><em>Replace</em></h4>
+          <p class="R-body"><em>C. elegans</em> directly replaces vertebrate models for many early-stage efficacy, toxicity, and mechanism-of-action studies — eliminating the use of regulated animals at that decision point.</p>
+        </div>
+        <div class="R-item">
+          <div class="R-num">02</div>
+          <h4 class="R-name"><em>Reduce</em></h4>
+          <p class="R-body">By front-loading screening into a higher-throughput model, fewer candidates advance to any later vertebrate work, materially reducing the number of regulated animals required across a program.</p>
+        </div>
+        <div class="R-item">
+          <div class="R-num">03</div>
+          <h4 class="R-name"><em>Refine</em></h4>
+          <p class="R-body">Mechanistic insight from <em>C. elegans</em> sharpens hypotheses and endpoints for any downstream studies — improving experimental design and reducing the welfare burden of vertebrate work that does proceed.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =================== REGULATORY =================== -->
+<section class="alt" id="regulatory">
+  <div class="container">
+    <div class="section-head">
+      <div class="eyebrow"><span class="eyebrow-text">The regulatory case</span></div>
+      <h2>Exempt by definition. Recognized by FDA.</h2>
+      <p class="lede">Two distinct regulatory facts work in <em>C. elegans</em>’ favor. First, the foundational frameworks governing animal research in the U.S. and EU define their scope around <strong>vertebrates</strong> — invertebrates like <em>C. elegans</em> sit outside that definition.<sup>5</sup> Second, modern regulatory thinking is actively moving toward non-animal methodologies, with FDA’s March 2026 draft guidance the most recent and most consequential signal.</p>
+    </div>
+
+    <div class="reg-grid">
+      <div class="reg-card">
+        <div class="reg-card-header">
+          <div class="reg-card-title">U.S. PHS Policy</div>
+          <span class="reg-card-tag">United States</span>
+        </div>
+        <p class="reg-quote">PHS Policy defines an animal as <strong>“any live, vertebrate animal used or intended for use in research, research training, experimentation, or biological testing or for related purposes.”</strong></p>
+        <p class="reg-source"><a href="https://olaw.nih.gov/policies-laws/phs-policy.htm" target="_blank" rel="noopener" style="color:var(--text3); border-bottom:1px solid var(--border);">Public Health Service Policy on Humane Care and Use of Laboratory Animals</a></p>
+        <div class="reg-implication"><strong>Implication:</strong> <em>C. elegans</em>, as an invertebrate, falls outside this definition. Work involving <em>C. elegans</em> is not “animal research” under PHS Policy.</div>
+      </div>
+      <div class="reg-card">
+        <div class="reg-card-header">
+          <div class="reg-card-title">EU Directive 2010/63/EU</div>
+          <span class="reg-card-tag green">European Union</span>
+        </div>
+        <p class="reg-quote">The Directive applies to <strong>non-human vertebrates</strong> and certain invertebrates (cephalopods). Other invertebrates, including nematodes, are outside its scope.</p>
+        <p class="reg-source"><a href="https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32010L0063" target="_blank" rel="noopener" style="color:var(--text3); border-bottom:1px solid var(--border);">Directive 2010/63/EU on the protection of animals used for scientific purposes</a></p>
+        <div class="reg-implication"><strong>Implication:</strong> <em>C. elegans</em> research is not subject to the welfare standards, authorization regime, or reporting requirements of the Directive.</div>
+      </div>
+    </div>
+
+    <div class="fda-spotlight">
+      <div class="fda-spotlight-header">
+        <h3 class="fda-spotlight-title"><a href="https://www.fda.gov/regulatory-information/search-fda-guidance-documents/general-considerations-use-new-approach-methodologies-drug-development" target="_blank" rel="noopener" style="color:inherit; text-decoration:none; border-bottom:2px solid var(--purple-light);">FDA’s March 2026 draft guidance on New Approach Methodologies names <em>C. elegans</em> as an example NAM.<sup>3</sup></a></h3>
+        <span class="fda-spotlight-meta">Draft Guidance · CDER · March 18, 2026</span>
+      </div>
+
+      <div class="fda-quotes">
+        <div class="fda-quote-block">
+          <p class="fda-quote-text">“This guidance will facilitate the adoption of modern alternatives to animal testing in regulatory submissions.”</p>
+          <div class="fda-quote-attr">Marty Makary, M.D., M.P.H.<br><span class="role">FDA Commissioner</span></div>
+        </div>
+        <div class="fda-quote-block">
+          <p class="fda-quote-text">“It is time for the FDA to shift the drug development paradigm away from the current default of using animals to predict human responses to one where these data are obtained through human-centric models which can more reliably, efficiently and ethically predict human drug reactions prior to clinical trials.”</p>
+          <div class="fda-quote-attr">Tracy Beth Hoeg, M.D., Ph.D.<br><span class="role">Acting CDER Director</span></div>
+        </div>
+      </div>
+
+      <div class="nam-list-title">FDA-cited examples of New Approach Methodologies</div>
+      <div class="nam-chips">
+        <span class="nam-chip">2D <em>in vitro</em> studies</span>
+        <span class="nam-chip">Organoids</span>
+        <span class="nam-chip">Spheroids</span>
+        <span class="nam-chip">Organs-on-chips</span>
+        <span class="nam-chip">Chemical reactivity studies</span>
+        <span class="nam-chip">In-silico modeling</span>
+        <span class="nam-chip">Zebrafish</span>
+        <span class="nam-chip highlight"><em>C. elegans</em></span>
+      </div>
+
+      <p class="fda-disclaimer"><strong>Note:</strong> The March 2026 FDA document is <em>draft guidance</em>. It sets out validation principles for NAMs (Context of Use, Human Biological Relevance, Technical Characterization, Fit-for-Purpose) but does not pre-approve any specific model for any specific use. Sponsors are encouraged to consult the appropriate FDA review division for indication-, disease-, organ-, and endpoint-specific applications.</p>
+    </div>
+  </div>
+</section>
+
+<!-- =================== ADOPTION =================== -->
+<section id="adoption">
+  <div class="container">
+    <div class="section-head">
+      <div class="eyebrow"><span class="eyebrow-text">Industry adoption</span></div>
+      <h2>Major food, cosmetic and supplement companies are already publishing in this model.</h2>
+      <p class="lede">The <em>C. elegans</em> system is not a frontier methodology waiting for industry uptake — it is already in use across leading food, ingredient, and supplement companies, with peer-reviewed publications in the literature. Below is a non-exhaustive sample from the published record.<sup>4</sup></p>
+    </div>
+
+    <table class="adoption-table">
+      <thead>
+        <tr>
+          <th style="width: 22%;">Company</th>
+          <th style="width: 30%;">Domain of work</th>
+          <th style="width: 48%;">Published evidence</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Nestlé</td>
+          <td>Phytonutrients</td>
+          <td><em>C. elegans</em>–based research published in <em>Nature Aging</em> and PubMed-indexed journals. <a href="https://www.nature.com/articles/s43587-025-00957-4" target="_blank" rel="noopener"><em>Nature Aging</em> study</a></td>
+        </tr>
+        <tr>
+          <td>L’Oréal Research &amp; Innovation</td>
+          <td>Botanicals, longevity &amp; skin aging</td>
+          <td>Peer-reviewed work on a polysaccharide from the Ayurvedic herb <em>Chlorophytum borivilianum</em> demonstrating lifespan extension in <em>C. elegans</em> alongside skin-aging readouts in human keratinocytes. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC5519035/" target="_blank" rel="noopener"><em>PLoS ONE</em> (2017)</a></td>
+        </tr>
+        <tr>
+          <td>Lallemand</td>
+          <td>Probiotics, yeast bioactives</td>
+          <td>Peer-reviewed work using <em>C. elegans</em> to evaluate microbiome-active ingredients. <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC11380293/" target="_blank" rel="noopener">PMC publication</a></td>
+        </tr>
+        <tr>
+          <td>ADM Nutrition</td>
+          <td>Probiotics, longevity, gut–brain axis</td>
+          <td>Peer-reviewed work on <em>Bifidobacterium animalis</em> BPL1™ demonstrating longevity, oxidative stress response, gut permeability, and cognitive effects in <em>C. elegans</em> via the insulin/IGF-1 pathway. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC10740966/" target="_blank" rel="noopener"><em>Antioxidants</em> (2023)</a> · <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC7278570/" target="_blank" rel="noopener">Earlier infant-formula study (2020)</a></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- =================== FAQ / MISCONCEPTIONS =================== -->
+<section class="alt" id="faq">
+  <div class="container">
+    <div class="section-head">
+      <div class="eyebrow"><span class="eyebrow-text">Common questions</span></div>
+      <h2>What R&amp;D and regulatory teams typically ask first.</h2>
+    </div>
+
+    <div class="faq-list">
+      <div class="faq-item">
+        <div class="faq-q"><span class="faq-q-num">01</span><span>Does our no-animal-testing policy permit <em>C. elegans</em> work?</span></div>
+        <p class="faq-a">In most cases, yes — because the foundational regulatory definitions that policies typically reference (U.S. PHS Policy, EU Directive 2010/63/EU) scope their definition of “animal” to vertebrates. <em>C. elegans</em>, an invertebrate, sits outside those definitions. We recommend confirming the specific language of your internal policy, since a small number of certifications take a more conservative position on invertebrates (see Q3).</p>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q"><span class="faq-q-num">02</span><span>Is <em>C. elegans</em> “FDA approved” as a non-animal model?</span></div>
+        <p class="faq-a">FDA does not approve specific models — it evaluates the suitability of methodologies in the context of a given submission. The March 2026 draft guidance <strong>names <em>C. elegans</em> as an example of a NAM</strong> and lays out validation principles for NAMs in regulatory submissions. That is regulatory recognition of the category, not pre-approval of any specific study design. Sponsors should engage the appropriate FDA review division early.</p>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q"><span class="faq-q-num">03</span><span>Will using <em>C. elegans</em> affect a “vegan” or “cruelty-free” claim?</span></div>
+        <p class="faq-a">Most vegan and cruelty-free certification bodies (e.g., PETA, Leaping Bunny, Vegan Action) frame their definitions around vertebrate animal use, and <em>C. elegans</em> work is consistent with their standards. <strong>One exception is The Vegan Society (UK)</strong>, which takes a more conservative position that includes invertebrates. If that specific certification is a stated requirement, this is worth a direct conversation with the certifier — otherwise, <em>C. elegans</em> work is consistent with typical cruelty-free positioning.</p>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q"><span class="faq-q-num">04</span><span>How does this fit alongside <em>in vitro</em> and <em>in silico</em> work we’re already doing?</span></div>
+        <p class="faq-a"><em>C. elegans</em> sits naturally between cell-based assays and vertebrate studies. It adds whole-organism context — intact gut, nervous system, metabolism, and lifespan readouts — without crossing into vertebrate territory. The FDA NAM framework explicitly describes a mixed toolkit (2D and 3D <em>in vitro</em>, organoids, organ-on-chip, <em>in silico</em>, and phylogenetically lower organisms including <em>C. elegans</em>). The intent is portfolio, not substitution.</p>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q"><span class="faq-q-num">05</span><span>What kinds of questions is <em>C. elegans</em> best suited to answer?</span></div>
+        <p class="faq-a">Early-stage efficacy and mechanism-of-action work on dietary ingredients across the six health-benefit areas the model handles well: <em>longevity, metabolic health, stress resilience, cognitive health, gut health,</em> and <em>muscle performance</em>. <em>C. elegans</em> also supports high-throughput dose–response and structure–activity studies. It is not a replacement for every preclinical endpoint — but for the endpoints where it applies, it delivers whole-organism <em>in vivo</em> data faster and at lower cost than vertebrate models.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =================== CLOSE / CTA =================== -->
+<section class="close" id="contact">
+  <div class="container">
+    <div class="close-card">
+      <div class="close-grid">
+        <div>
+          <div class="eyebrow"><span class="eyebrow-text">Next step</span></div>
+          <h2>Bring <em>in vivo</em> data <span class="accent">back into your pipeline</span> — without changing your animal policy.</h2>
+          <p class="close-lede">NemaLife operates a dedicated <em>C. elegans</em> CRO based in Lubbock, Texas. We design and run studies for dietary ingredient, supplement, food, and pharmaceutical sponsors who need scientifically rigorous, regulatorily defensible, ethically aligned research. <strong>We are happy to walk through what’s possible in this model for your specific question.</strong></p>
+          <div class="close-actions">
+            <a class="btn-primary" href="mailto:info@nemalife.com">Request a scoping conversation</a>
+          </div>
+        </div>
+        <aside class="close-aside">
+          <div class="close-aside-title">What a first conversation covers</div>
+          <ul class="close-list">
+            <li><span><strong>Your research question</strong> — what endpoint or mechanism you need data on.</span></li>
+            <li><span><strong>Model fit</strong> — whether <em>C. elegans</em> is the right tool for that question.</span></li>
+            <li><span><strong>Study design</strong> — endpoints, controls, statistical power, timeline.</span></li>
+            <li><span><strong>Policy alignment</strong> — confirming fit with your internal animal-testing policy.</span></li>
+            <li><span><strong>Regulatory framing</strong> — how the data fit FDA NAM validation principles, if relevant.</span></li>
+          </ul>
+        </aside>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =================== FOOTNOTES =================== -->
+<section class="footnotes">
+  <div class="container">
+    <div class="footnotes-title">Notes &amp; sources</div>
+    <p class="footnote"><span class="footnote-num">1.</span> <strong>Gene homology</strong> between <em>C. elegans</em> and humans is the subject of an extensive comparative-genomics literature. Reported figures for the fraction of human disease-associated genes with identifiable nematode orthologs vary by study and methodology (typically in the range of ~38%–80% depending on definition of homology). We provide study-specific references on request.</p>
+    <p class="footnote"><span class="footnote-num">2.</span> <strong>CO<sub>2</sub>e and resource footprint claims</strong> are directional and reflect the typical operational difference between nematode culture (incubated agar plates, ambient lab space) and rodent vivarium operations (climate-controlled animal facility, HVAC, bedding, food, water). Order-of-magnitude differences are well-established in the lab-sustainability literature; quantitative comparisons depend on facility specifics.</p>
+    <p class="footnote"><span class="footnote-num">3.</span> <strong>FDA quotations</strong> are reproduced from the FDA News Release dated March 18, 2026, “FDA Releases Draft Guidance on Alternatives to Animal Testing in Drug Development.” The cited guidance is a <em>draft</em> document.</p>
+    <p class="footnote"><span class="footnote-num">4.</span> <strong>Industry adoption examples</strong> reference publicly available peer-reviewed publications. Listing does not imply endorsement of NemaLife by the named organizations.</p>
+    <p class="footnote"><span class="footnote-num">5.</span> <strong>Regulatory definitions</strong> reflect U.S. PHS Policy on Humane Care and Use of Laboratory Animals and EU Directive 2010/63/EU as of the date of this document. Internal policies and certification standards may apply additional or different criteria.</p>
+  </div>
+</section>
+
+<!-- =================== FOOTER =================== -->
+<footer class="site-footer">
+  <div class="container footer-inner">
+    <div>NemaLife Inc. · Smart science. Better ingredients.</div>
+    <div class="footer-contact">3911 4th St. · Lubbock, TX 79409 · 1+806.577.4931</div>
+  </div>
+</footer>
+
+</body>
+</html>

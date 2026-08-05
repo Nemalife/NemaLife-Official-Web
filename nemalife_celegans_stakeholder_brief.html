@@ -107,27 +107,8 @@
   .nav-inner {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: flex-start;
   }
-  .logo {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    text-decoration: none;
-  }
-  .logo-mark {
-    width: 32px; height: 32px;
-    position: relative;
-    flex-shrink: 0;
-  }
-  .logo-mark svg { width: 100%; height: 100%; }
-  .logo-text {
-    font-weight: 800;
-    font-size: 22px;
-    color: var(--purple);
-    letter-spacing: -0.01em;
-  }
-  .logo-text .life { color: var(--g3); }
   .nav-links {
     display: flex;
     gap: 36px;
@@ -1044,10 +1025,37 @@
       padding-top: 32px;
     }
     .close-card { padding: 32px; }
-    .nav-links { display: none; }
+
+    /* nav stays visible on phones: the links spread across the bar, and if they
+       ever run out of room the row scrolls sideways instead of wrapping or hiding */
+    nav.topbar { padding: 12px 0; }
+    .nav-inner { justify-content: stretch; }
+    .nav-links {
+      display: flex;
+      width: 100%;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+    .nav-links::-webkit-scrollbar { display: none; }
+    .nav-link {
+      font-size: 12px;
+      letter-spacing: 0.03em;
+      white-space: nowrap;
+    }
+    .nav-link.active { padding-bottom: 3px; }
+
     .adoption-table { font-size: 12px; }
     .adoption-table thead th,
     .adoption-table tbody td { padding: 10px 12px; }
+  }
+
+  @media (max-width: 400px) {
+    .nav-link { font-size: 11px; letter-spacing: 0.01em; }
+    .nav-links { gap: 8px; }
   }
 </style>
 </head>
@@ -1056,15 +1064,6 @@
 <!-- =================== NAVIGATION =================== -->
 <nav class="topbar">
   <div class="container nav-inner">
-    <a class="logo" href="#">
-      <span class="logo-mark">
-        <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-          <circle cx="16" cy="16" r="14" fill="none" stroke="#4A8040" stroke-width="3"/>
-          <path d="M11 11 Q16 14 16 16 Q16 18 21 21" fill="none" stroke="#752B71" stroke-width="3" stroke-linecap="round"/>
-        </svg>
-      </span>
-      <span class="logo-text">nema<span class="life">life</span></span>
-    </a>
     <div class="nav-links">
       <a class="nav-link active" href="#science">Science</a>
       <a class="nav-link" href="#regulatory">Regulatory</a>
@@ -1091,7 +1090,7 @@
         <p class="hero-card-quote">“Examples of NAMs include… studies using ‘phylogenetically lower’ animals such as zebrafish or <em>C. elegans</em>.”</p>
         <div class="hero-card-attr">
           <span class="name">U.S. Food &amp; Drug Administration</span>
-          <a href="https://www.fda.gov/regulatory-information/search-fda-guidance-documents/general-considerations-use-new-approach-methodologies-drug-development" target="_blank" rel="noopener" style="color:var(--purple); text-decoration:none; border-bottom:1px solid var(--purple-light);">News Release — Draft Guidance on NAMs</a>
+          <a href="https://www.fda.gov/news-events/press-announcements/fda-releases-draft-guidance-alternatives-animal-testing-drug-development" target="_blank" rel="noopener" style="color:var(--purple); text-decoration:none; border-bottom:1px solid var(--purple-light);">News Release — Draft Guidance on NAMs</a>
         </div>
       </aside>
     </div>

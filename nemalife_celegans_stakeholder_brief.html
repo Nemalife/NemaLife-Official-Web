@@ -34,6 +34,8 @@
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
   html { scroll-behavior: smooth; }
+  /* keep the sticky nav from covering the top of a jumped-to section */
+  section[id] { scroll-margin-top: 90px; }
 
   body {
     font-family: 'Barlow', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
@@ -1045,7 +1047,7 @@
       <span class="logo-text">nema<span class="life">life</span></span>
     </a>
     <div class="nav-links">
-      <a class="nav-link active" href="#">Science</a>
+      <a class="nav-link active" href="#science">Science</a>
       <a class="nav-link" href="#regulatory">Regulatory</a>
       <a class="nav-link" href="#adoption">Adoption</a>
       <a class="nav-link" href="#contact">Contact</a>
@@ -1398,7 +1400,7 @@
           <h2>Bring <em>in vivo</em> data <span class="accent">back into your pipeline</span> — without changing your animal policy.</h2>
           <p class="close-lede">NemaLife operates a dedicated <em>C. elegans</em> CRO based in Lubbock, Texas. We design and run studies for dietary ingredient, supplement, food, and pharmaceutical sponsors who need scientifically rigorous, regulatorily defensible, ethically aligned research. <strong>We are happy to walk through what’s possible in this model for your specific question.</strong></p>
           <div class="close-actions">
-            <a class="btn-primary" href="mailto:info@nemalife.com">Request a scoping conversation</a>
+            <a class="btn-primary" href="https://www.nemalifeinc.com/contact-us" target="_blank" rel="noopener">Request a scoping conversation</a>
           </div>
         </div>
         <aside class="close-aside">
@@ -1435,6 +1437,49 @@
     <div class="footer-contact">3911 4th St. · Lubbock, TX 79409 · 1+806.577.4931</div>
   </div>
 </footer>
+
+<script>
+/* In-page navigation.
+   Wix injects embedded HTML into an iframe (srcdoc / sandboxed), where the document
+   base URL is not a real page URL, so native href="#id" jumps are ignored.
+   Scroll manually instead, offsetting for the sticky nav. */
+(function () {
+  /* scrollIntoView (not window.scrollTo) on purpose: if Wix sizes the iframe to the
+     full content height, the iframe itself never scrolls — the Wix page does.
+     scrollIntoView propagates the scroll request to ancestor frames; scrollTo cannot.
+     The nav offset comes from CSS scroll-margin-top on section[id]. */
+  function scrollToTarget(id) {
+    var el = id ? document.getElementById(id) : document.documentElement;
+    if (!el) return;
+    try {
+      el.scrollIntoView({ behavior: 'smooth', block: 'start', inline: 'nearest' });
+    } catch (err) {
+      el.scrollIntoView(true);
+    }
+  }
+
+  document.addEventListener('click', function (e) {
+    var node = e.target;
+    while (node && node !== document) {
+      if (node.tagName === 'A') break;
+      node = node.parentNode;
+    }
+    if (!node || node.tagName !== 'A') return;
+
+    var href = node.getAttribute('href') || '';
+    if (href.charAt(0) !== '#') return;
+
+    e.preventDefault();
+    scrollToTarget(href.slice(1));
+
+    if (node.className && String(node.className).indexOf('nav-link') !== -1) {
+      var links = document.querySelectorAll('.nav-link');
+      for (var i = 0; i < links.length; i++) links[i].classList.remove('active');
+      node.classList.add('active');
+    }
+  }, false);
+})();
+</script>
 
 </body>
 </html>

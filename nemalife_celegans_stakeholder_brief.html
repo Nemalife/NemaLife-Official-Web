@@ -38,6 +38,17 @@
     /* never produce a second (horizontal or vertical) scrollbar inside the Wix iframe */
     overflow-x: hidden;
     width: 100%;
+    /* hide this document's own scrollbar: inside a Wix embed it renders as an ugly
+       second bar next to the page's. Content still scrolls (wheel/touch/keys) and
+       chains to the parent page at the ends. Firefox / IE / WebKit respectively. */
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  html::-webkit-scrollbar,
+  body::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+    display: none;
   }
   /* keep the sticky nav from covering the top of a jumped-to section */
   section[id] { scroll-margin-top: 90px; }
